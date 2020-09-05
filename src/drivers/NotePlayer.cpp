@@ -1,5 +1,7 @@
-#include <NotePlayer.h>
-#include <HwNotePlayer.h>
+#if 0
+
+#include <drivers/NotePlayer.h>
+#include <hardware/HwNotePlayer.h>
 
 NotePlayer::NotePlayer() 
 {
@@ -30,3 +32,5 @@ void NotePlayer::setVolume(uint8_t volume)
 {
 	hw_note_player_volume(volume);
 }
+
+#endif

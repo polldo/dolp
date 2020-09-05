@@ -20,7 +20,7 @@ public:
     void draw(uint8_t x, uint8_t y, uint8_t color);
 
 private:
-    static uint8_t _buffer[DISPLAY_LENGTH];
-}
+    uint8_t _buffer[DISPLAY_LENGTH];
+};
 
 #endif /* DISPLAY_H_ */

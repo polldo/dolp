@@ -1,8 +1,10 @@
+#if 0
+
 #ifndef NOTE_PLAYER_H_
 #define NOTE_PLAYER_H_
 
-#include <Common.h>
-#include <HwNotePlayer.h>
+#include <drivers/Common.h>
+#include <hardware/HwNotePlayer.h>
 
 #define LOOP_DISABLED 0
 #define LOOP_ENABLED 1
@@ -21,3 +23,5 @@ public:
 }
 
 #endif /* NOTE_PLAYER_H_ */
+
+#endif

@@ -2,9 +2,12 @@
 #define JOYSTICK_H_
 
 #include <Common.h>
+#include "hardware/HwJoystick.h"
 
-#define BUTTON_A 0
-#define BUTTON_B 1
+enum JoystickButton {
+  ButtonA = 0,
+  ButtonB = 1
+};
 
 class Joystick {
 
@@ -16,13 +19,13 @@ public:
 
     void update();
 
-    uint8_t held(uint8_t button);
+    bool held(JoystickButton button);
 
-    uint8_t pressed(uint8_t button);
+    bool pressed(JoystickButton button);
 
 private:
-    uint8_t _buttonStateOld;
-    uint8_t _buttonPressed;
-}
+    ButtonStateType _buttonStateOld;
+    ButtonStateType _buttonPressed;
+};
 
 #endif /* JOYSTICK_H_ */

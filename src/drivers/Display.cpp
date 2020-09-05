@@ -1,5 +1,5 @@
-#include <Display.h>
-#include <HwDisplay.h>
+#include <drivers/Display.h>
+#include <hardware/HwDisplay.h>
 
 Display::Display()
 {
