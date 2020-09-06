@@ -3,8 +3,8 @@
 
 #include "Common.h"
 
-void hw_refresh_setup();
-bool hw_refresh_get();
-void hw_refresh_reset();
+void hwRefreshSetup();
+bool hwRefreshGet();
+void hwRefreshReset();
 
 #endif /* HW_REFRESH_H_ */

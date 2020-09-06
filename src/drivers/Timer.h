@@ -1,9 +1,7 @@
-#if 0
-
 #ifndef REFRESH_H_
 #define REFRESH_H_
 
-#include <drivers/Common.h>
+#include <Common.h>
 
 class Timer {
 
@@ -13,8 +11,6 @@ public:
 
     void setup();
     void waitEndFrame();
-}
+};
 
 #endif /* REFRESH_H_ */
-
-#endif
