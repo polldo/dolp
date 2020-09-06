@@ -1,5 +1,3 @@
-#if 0
-
 #include <drivers/NotePlayer.h>
 #include <hardware/HwNotePlayer.h>
 
@@ -13,24 +11,43 @@ NotePlayer::~NotePlayer()
 
 void NotePlayer::setup()
 {
-	hw_note_player_setup();
+	hwNotePlayerSetup();
 }
 
 void NotePlayer::stop()
 {
-	hw_note_player_stop();
+	hwNotePlayerStop();
 }
 
-void NotePlayer::play(t_song *song, uint8_t loopEn)
+void NotePlayer::play(Song &song) 
 {
-	hw_note_player_stop();
-	hw_note_player_song(song, loopEn);
-	hw_note_player_start();
+	hwNotePlayerStop();
+	hwNotePlayerSong(song.notes, song.size, 0, false);
+	hwNotePlayerStart();
+}
+
+void NotePlayer::play(Song &song, uint16_t startIndex) 
+{
+	hwNotePlayerStop();
+	hwNotePlayerSong(song.notes, song.size, startIndex, false);
+	hwNotePlayerStart();
+}
+
+void NotePlayer::play(Song &song, bool loopEn) 
+{
+	hwNotePlayerStop();
+	hwNotePlayerSong(song.notes, song.size, 0, loopEn);
+	hwNotePlayerStart();
+}
+
+void NotePlayer::play(Song &song, uint16_t startIndex, bool loopEn) 
+{
+	hwNotePlayerStop();
+	hwNotePlayerSong(song.notes, song.size, startIndex, loopEn);
+	hwNotePlayerStart();
 }
 
 void NotePlayer::setVolume(uint8_t volume)
 {
-	hw_note_player_volume(volume);
+	hwNotePlayerVolume(volume);
 }
-
-#endif
