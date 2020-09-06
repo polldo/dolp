@@ -7,10 +7,10 @@
 #define BUTTON_A 0
 #define BUTTON_B 1
 
-volatile ButtonStateType button_state;
+volatile ButtonStateType buttonState;
 
-volatile uint8_t button_a_count = 0x10;
-volatile uint8_t button_b_count = 0x10;
+volatile uint8_t buttonACount = 0x10;
+volatile uint8_t buttonBCount = 0x10;
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,23 +19,23 @@ void TIM2_IRQHandler(void)
 {
 	TIM2->SR &= ~TIM_SR_UIF;
 	/* Button A debounce */
-	ButtonStateType temp_button_state = HAL_GPIO_ReadPin(BUTTON_PORT, BUTTON_A_PIN);
-	button_a_count = (button_a_count << 1) | temp_button_state;
-	if (button_a_count == 0xFF)
-		button_state |= (1U << BUTTON_A);
-	else if (!button_a_count)
-		button_state &= ~ (1U << BUTTON_A);
+	ButtonStateType tempButtonState = HAL_GPIO_ReadPin(BUTTON_PORT, BUTTON_A_PIN);
+	buttonACount = (buttonACount << 1) | tempButtonState;
+	if (buttonACount == 0xFF)
+		buttonState |= (1U << BUTTON_A);
+	else if (!buttonACount)
+		buttonState &= ~ (1U << BUTTON_A);
 	/* Button B debounce */
-	temp_button_state = HAL_GPIO_ReadPin(BUTTON_PORT, BUTTON_B_PIN);
-	button_b_count = (button_b_count << 1) | temp_button_state;
-	if (button_b_count == 0xFF)
-		button_state |= (1U << BUTTON_B);
-	else if (!button_b_count)
-		button_state &= ~ (1U << BUTTON_B);
+	tempButtonState = HAL_GPIO_ReadPin(BUTTON_PORT, BUTTON_B_PIN);
+	buttonBCount = (buttonBCount << 1) | tempButtonState;
+	if (buttonBCount == 0xFF)
+		buttonState |= (1U << BUTTON_B);
+	else if (!buttonBCount)
+		buttonState &= ~ (1U << BUTTON_B);
 }
 #ifdef __cplusplus
 } // extern "C"
-#endif // __cplusplu
+#endif // __cplusplus
 
 void hwJoystickSetup()
 {
@@ -62,5 +62,5 @@ void hwJoystickSetup()
 
 ButtonStateType hwJoystickState()
 {
-	return button_state;
+	return buttonState;
 }

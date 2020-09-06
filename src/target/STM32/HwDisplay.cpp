@@ -17,7 +17,7 @@ static uint8_t INIT_COMMANDS[] = {0xAE, 0x20, 0x02, 0xB0, 0xC8, 0x00,
 										0xA4, 0xD3, 0x00, 0xD5, 0xF0, 0xD9, 0x22, 0xDA, 0x12,
 										0xDB, 0x20, 0x8D, 0x14, 0xAF};
 
-uint8_t address_config[] = {0x21, 0, 127, 0x22, 0, 7};
+uint8_t addressConfig[] = {0x21, 0, 127, 0x22, 0, 7};
 
 void hwDisplaySetup()
 {
@@ -71,16 +71,16 @@ void hwDisplaySetup()
 	HAL_I2C_Mem_Write(&hi2c1, 0x78, 0x00, 1, INIT_COMMANDS, INIT_COMMANDS_SIZE, HAL_MAX_DELAY);
 	/* Clear the whole display */
 	/* The screen is actually 130x64, so 2 more cols must be cleared */
-	uint8_t temp_buff[130];
+	uint8_t tempBuff[130];
 	for(int index = 0; index < 130; index++)
 	{
-		temp_buff[index] = 0;
+		tempBuff[index] = 0;
 	} 
 	/* Send the black screen to clear the display */
 	for(int page = 0; page < 8; page++) {
-		uint8_t set_page_cmd[] = {0xB0 + page, 0x00, 0x10};
-		HAL_I2C_Mem_Write(&hi2c1, 0x78, 0x00, 1, set_page_cmd, 3, HAL_MAX_DELAY);
-		HAL_I2C_Mem_Write(&hi2c1, 0x78, 0x40, 1, temp_buff, 130, HAL_MAX_DELAY);
+		uint8_t setPageCmd[] = {0xB0 + page, 0x00, 0x10};
+		HAL_I2C_Mem_Write(&hi2c1, 0x78, 0x00, 1, setPageCmd, 3, HAL_MAX_DELAY);
+		HAL_I2C_Mem_Write(&hi2c1, 0x78, 0x40, 1, tempBuff, 130, HAL_MAX_DELAY);
 	}
 #else
 	/* SPI2 and GPIO clock enable */
@@ -135,22 +135,22 @@ void hwDisplaySend(uint8_t* buffer)
 #ifdef I2C
 	/* Transfer the screen to the display */
 	for(int page = 0; page < 8; page++) {
-		uint8_t set_page_cmd[] = {0xB0 + page, 0x00, 0x10};
-		HAL_I2C_Mem_Write(&hi2c1, 0x78, 0x00, 1, set_page_cmd, 3, HAL_MAX_DELAY);
+		uint8_t setPageCmd[] = {0xB0 + page, 0x00, 0x10};
+		HAL_I2C_Mem_Write(&hi2c1, 0x78, 0x00, 1, setPageCmd, 3, HAL_MAX_DELAY);
 		HAL_I2C_Mem_Write(&hi2c1, 0x78, 0x40, 1, buffer + (page * 128), 128, HAL_MAX_DELAY);
 	}
 #else
 	/* Send init cmd */
-	for (uint8_t init_count = 0; init_count < 2; init_count++)
+	for (uint8_t initCount = 0; initCount < 2; initCount++)
 	{
 		while (! (SPI2->SR & SPI_SR_TXE) );
 		*((__IO uint8_t *)&SPI2->DR) = 0x01;
 	}
 	/* Send the display buffer */
-	for (uint16_t transfer_count = 0; transfer_count < DISPLAY_LENGTH; transfer_count++)
+	for (uint16_t transferCount = 0; transferCount < DISPLAY_LENGTH; transferCount++)
 	{
 		while (! (SPI2->SR & SPI_SR_TXE) );
-		*((__IO uint8_t *)&SPI2->DR) = display_buffer[transfer_count];
+		*((__IO uint8_t *)&SPI2->DR) = displayBuffer[transferCount];
 	}
 #endif
 }
