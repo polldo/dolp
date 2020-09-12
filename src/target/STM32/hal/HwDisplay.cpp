@@ -1,3 +1,5 @@
+#ifdef _STM32_HAL_
+
 #include "hardware/HwDisplay.h"
 #include "stm32_def.h"
 
@@ -154,3 +156,5 @@ void hwDisplaySend(uint8_t* buffer)
 	}
 #endif
 }
+
+#endif

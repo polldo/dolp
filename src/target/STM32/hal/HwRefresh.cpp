@@ -1,5 +1,6 @@
+#ifdef _STM32_HAL_
+
 #include <hardware/HwRefresh.h>
-#include "stm32_def.h"
 
 volatile bool refreshFlag = false;
 
@@ -45,3 +46,5 @@ void hwRefreshReset()
 {
 	refreshFlag = false;
 }
+
+#endif

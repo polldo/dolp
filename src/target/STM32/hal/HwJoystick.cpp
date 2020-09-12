@@ -1,5 +1,6 @@
+#ifdef _STM32_HAL_
+
 #include <hardware/HwJoystick.h>
-#include "stm32_def.h"
 
 #define BUTTON_PORT GPIOC
 #define BUTTON_A_PIN GPIO_PIN_1
@@ -64,3 +65,5 @@ ButtonStateType hwJoystickState()
 {
 	return buttonState;
 }
+
+#endif

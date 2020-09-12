@@ -1,5 +1,6 @@
+#ifdef _STM32_HAL_
+
 #include <hardware/HwNotePlayer.h>
-#include "stm32_def.h"
 
 #define FREQUENCY_TIMER TIM3
 #define DURATION_TIMER TIM4
@@ -134,3 +135,5 @@ void hwNotePlayerSong(Note* notes, uint16_t size, uint16_t startIndex, bool loop
 	currentSongStartIndex = startIndex;
 	currentSongLoop = loopEn;
 }
+
+#endif
