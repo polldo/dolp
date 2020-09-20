@@ -4,14 +4,21 @@
 #include "Common.h"
 
 typedef enum noteFrequency {
-	DO = 3812,
-	RE = 3402,
-	MI = 3016,
-	FA = 2848,
-	SOL = 2536,
-	LA = 2273,
-	SI = 1987,
-	PAUSE = 0
+	DO = 0,
+	RE = 1,
+	MI = 2,
+	FA = 3,
+	SOL = 4,
+	LA = 5,
+	SI = 6,
+	C = DO,
+	D = RE,  
+	E = MI,
+	F = FA,
+	G = SOL,
+	A = LA,
+	B = SI,
+	PAUSE = 7
 } NoteFrequency;
 
 struct Note

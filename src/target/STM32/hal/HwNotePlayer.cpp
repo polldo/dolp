@@ -9,6 +9,17 @@
 static void frequencyTimerSetup();
 static void durationTimerSetup();
 
+uint16_t noteFrequencies[] = {
+	3812, //DO
+	3402, //RE
+	3016, //MI
+	2848, //FA
+	2536, //SOL
+	2273, //LA
+	1987, //SI
+	0 	  //PAUSE
+};
+
 uint8_t vol;
 uint16_t currentSongSize;
 Note *currentSongNotes;
@@ -28,11 +39,12 @@ void TIM4_IRQHandler(void)
 	if (currentSongIndex < currentSongSize)
 	{
 		Note tempNote = currentSongNotes[currentSongIndex];
-		if (tempNote.frequency)
+		uint16_t tempFrequency = noteFrequencies[tempNote.frequency];
+		if (tempFrequency)
 		{
 			/* Setup and restart frequency timer */
-			FREQUENCY_TIMER->ARR = tempNote.frequency;
-			FREQUENCY_TIMER->CCR2 = (tempNote.frequency / 2) * vol / 100 ;
+			FREQUENCY_TIMER->ARR = tempFrequency;
+			FREQUENCY_TIMER->CCR2 = (tempFrequency / 2) * vol / 100 ;
 			FREQUENCY_TIMER->CR1 |= TIM_CR1_CEN;
 		}
 		/* Setup and restart duration timer */

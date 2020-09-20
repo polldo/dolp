@@ -5,6 +5,17 @@
 #include <hardware/HwNotePlayer.h>
 #include <HardwareTimer.h>
 
+uint16_t noteFrequencies[] = { 
+	523, //DO 
+	587, //RE 
+	659, //MI 
+	698, //FA 
+	784, //SOL 
+	880, //LA 
+	988, //SI 
+    0    //PAUSE
+};
+
 Note* _notes;
 uint16_t _size;
 volatile uint16_t _index;
@@ -43,10 +54,10 @@ void hwNotePlayerSetup()
 
 static void hwNotePlayerNextNote()
 {
-    auto nextFrequency = _notes[_index].frequency;_notes[_index].frequency;
+    auto nextFrequency = noteFrequencies[_notes[_index].frequency];
     auto nextDuration = _notes[_index].duration;
     _index++;
-    if (nextFrequency != PAUSE) {
+    if (nextFrequency != 0) {
         _noteTimer.setPWM(NOTE_CHANNEL, NOTE_PIN, nextFrequency, _volume);
         //_noteTimer.refresh();
     } 
