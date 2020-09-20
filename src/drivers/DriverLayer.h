@@ -2,9 +2,9 @@
 #define DRIVERLAYER_H
 
 #include "drivers/Display.h"
-#include "Joystick.h"
-#include "NotePlayer.h"
-#include "Timer.h"
+#include "drivers/Joystick.h"
+#include "drivers/NotePlayer.h"
+#include "drivers/Timer.h"
 
 extern Display display;
 extern Joystick joystick;
