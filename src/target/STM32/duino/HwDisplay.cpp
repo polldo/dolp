@@ -31,6 +31,7 @@ void hwDisplaySetup()
 {
 #ifdef I2C
 	Wire.begin();	
+	Wire.setClock(1000000);
 	delay(200);
 
 	/* Send display configuration through I2C */
