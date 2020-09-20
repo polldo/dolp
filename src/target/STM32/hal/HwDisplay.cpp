@@ -1,12 +1,23 @@
-#ifdef _STM32_HAL_
+#include "hardware/HwConfiguration.h"
+#if defined (_STM32_HAL_)
 
 #include "hardware/HwDisplay.h"
-#include "stm32_def.h"
 
-#define I2C
 #ifdef I2C
 I2C_HandleTypeDef hi2c1;
 #endif
+
+#if defined (SSD1306)
+#define DISPLAY_COLUMNS (128)
+#define DISPLAY_STARTCOL (0)
+#elif defined (SH1106)
+/* The screen is actually 130x64, so 2 cols must be cleared */
+#define DISPLAY_COLUMNS (130)
+#define DISPLAY_STARTCOL (2)
+#endif
+
+#define DISPLAY_ADDRESS (0x3C)
+#define DISPLAY_ADDRESS_SHIFTED (0x78)
 
 #define INIT_COMMANDS_SIZE 28
 /*
@@ -70,19 +81,18 @@ void hwDisplaySetup()
 	/* Wait display initialization */
 	HAL_Delay(200);
 	/* Send display configuration through I2C */
-	HAL_I2C_Mem_Write(&hi2c1, 0x78, 0x00, 1, INIT_COMMANDS, INIT_COMMANDS_SIZE, HAL_MAX_DELAY);
+	HAL_I2C_Mem_Write(&hi2c1, DISPLAY_ADDRESS_SHIFTED, 0x00, 1, INIT_COMMANDS, INIT_COMMANDS_SIZE, HAL_MAX_DELAY);
 	/* Clear the whole display */
-	/* The screen is actually 130x64, so 2 more cols must be cleared */
-	uint8_t tempBuff[130];
-	for(int index = 0; index < 130; index++)
+	uint8_t tempBuff[DISPLAY_COLUMNS];
+	for(int index = 0; index < DISPLAY_COLUMNS; index++)
 	{
 		tempBuff[index] = 0;
 	} 
 	/* Send the black screen to clear the display */
 	for(int page = 0; page < 8; page++) {
 		uint8_t setPageCmd[] = {0xB0 + page, 0x00, 0x10};
-		HAL_I2C_Mem_Write(&hi2c1, 0x78, 0x00, 1, setPageCmd, 3, HAL_MAX_DELAY);
-		HAL_I2C_Mem_Write(&hi2c1, 0x78, 0x40, 1, tempBuff, 130, HAL_MAX_DELAY);
+		HAL_I2C_Mem_Write(&hi2c1, DISPLAY_ADDRESS_SHIFTED, 0x00, 1, setPageCmd, 3, HAL_MAX_DELAY);
+		HAL_I2C_Mem_Write(&hi2c1, DISPLAY_ADDRESS_SHIFTED, 0x40, 1, tempBuff, DISPLAY_COLUMNS, HAL_MAX_DELAY);
 	}
 #else
 	/* SPI2 and GPIO clock enable */
@@ -137,9 +147,9 @@ void hwDisplaySend(uint8_t* buffer)
 #ifdef I2C
 	/* Transfer the screen to the display */
 	for(int page = 0; page < 8; page++) {
-		uint8_t setPageCmd[] = {0xB0 + page, 0x00, 0x10};
-		HAL_I2C_Mem_Write(&hi2c1, 0x78, 0x00, 1, setPageCmd, 3, HAL_MAX_DELAY);
-		HAL_I2C_Mem_Write(&hi2c1, 0x78, 0x40, 1, buffer + (page * 128), 128, HAL_MAX_DELAY);
+		uint8_t setPageCmd[] = {0xB0 + page, DISPLAY_STARTCOL, 0x10};
+		HAL_I2C_Mem_Write(&hi2c1, DISPLAY_ADDRESS_SHIFTED, 0x00, 1, setPageCmd, 3, HAL_MAX_DELAY);
+		HAL_I2C_Mem_Write(&hi2c1, DISPLAY_ADDRESS_SHIFTED, 0x40, 1, buffer + (page * 128), 128, HAL_MAX_DELAY);
 	}
 #else
 	/* Send init cmd */
