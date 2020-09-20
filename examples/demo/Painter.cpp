@@ -11,26 +11,37 @@ void Painter::move()
 {
     switch(_direction) {
     case PainterDirection::Right :
-        _x += 1;
+        if (_x == 127) {
+            _x = 0;
+        } else {
+            _x += 1;
+        }
         break;
+
     case PainterDirection::Up :
-        _y += 1;
+        if (_y == 63) {
+            _y = 0;
+        } else {
+            _y += 1;
+        }
         break;
+        
     case PainterDirection::Left :
-        _x -= 1;
+        if (_x == 0) {
+            _x = 127;
+        } else {
+            _x -= 1;
+        }
         break;
+
     case PainterDirection::Down :
-        _y -= 1;
+        if (_y == 0) {
+            _y = 63;
+        } else {
+            _y -= 1;
+        }
         break;
     };
-    if (_x == 128)
-        _x = 1;
-    else if (_x == 0)
-        _x = 127;
-    if (_y == 64)
-        _y = 1;
-    else if (_y == 1)
-        _y = 63;
 }
 
 void Painter::changeDirection() {

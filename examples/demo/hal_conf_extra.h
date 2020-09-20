@@ -1,7 +1,0 @@
-
-#ifndef _HAL_CONF_EXTRA_H_
-#define _HAL_CONF_EXTRA_H_
-
-#define HAL_TIM_MODULE_DISABLED
-
-#endif //_HAL_CONF_EXTRA_H_
