@@ -1,9 +1,8 @@
-//#if 0
+#include "hardware/HwConfiguration.h"
+#if defined (_STM32_DUINO_)
+
 #include "hardware/HwDisplay.h"
 #include <Wire.h>
-
-#define I2C
-#define SH1106
 
 #define DISPLAY_ADDRESS (0x3C)
 
@@ -58,7 +57,7 @@ void hwDisplaySetup()
 		Wire.write(tempBuff, DISPLAY_COLUMNS);
         Wire.endTransmission();
 	}
-#else //I2c
+#else //I2C
 
 #endif
 }
@@ -80,7 +79,7 @@ void hwDisplaySend(uint8_t* buffer)
 	}
 #else
 
-#endif
+#endif //I2C
 }
 
-//#endif
+#endif // _STM32_DUINO_
