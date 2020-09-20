@@ -1,4 +1,5 @@
-#ifdef _STM32_HAL_
+#include "hardware/HwConfiguration.h"
+#if defined (_STM32_HAL_)
 
 #include <hardware/HwJoystick.h>
 
