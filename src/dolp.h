@@ -3,6 +3,7 @@
 
 #include "Common.h"
 #include "drivers/DriverLayer.h"
+#include "engine/Engine.h"
 
 #define GAME_ENGINE_SETUP (dolp.setup)
 #define GAME_LOOP_BEGIN (dolp.loopBegin)

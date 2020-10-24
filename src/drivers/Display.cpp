@@ -47,3 +47,13 @@ void Display::draw(uint8_t x, uint8_t y, uint8_t color)
 		_buffer[(row*128) + (uint8_t)x] ^=  ( 1 << ((uint8_t)y % 8) );
 #endif
 }
+
+void Display::drawRectangle(uint8_t x, uint8_t y, uint8_t width, uint8_t height)
+{
+	// Just a proof of concept (highly inefficient)
+	for (int i = 0 ; i < width; i++) {
+		for (int j = 0; j < height; j++) {
+			draw( (x - width / 2 + i), (y - height / 2 + j), 0);
+		}
+	}
+}

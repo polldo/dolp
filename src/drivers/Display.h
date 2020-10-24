@@ -19,6 +19,8 @@ public:
 
     void draw(uint8_t x, uint8_t y, uint8_t color);
 
+    void drawRectangle(uint8_t x, uint8_t y, uint8_t width, uint8_t height);
+
 private:
     uint8_t _buffer[DISPLAY_LENGTH];
 };
