@@ -16,14 +16,14 @@ void World::clear()
 
 PEntity World::newEntity()
 {
-  PEntity entity = _entities.newItem();
+  Entity& entity = _entities.newItem();
   entity.init(this);
-  return entity;
+  return PEntity(entity);
 }
 
 void World::deleteEntity(PEntity entity)
 {
-  _entities.deleteItem(entity);
+  _entities.deleteItem(*entity._entity);
 }
 
 //void World::update()
