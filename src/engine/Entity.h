@@ -75,13 +75,27 @@ class Entity : public Poolable {
     BodyComponent _body;
     RenderComponent _renderer;
 };
+// create a container for each component type. the container is an array of fixed size that takes the initialized elements at the head 
+// of the array. to do this, new elements are initialized one after the other, when an element is eliminated it gets swapped with the 
+// latest initialized element of the array. When there is a SWAP operation, the entity of the swapped component should update 
+// its pointer to the component. to do this, the component should be recognizable from the entity (some unique id is needed) OR it
+// the component could change the pointer itself. The latter can be done by using an object that points to the component and is pointed
+// to by the component. (class ComponentPointer)
+//
+// alternatively, a pool could be used. but it could be inefficient -> profiler needed. compare time spent for 2 approaches
+//
+// alternative: POOL with two lists, one for free items, other for allocated items
 
 class EntityPool : public Pool<Entity, ENTITIES_PER_WORLD> {
   public: 
     void render()
     {
       for (int i = 0; i < ENTITIES_PER_WORLD; i++) {
-        _pool[i].render();
+        if (_pool[i].isAllocated()) {
+          _pool[i].render();
+        }
+        // TODO: perform render operation only for render components 
+        // this requires to detach render components from entities and having a container of sorted components
       }
     }
 };
