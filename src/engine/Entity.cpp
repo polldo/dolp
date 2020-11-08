@@ -31,6 +31,13 @@ void Entity::init(World* world)
   //_renderer.init();
 }
 
+void Entity::deinit()
+{
+  // delete all components
+  //_body.deinit()
+  //_body.configure(0, 0, 0, 0);
+}
+
 void Entity::configure(int x, int y, int width, int height)
 {
   _body.configure(x, y, width, height);

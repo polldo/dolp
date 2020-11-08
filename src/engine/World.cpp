@@ -21,9 +21,11 @@ PEntity World::newEntity()
   return PEntity(entity);
 }
 
-void World::deleteEntity(PEntity entity)
+void World::deleteEntity(PEntity pEntity)
 {
-  _entities.deleteItem(*entity._entity);
+  Entity& entity = *(pEntity._entity);
+  entity.deinit();
+  _entities.deleteItem(entity);
 }
 
 //void World::update()

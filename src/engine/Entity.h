@@ -43,6 +43,7 @@ class Entity : public Poolable {
   protected:
     friend class World;
     void init(World* world);
+    void deinit();
 
   public:
     int getId();
