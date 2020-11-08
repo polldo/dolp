@@ -3,7 +3,6 @@
 
 #include "Entity.h"
 #include "PEntity.h"
-#include "Body.h"
 
 class World {
   public:

@@ -5,7 +5,6 @@
 
 #include "Entity.h"
 #include "World.h"
-#include "Body.h"
 
 class Engine {
   public:

@@ -1,5 +1,7 @@
 #include "Engine.h"
 
+#include "drivers/DriverLayer.h"
+
 Engine::Engine() :
   _world(NULL)
 {
@@ -18,7 +20,8 @@ void Engine::loop()
   // Update world
 
   // Draw world
-  // clearDisplay();
+  //clearDisplay();
+  display.fill(0);
   if (_world) {
     _world->render();
   }

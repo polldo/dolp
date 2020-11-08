@@ -2,38 +2,59 @@
 
 World demo;
 
-PEntity monster = demo.newEntity(); 
+#define MAX_MONSTERS (100)
+PEntity monsters[MAX_MONSTERS];
 
 void setup()
 {
-    Serial.begin(115200);
-    while(!Serial);
-    Serial.println("Start");
+  Serial.begin(115200);
+  while(!Serial);
+  Serial.println("Start");
 
-    GAME_ENGINE_SETUP();
+  GAME_ENGINE_SETUP();
 
-    engine.setWorld(demo);
-    monster.configure(50, 20, 8, 8);
+  randomSeed(analogRead(0));
+
+  engine.setWorld(demo);
+}
+
+void clearMonsters()
+{
+  for (int i = 0; i < MAX_MONSTERS; i++) {
+    demo.deleteEntity(monsters[i]);
+  }
+}
+
+void spawnMonster()
+{
+  static uint8_t monstersIndex = 0;
+
+  if (monstersIndex == MAX_MONSTERS) {
+    clearMonsters();
+    monstersIndex = 0;
+  }
+
+  PEntity monster = demo.newEntity();
+  int randX = random(100) + 10;
+  int randY = random(40) + 8;
+  monster.configure(randX, randY, 5, 5);
+  monsters[monstersIndex++] = monster;
 }
 
 void loop()
 {
-    GAME_LOOP_BEGIN();
+  static uint64_t timeRef = 0;
 
-    static uint8_t frameCounter = 0;
-    static uint64_t seconds = 0;
-    static uint8_t color = 0x33;
+  GAME_LOOP_BEGIN();
 
-    if (joystick.pressed(ButtonA)) {
+  if (joystick.pressed(ButtonA)) {
 
-    }
+  }
 
-    frameCounter++;
-    if (frameCounter == 30)
-    {
-        frameCounter = 0;
-        seconds++;
-    }
+  if (timer.getMilliseconds() > timeRef + 100) {
+    timeRef = timer.getMilliseconds();
+    spawnMonster();
+  }
 
-    GAME_LOOP_END();
+  GAME_LOOP_END();
 }
