@@ -1,7 +1,10 @@
 #include <drivers/Timer.h>
 #include <hardware/HwRefresh.h>
 
-Timer::Timer()
+Timer::Timer() :
+	_tick(0),
+	_secTick(0),
+	_seconds(0)
 {
 }
 
@@ -14,8 +17,24 @@ void Timer::setup()
 	hwRefreshSetup();
 }
 
+uint64_t Timer::getMilliseconds()
+{
+	return _milliseconds;
+}
+
+uint64_t Timer::getSeconds()
+{
+	return _seconds;
+}
+
 void Timer::waitEndFrame()
 {
 	while(!hwRefreshGet()) ;
 	hwRefreshReset();
+	++_tick;
+	_milliseconds += 33;
+	if (++_secTick == 30) {
+		_secTick = 0;
+		++_seconds;
+	}
 }
