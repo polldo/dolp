@@ -3,7 +3,8 @@
 World::World() :
   _entities(),
   _bodyComponents(),
-  _renderComponents()
+  _renderComponents(),
+  _movementComponents()
 {
 }
 
@@ -47,6 +48,11 @@ RenderComponent* World::newRenderComponent()
   return &_renderComponents.newItem();
 }
 
+MovementComponent* World::newMovementComponent()
+{
+  return &_movementComponents.newItem();
+}
+
 void World::deleteBodyComponent(BodyComponent* component)
 {
   _bodyComponents.deleteItem(*component);
@@ -57,8 +63,14 @@ void World::deleteRenderComponent(RenderComponent* component)
   _renderComponents.deleteItem(*component);
 }
 
+void World::deleteMovementComponent(MovementComponent* component)
+{
+  _movementComponents.deleteItem(*component);
+}
+
 void World::update()
 {
+  _movementComponents.update();
 }
 
 void World::render()

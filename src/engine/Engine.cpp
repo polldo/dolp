@@ -23,6 +23,7 @@ void Engine::loop()
   //clearDisplay();
   display.fill(0);
   if (_world) {
+    _world->update();
     _world->render();
   }
 }

@@ -29,3 +29,12 @@ int PEntity::getId()
   }
   return -1;
 }
+
+void PEntity::moveTo(int x, int y, int speed)
+{
+  if (_entity && _entity->_movementComponent) _entity->_movementComponent->configure(Vect2(x, y), speed);
+  else if (_entity) {
+    _entity->addMovementComponent();
+    _entity->_movementComponent->configure(Vect2(x, y), speed);
+  }
+}

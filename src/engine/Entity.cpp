@@ -7,7 +7,8 @@ int Entity::_classId = 0;
 Entity::Entity() :
   _world(NULL),
   _bodyComponent(NULL),
-  _renderComponent(NULL)
+  _renderComponent(NULL),
+  _movementComponent(NULL)
 {
 }
 
@@ -35,6 +36,7 @@ void Entity::deinit()
   // Delete components
   if (_renderComponent) removeRenderComponent();
   if (_bodyComponent) removeBodyComponent();
+  if (_movementComponent) removeMovementComponent();
 }
 
 void Entity::addBodyComponent()
@@ -48,6 +50,12 @@ void Entity::addRenderComponent()
   _renderComponent = _world->newRenderComponent();
   //_renderComponent->init(this);
   _renderComponent->init(this, _bodyComponent);
+}
+
+void Entity::addMovementComponent()
+{
+  _movementComponent = _world->newMovementComponent();
+  _movementComponent->init(this, _bodyComponent);
 }
 
 void Entity::removeBodyComponent()
@@ -65,6 +73,15 @@ void Entity::removeRenderComponent()
   _renderComponent->deinit();
   _world->deleteRenderComponent(_renderComponent);
   _renderComponent = NULL;
+  //}
+}
+
+void Entity::removeMovementComponent()
+{
+  //if (_renderComponent) { // Checked by the caller  
+  _movementComponent->deinit();
+  _world->deleteMovementComponent(_movementComponent);
+  _movementComponent = NULL;
   //}
 }
 

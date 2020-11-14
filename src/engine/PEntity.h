@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "components/BodyComponent.h"
 #include "components/RenderComponent.h"
+#include "components/MovementComponent.h"
 
 // just a reference to Entity
 //typedef Entity& PEntity;
@@ -21,6 +22,11 @@ class PEntity {
 
     int getId();
     void configure(int x, int y, int width, int height);
+
+    void moveTo(int x, int y, int speed);
+
+    // alternatively
+    //MovementComponent* getMovementComponent(); // search for component. if it doesn't exist, add it
 
   private:
     friend class World;

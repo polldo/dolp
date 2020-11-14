@@ -9,6 +9,7 @@
 #include "Pool.h"
 #include "components/BodyComponent.h"
 #include "components/RenderComponent.h"
+#include "components/MovementComponent.h"
 
 // Entity class should not be extended because their life cycle is managed by the engine.
 // To add specific features, components must be used -> give users components to model their entities.
@@ -39,9 +40,11 @@ class Entity : public Poolable {
 
     void addBodyComponent();
     void addRenderComponent();
+    void addMovementComponent();
 
     void removeBodyComponent();
     void removeRenderComponent();
+    void removeMovementComponent();
 
     BodyComponent* getBodyComponent();
     //RenderComponent* getRenderComponent();
@@ -78,6 +81,7 @@ class Entity : public Poolable {
     World* _world;
     BodyComponent* _bodyComponent;
     RenderComponent* _renderComponent;
+    MovementComponent* _movementComponent;
 };
 
 // Alternative to component POOLS
