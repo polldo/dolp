@@ -1,19 +1,13 @@
 #include "Common.h"
 #include "Entity.h"
+#include "World.h"
 
 int Entity::_classId = 0;
 
 Entity::Entity() :
   _world(NULL),
-  _body(*this),
-  _renderer(*this)
-{
-}
-
-Entity::Entity(World* world) :
-  _world(world),
-  _body(*this),
-  _renderer(*this)
+  _bodyComponent(NULL),
+  _renderComponent(NULL)
 {
 }
 
@@ -23,37 +17,63 @@ Entity::~Entity()
 
 void Entity::init(World* world)
 {
-  _world = world;
+  // Set Entity ID
   ++_classId;
   _id = _classId;
-  // clean entity state
-  //_body.init();
-  //_renderer.init();
+  // Set world
+  _world = world;
+  // Init components
+  // At the moment this order is mandatory, because of how components are injected
+  // (here body component is injected into render component at its initialization)
+  addBodyComponent(); 
+  addRenderComponent();
 }
 
 void Entity::deinit()
 {
-  // delete all components
-  //_body.deinit()
-  //_body.configure(0, 0, 0, 0);
+  // _world = NULL //useless. entities belong to only one world
+  // Delete components
+  if (_renderComponent) removeRenderComponent();
+  if (_bodyComponent) removeBodyComponent();
 }
 
-void Entity::configure(int x, int y, int width, int height)
+void Entity::addBodyComponent()
 {
-  _body.configure(x, y, width, height);
+  _bodyComponent = _world->newBodyComponent();
+  _bodyComponent->init(this);
+}
+
+void Entity::addRenderComponent()
+{
+  _renderComponent = _world->newRenderComponent();
+  //_renderComponent->init(this);
+  _renderComponent->init(this, _bodyComponent);
+}
+
+void Entity::removeBodyComponent()
+{
+  //if (_bodyComponent) { // Checked by the caller
+  _bodyComponent->deinit();
+  _world->deleteBodyComponent(_bodyComponent);
+  _bodyComponent = NULL;
+  //}
+}
+
+void Entity::removeRenderComponent()
+{
+  //if (_renderComponent) { // Checked by the caller
+  _renderComponent->deinit();
+  _world->deleteRenderComponent(_renderComponent);
+  _renderComponent = NULL;
+  //}
+}
+
+BodyComponent* Entity::getBodyComponent()
+{
+  return _bodyComponent;
 }
 
 int Entity::getId()
 {
   return _id;
-}
-
-void Entity::render()
-{
-  _renderer.render();
-}
-
-BodyComponent* Entity::getBody()
-{
-  return &_body;
 }

@@ -18,7 +18,7 @@ PEntity::~PEntity()
 void PEntity::configure(int x, int y, int width, int height)
 {
   if (_entity) {
-    _entity->_body.configure(x, y, width, height);
+    _entity->_bodyComponent->configure(x, y, width, height);
   }
 }
 

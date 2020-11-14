@@ -3,6 +3,8 @@
 
 #include "Entity.h"
 #include "PEntity.h"
+#include "components/BodyComponent.h"
+#include "components/RenderComponent.h"
 
 class World {
   public:
@@ -14,14 +16,18 @@ class World {
     PEntity newEntity();
     void deleteEntity(PEntity entity);
 
-    //void update();
+    BodyComponent* newBodyComponent();
+    RenderComponent* newRenderComponent();
+    void deleteBodyComponent(BodyComponent* component);
+    void deleteRenderComponent(RenderComponent* component);
+
+    void update();
     void render();
 
   private:
-  EntityPool _entities;
-
-  // _visibleBodies[BODIES_PER_WORLD];
-  // MovementComponent _movements[MOVEMENTS_PER_WORLD];
+    EntityPool _entities;
+    BodyComponentPool _bodyComponents;
+    RenderComponentPool _renderComponents;
 };
 
 #endif // WORLD_H

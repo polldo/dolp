@@ -3,16 +3,38 @@
 
 #include "drivers/DriverLayer.h"
 
-RenderComponent::RenderComponent(Entity& entity) :
-  _entity(&entity)
+RenderComponent::RenderComponent() :
+  _entity(NULL),
+  _bodyComponent(NULL)
 {
-  _body = _entity->getBody();
+}
+
+RenderComponent::~RenderComponent() 
+{
+}
+
+void RenderComponent::init(Entity* entity)
+{
+  _entity = entity;
+  _bodyComponent = _entity->getBodyComponent();
+}
+
+void RenderComponent::init(Entity* entity, BodyComponent* bodyComponent)
+{
+  _entity = entity;
+  _bodyComponent = bodyComponent;
+}
+
+void RenderComponent::deinit()
+{
+  _entity = NULL;
+  _bodyComponent = NULL;
 }
 
 void RenderComponent::render()
 {
   // select display driver and draw sprite
-  Vect2& position = _body->getPosition();
-  Vect2& size = _body->getSize();
+  Vect2& position = _bodyComponent->getPosition();
+  Vect2& size = _bodyComponent->getSize();
   display.drawRectangle(position.x, position.y, size.x, size.y);
 }
