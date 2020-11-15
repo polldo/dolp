@@ -2,17 +2,19 @@
 
 World demo;
 
-#define MAX_MONSTERS (100)
+#define MAX_MONSTERS (20)
 PEntity monsters[MAX_MONSTERS];
 
 void setup()
 {
+  // Enable Serial for debugging purposes
   Serial.begin(115200);
   while(!Serial);
   Serial.println("Start");
 
   GAME_ENGINE_SETUP();
 
+  // Init random function with a random seed
   randomSeed(analogRead(0));
 
   engine.setWorld(demo);
@@ -39,6 +41,10 @@ void spawnMonster()
   int randY = random(40) + 8;
   monster.configure(randX, randY, 5, 5);
   monsters[monstersIndex++] = monster;
+
+  randX = random(100) + 10;
+  randY = random(40) + 8;
+  monster.moveTo(randX + 10, randY + 10, 1);
 }
 
 void loop()
@@ -51,7 +57,7 @@ void loop()
 
   }
 
-  if (timer.getMilliseconds() > timeRef + 100) {
+  if (timer.getMilliseconds() > timeRef + 500) {
     timeRef = timer.getMilliseconds();
     spawnMonster();
   }
