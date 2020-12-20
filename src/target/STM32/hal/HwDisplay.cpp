@@ -19,6 +19,12 @@ I2C_HandleTypeDef hi2c1;
 #define DISPLAY_ADDRESS (0x3C)
 #define DISPLAY_ADDRESS_SHIFTED (0x78)
 
+#define DISPLAY_WIDTH 128
+#define DISPLAY_HEIGHT 64
+#define DISPLAY_LENGTH 1024
+
+static uint8_t buffer[DISPLAY_LENGTH];
+
 #define INIT_COMMANDS_SIZE 28
 /*
  * Command sequence needed to correctly initialize the oled screen
@@ -142,7 +148,7 @@ void hwDisplaySetup()
 #endif
 }
 
-void hwDisplaySend(uint8_t* buffer)
+void hwDisplaySend()
 {
 #ifdef I2C
 	/* Transfer the screen to the display */
@@ -165,6 +171,45 @@ void hwDisplaySend(uint8_t* buffer)
 		*((__IO uint8_t *)&SPI2->DR) = displayBuffer[transferCount];
 	}
 #endif
+}
+
+void hwDisplayDraw(uint8_t x, uint8_t y, DisplayColor color)
+{
+#if defined(DISPLAY_ASCENDING_Y)
+	uint8_t row = (7 - (uint8_t)y / 8);
+	if (color == 0)
+		buffer[(row*128) + (uint8_t)x] |= 1 << (7 - ((uint8_t)y % 8));
+	else if (color == 1)
+		buffer[(row*128) + (uint8_t)x] &= ~ ( 1 << (7 - (uint8_t)y % 8) );
+	else if (color == 2)
+		buffer[(row*128) + (uint8_t)x] ^=  ( 1 << (7 - (uint8_t)y % 8) );
+#else 
+	uint8_t row = (uint8_t)y / 8;
+	if (color == 0)
+		buffer[(row*128) + (uint8_t)x] |= 1 << ((uint8_t)y % 8);
+	else if (color == 1)
+		buffer[(row*128) + (uint8_t)x] &= ~ ( 1 << ((uint8_t)y % 8) );
+	else if (color == 2)
+		buffer[(row*128) + (uint8_t)x] ^=  ( 1 << ((uint8_t)y % 8) );
+#endif
+}
+
+void hwDisplayFill(DisplayColor color)
+{
+	for(int index = 0; index < DISPLAY_LENGTH; index++)
+	{
+		buffer[index] = color;
+	}
+}
+
+uint8_t hwDisplayWidth()
+{
+	return DISPLAY_WIDTH;
+}
+
+uint8_t hwDisplayHeight()
+{
+	return DISPLAY_HEIGHT;
 }
 
 #endif

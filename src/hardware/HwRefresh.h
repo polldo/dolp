@@ -4,7 +4,6 @@
 #include "Common.h"
 
 void hwRefreshSetup();
-bool hwRefreshGet();
-void hwRefreshReset();
+void hwRefreshWaitEndFrame();
 
 #endif /* HW_REFRESH_H_ */

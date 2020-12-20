@@ -3,7 +3,10 @@
 
 #include "Common.h"
 
-typedef enum noteFrequency {
+#define LOOP_DISABLED 0
+#define LOOP_ENABLED 1
+
+enum NoteFrequency {
 	DO = 0,
 	RE = 1,
 	MI = 2,
@@ -19,7 +22,7 @@ typedef enum noteFrequency {
 	A = LA,
 	B = SI,
 	PAUSE = 7
-} NoteFrequency;
+};
 
 struct Note
 {
@@ -39,8 +42,10 @@ struct Song
 };
 
 void hwNotePlayerSetup();
+
 void hwNotePlayerStart();
 void hwNotePlayerStop();
+
 void hwNotePlayerVolume(uint8_t volume);
 void hwNotePlayerSong(Note* notes, uint16_t size, uint16_t startIndex, bool loopEn);
 

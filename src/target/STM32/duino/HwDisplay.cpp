@@ -15,6 +15,12 @@
 #define DISPLAY_STARTCOL (2)
 #endif
 
+#define DISPLAY_WIDTH 128
+#define DISPLAY_HEIGHT 64
+#define DISPLAY_LENGTH 1024
+
+static uint8_t _buffer[DISPLAY_LENGTH];
+
 #define INIT_COMMANDS_SIZE (28)
 /*
  * Command sequence needed to correctly initialize the oled screen
@@ -48,39 +54,78 @@ void hwDisplaySetup()
 	/* Send the black screen to clear the display */
 	for(int page = 0; page < 8; page++) {
 		uint8_t setPageCmd[] = {0xB0 + page, 0x00, 0x10};
-        Wire.beginTransmission(DISPLAY_ADDRESS);
-		Wire.write(0x00);
-		Wire.write(setPageCmd, 3);
-        Wire.endTransmission();
+		Wire.beginTransmission(DISPLAY_ADDRESS);
+			Wire.write(0x00);
+			Wire.write(setPageCmd, 3);
+		Wire.endTransmission();
 
-        Wire.beginTransmission(DISPLAY_ADDRESS);
-		Wire.write(0x40);
-		Wire.write(tempBuff, DISPLAY_COLUMNS);
-        Wire.endTransmission();
+		Wire.beginTransmission(DISPLAY_ADDRESS);
+			Wire.write(0x40);
+			Wire.write(tempBuff, DISPLAY_COLUMNS);
+		Wire.endTransmission();
 	}
 #else //I2C
 
 #endif
 }
 
-void hwDisplaySend(uint8_t* buffer)
+void hwDisplaySend()
 {
 #ifdef I2C
 	for(int page = 0; page < 8; page++) {
 		uint8_t setPageCmd[] = {0xB0 + page, DISPLAY_STARTCOL, 0x10};
-        Wire.beginTransmission(DISPLAY_ADDRESS);
-		Wire.write(0x00);
-		Wire.write(setPageCmd, 3);
-        Wire.endTransmission();
+		Wire.beginTransmission(DISPLAY_ADDRESS);
+			Wire.write(0x00);
+			Wire.write(setPageCmd, 3);
+		Wire.endTransmission();
 
-        Wire.beginTransmission(DISPLAY_ADDRESS);
-		Wire.write(0x40);
-		Wire.write(buffer + (page * 128), 128);
-        Wire.endTransmission();
+		Wire.beginTransmission(DISPLAY_ADDRESS);
+			Wire.write(0x40);
+			Wire.write(_buffer + (page * 128), 128);
+		Wire.endTransmission();
 	}
 #else
 
 #endif //I2C
+}
+
+void hwDisplayDraw(uint8_t x, uint8_t y, DisplayColor color)
+{
+#if defined(DISPLAY_ASCENDING_Y)
+	uint8_t row = (7 - (uint8_t)y / 8);
+	if (color == 0)
+		_buffer[(row*128) + (uint8_t)x] |= 1 << (7 - ((uint8_t)y % 8));
+	else if (color == 1)
+		_buffer[(row*128) + (uint8_t)x] &= ~ ( 1 << (7 - (uint8_t)y % 8) );
+	else if (color == 2)
+		_buffer[(row*128) + (uint8_t)x] ^=  ( 1 << (7 - (uint8_t)y % 8) );
+#else 
+	uint8_t row = (uint8_t)y / 8;
+	if (color == 0)
+		_buffer[(row*128) + (uint8_t)x] |= 1 << ((uint8_t)y % 8);
+	else if (color == 1)
+		_buffer[(row*128) + (uint8_t)x] &= ~ ( 1 << ((uint8_t)y % 8) );
+	else if (color == 2)
+		_buffer[(row*128) + (uint8_t)x] ^=  ( 1 << ((uint8_t)y % 8) );
+#endif
+}
+
+void hwDisplayFill(DisplayColor color)
+{
+	for(int index = 0; index < DISPLAY_LENGTH; index++)
+	{
+		_buffer[index] = color;
+	}
+}
+
+uint8_t hwDisplayWidth()
+{
+	return DISPLAY_WIDTH;
+}
+
+uint8_t hwDisplayHeight()
+{
+	return DISPLAY_HEIGHT;
 }
 
 #endif // _STM32_DUINO_

@@ -13,10 +13,10 @@ extern Timer timer;
 
 class DriverLayer {
 public:
-    DriverLayer() {}
-    virtual ~DriverLayer() {}
+  DriverLayer();
+  virtual ~DriverLayer();
 
-    void setup();
+  void setup();
 };
 
 extern DriverLayer driverLayer;

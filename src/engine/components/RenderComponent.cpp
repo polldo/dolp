@@ -36,5 +36,5 @@ void RenderComponent::render()
   // select display driver and draw sprite
   Vect2& position = _bodyComponent->getPosition();
   Vect2& size = _bodyComponent->getSize();
-  display.drawRectangle(position.x, position.y, size.x, size.y);
+  display.drawRectangle(position.x, position.y, size.x, size.y, WHITE_COLOR);
 }

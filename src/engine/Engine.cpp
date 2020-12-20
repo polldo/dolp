@@ -27,7 +27,7 @@ void Engine::loopEnd()
 {
   // Draw world
   //clearDisplay();
-  display.fill(0);
+  display.fill(BLACK_COLOR);
   if (_world) {
     _world->render();
   }
