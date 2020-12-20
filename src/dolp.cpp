@@ -8,14 +8,14 @@ void Dolp::setup()
 
 void Dolp::loopBegin()
 {
-    display.send();
     joystick.update();
-
-    engine.loop();
+    engine.loopBegin();
 }
 
 void Dolp::loopEnd()
 {
+    engine.loopEnd();
+    display.send();
     timer.waitEndFrame();
 }
 
