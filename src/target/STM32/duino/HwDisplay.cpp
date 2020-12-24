@@ -9,7 +9,7 @@
 #if defined (SSD1306)
 #define DISPLAY_COLUMNS (128)
 #define DISPLAY_STARTCOL (0)
-#elif defined (SH1106)
+#elif defined (DISPLAY_SH1106)
 /* The screen is actually 130x64, so 2 cols must be cleared */
 #define DISPLAY_COLUMNS (130)
 #define DISPLAY_STARTCOL (2)
@@ -35,7 +35,7 @@ static uint8_t INIT_COMMANDS[] = {0xAE, 0x20, 0x02, 0xB0, 0xC8, 0x00,
 
 void hwDisplaySetup()
 {
-#ifdef I2C
+#ifdef DISPLAY_I2C
 	Wire.begin();	
 	Wire.setClock(1000000);
 	delay(200);
@@ -64,14 +64,14 @@ void hwDisplaySetup()
 			Wire.write(tempBuff, DISPLAY_COLUMNS);
 		Wire.endTransmission();
 	}
-#else //I2C
+#else //DISPLAY_I2C
 
 #endif
 }
 
 void hwDisplaySend()
 {
-#ifdef I2C
+#ifdef DISPLAY_I2C
 	for(int page = 0; page < 8; page++) {
 		uint8_t setPageCmd[] = {0xB0 + page, DISPLAY_STARTCOL, 0x10};
 		Wire.beginTransmission(DISPLAY_ADDRESS);
@@ -86,7 +86,7 @@ void hwDisplaySend()
 	}
 #else
 
-#endif //I2C
+#endif //DISPLAY_I2C
 }
 
 void hwDisplayDraw(uint8_t x, uint8_t y, DisplayColor color)

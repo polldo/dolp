@@ -3,14 +3,14 @@
 
 #include "hardware/HwDisplay.h"
 
-#ifdef I2C
+#ifdef DISPLAY_I2C
 I2C_HandleTypeDef hi2c1;
 #endif
 
 #if defined (SSD1306)
 #define DISPLAY_COLUMNS (128)
 #define DISPLAY_STARTCOL (0)
-#elif defined (SH1106)
+#elif defined (DISPLAY_SH1106)
 /* The screen is actually 130x64, so 2 cols must be cleared */
 #define DISPLAY_COLUMNS (130)
 #define DISPLAY_STARTCOL (2)
@@ -40,7 +40,7 @@ uint8_t addressConfig[] = {0x21, 0, 127, 0x22, 0, 7};
 
 void hwDisplaySetup()
 {
-#ifdef I2C
+#ifdef DISPLAY_I2C
 	/* I2C Master mode
  	 * Write transfer
  	 * Fast mode (1 MHz)
@@ -150,7 +150,7 @@ void hwDisplaySetup()
 
 void hwDisplaySend()
 {
-#ifdef I2C
+#ifdef DISPLAY_I2C
 	/* Transfer the screen to the display */
 	for(int page = 0; page < 8; page++) {
 		uint8_t setPageCmd[] = {0xB0 + page, DISPLAY_STARTCOL, 0x10};
