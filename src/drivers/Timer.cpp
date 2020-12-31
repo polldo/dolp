@@ -29,8 +29,7 @@ uint64_t Timer::getSeconds()
 
 void Timer::waitEndFrame()
 {
-	while(!hwRefreshGet()) ;
-	hwRefreshReset();
+	hwRefreshWaitEndFrame();
 	++_tick;
 	_milliseconds += 33;
 	if (++_secTick == 30) {

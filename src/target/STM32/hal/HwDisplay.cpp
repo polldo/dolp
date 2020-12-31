@@ -3,14 +3,14 @@
 
 #include "hardware/HwDisplay.h"
 
-#ifdef I2C
+#ifdef DISPLAY_I2C
 I2C_HandleTypeDef hi2c1;
 #endif
 
 #if defined (SSD1306)
 #define DISPLAY_COLUMNS (128)
 #define DISPLAY_STARTCOL (0)
-#elif defined (SH1106)
+#elif defined (DISPLAY_SH1106)
 /* The screen is actually 130x64, so 2 cols must be cleared */
 #define DISPLAY_COLUMNS (130)
 #define DISPLAY_STARTCOL (2)
@@ -18,6 +18,12 @@ I2C_HandleTypeDef hi2c1;
 
 #define DISPLAY_ADDRESS (0x3C)
 #define DISPLAY_ADDRESS_SHIFTED (0x78)
+
+#define DISPLAY_WIDTH 128
+#define DISPLAY_HEIGHT 64
+#define DISPLAY_LENGTH 1024
+
+static uint8_t buffer[DISPLAY_LENGTH];
 
 #define INIT_COMMANDS_SIZE 28
 /*
@@ -34,7 +40,7 @@ uint8_t addressConfig[] = {0x21, 0, 127, 0x22, 0, 7};
 
 void hwDisplaySetup()
 {
-#ifdef I2C
+#ifdef DISPLAY_I2C
 	/* I2C Master mode
  	 * Write transfer
  	 * Fast mode (1 MHz)
@@ -142,9 +148,9 @@ void hwDisplaySetup()
 #endif
 }
 
-void hwDisplaySend(uint8_t* buffer)
+void hwDisplaySend()
 {
-#ifdef I2C
+#ifdef DISPLAY_I2C
 	/* Transfer the screen to the display */
 	for(int page = 0; page < 8; page++) {
 		uint8_t setPageCmd[] = {0xB0 + page, DISPLAY_STARTCOL, 0x10};
@@ -165,6 +171,45 @@ void hwDisplaySend(uint8_t* buffer)
 		*((__IO uint8_t *)&SPI2->DR) = displayBuffer[transferCount];
 	}
 #endif
+}
+
+void hwDisplayDraw(uint8_t x, uint8_t y, DisplayColor color)
+{
+#if defined(DISPLAY_ASCENDING_Y)
+	uint8_t row = (7 - (uint8_t)y / 8);
+	if (color == 0)
+		buffer[(row*128) + (uint8_t)x] |= 1 << (7 - ((uint8_t)y % 8));
+	else if (color == 1)
+		buffer[(row*128) + (uint8_t)x] &= ~ ( 1 << (7 - (uint8_t)y % 8) );
+	else if (color == 2)
+		buffer[(row*128) + (uint8_t)x] ^=  ( 1 << (7 - (uint8_t)y % 8) );
+#else 
+	uint8_t row = (uint8_t)y / 8;
+	if (color == 0)
+		buffer[(row*128) + (uint8_t)x] |= 1 << ((uint8_t)y % 8);
+	else if (color == 1)
+		buffer[(row*128) + (uint8_t)x] &= ~ ( 1 << ((uint8_t)y % 8) );
+	else if (color == 2)
+		buffer[(row*128) + (uint8_t)x] ^=  ( 1 << ((uint8_t)y % 8) );
+#endif
+}
+
+void hwDisplayFill(DisplayColor color)
+{
+	for(int index = 0; index < DISPLAY_LENGTH; index++)
+	{
+		buffer[index] = color;
+	}
+}
+
+uint8_t hwDisplayWidth()
+{
+	return DISPLAY_WIDTH;
+}
+
+uint8_t hwDisplayHeight()
+{
+	return DISPLAY_HEIGHT;
 }
 
 #endif

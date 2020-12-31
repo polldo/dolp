@@ -15,15 +15,20 @@ void Engine::setup()
 {
 }
 
-void Engine::loop()
+void Engine::loopBegin()
 {
   // Update world
-
-  // Draw world
-  //clearDisplay();
-  display.fill(0);
   if (_world) {
     _world->update();
+  }
+}
+
+void Engine::loopEnd()
+{
+  // Draw world
+  //clearDisplay();
+  display.fill(BLACK_COLOR);
+  if (_world) {
     _world->render();
   }
 }

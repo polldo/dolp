@@ -12,7 +12,8 @@ class Engine {
     ~Engine();
 
     void setup();
-    void loop();
+    void loopBegin();
+    void loopEnd();
 
     void setWorld(World& world);
 

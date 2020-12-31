@@ -17,19 +17,15 @@ void refreshCallback()
 
 void hwRefreshSetup()
 {
-    _refreshTimer.setMode(1, TIMER_OUTPUT_COMPARE);  
-    _refreshTimer.attachInterrupt(refreshCallback);
+	_refreshTimer.setMode(1, TIMER_OUTPUT_COMPARE);  
+	_refreshTimer.attachInterrupt(refreshCallback);
 	_refreshTimer.setOverflow(30, HERTZ_FORMAT); 
 	_refreshTimer.resume();
 }
 
-bool hwRefreshGet()
+void hwRefreshWaitEndFrame()
 {
-	return _refreshFlag;
-}
-
-void hwRefreshReset()
-{
+	while (!_refreshFlag) ;
 	_refreshFlag = false;
 }
 

@@ -38,13 +38,9 @@ void hwRefreshSetup()
 	TIM1->CR1 =	TIM_CR1_CEN;
 }
 
-bool hwRefreshGet()
+void hwRefreshWaitEndFrame()
 {
-	return refreshFlag;
-}
-
-void hwRefreshReset()
-{
+	while (!refreshFlag) ;
 	refreshFlag = false;
 }
 
