@@ -3,9 +3,8 @@
 
 #include "Common.h"
 #include "Entity.h"
-#include "components/BodyComponent.h"
-#include "components/RenderComponent.h"
-#include "components/MovementComponent.h"
+#include "components/UpdateComponent.h"
+#include "components/CollisionComponent.h"
 
 // just a reference to Entity
 //typedef Entity& PEntity;
@@ -19,14 +18,21 @@ class PEntity {
     virtual ~PEntity();
     PEntity();
     PEntity(Entity& entity);
+    PEntity(Entity* entity);
 
     int getId();
     void configure(int x, int y, int width, int height);
 
     void moveTo(int x, int y, int speed);
 
-    // alternatively
-    //MovementComponent* getMovementComponent(); // search for component. if it doesn't exist, add it
+    void update(UpdateCallback onUpdate);
+
+    void collision();
+    void collision(CollisionCallback onCollision);
+    bool collided(PEntity other);
+
+    int getState(uint8_t index);
+    void setState(uint8_t index, int value);
 
   private:
     friend class World;

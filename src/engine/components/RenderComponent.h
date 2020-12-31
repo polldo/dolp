@@ -34,17 +34,19 @@ class RenderComponentPool : public Pool<RenderComponent, RENDER_COMPONENTS_PER_W
   public: 
     void render()
     {
+#if defined (POOL_DOUBLE_LINK)
+      auto component = getItems();
+      while (component) {
+        component->render();
+        component = static_cast<RenderComponent*>(component->getNext());
+      }
+#else
       for (int i = 0; i < RENDER_COMPONENTS_PER_WORLD; i++) {
         if (_pool[i].isAllocated()) {
           _pool[i].render();
         }
       }
-      // Alternative
-      //auto component = _headAllocated;
-      //while (component) {
-        //component->render();
-        //component = component->getNext();
-      //}
+#endif
     }
 };
 

@@ -11,6 +11,11 @@ PEntity::PEntity(Entity& entity) :
 {
 }
 
+PEntity::PEntity(Entity* entity) :
+  _entity(entity)
+{
+}
+
 PEntity::~PEntity()
 {
 }
@@ -37,4 +42,48 @@ void PEntity::moveTo(int x, int y, int speed)
     _entity->addMovementComponent();
     _entity->_movementComponent->configure(Vect2(x, y), speed);
   }
+}
+
+void PEntity::update(UpdateCallback onUpdate)
+{
+  if (_entity && _entity->_updateComponent) _entity->_updateComponent->config(onUpdate);
+  else if (_entity) _entity->addUpdateComponent(onUpdate);
+}
+
+void PEntity::collision()
+{
+  if (_entity && _entity->_collisionComponent == NULL) _entity->addCollisionComponent();
+}
+
+void PEntity::collision(CollisionCallback onCollision)
+{
+  if (_entity) {
+    if (_entity->_collisionComponent == NULL) _entity->addCollisionComponent();
+    _entity->_collisionComponent->configure(onCollision);
+  }
+}
+
+bool PEntity::collided(PEntity other)
+{
+  if (_entity && other._entity) {
+    return CollisionComponent::check(_entity, other._entity);
+  }
+  return false;
+}
+
+int PEntity::getState(uint8_t index)
+{
+  if (_entity) {
+    if (_entity->_stateComponent == NULL) _entity->addStateComponent();
+    return _entity->_stateComponent->getState(index);
+  }
+  return 0;
+}
+
+void PEntity::setState(uint8_t index, int value)
+{
+  if (_entity) {
+    if (_entity->_stateComponent == NULL) _entity->addStateComponent();
+    _entity->_stateComponent->setState(index, value);
+  }  
 }

@@ -8,7 +8,10 @@ Entity::Entity() :
   _world(NULL),
   _bodyComponent(NULL),
   _renderComponent(NULL),
-  _movementComponent(NULL)
+  _movementComponent(NULL),
+  _updateComponent(NULL),
+  _stateComponent(NULL),
+  _collisionComponent(NULL)
 {
 }
 
@@ -37,6 +40,9 @@ void Entity::deinit()
   if (_renderComponent) removeRenderComponent();
   if (_bodyComponent) removeBodyComponent();
   if (_movementComponent) removeMovementComponent();
+  if (_updateComponent) removeUpdateComponent();
+  if (_stateComponent) removeStateComponent();
+  if (_collisionComponent) removeCollisionComponent();
 }
 
 void Entity::addBodyComponent()
@@ -56,6 +62,24 @@ void Entity::addMovementComponent()
 {
   _movementComponent = _world->newMovementComponent();
   _movementComponent->init(this, _bodyComponent);
+}
+
+void Entity::addUpdateComponent(UpdateCallback onUpdate)
+{
+  _updateComponent = _world->newUpdateComponent();
+  _updateComponent->init(this, onUpdate);
+}
+
+void Entity::addStateComponent()
+{
+  _stateComponent = _world->newStateComponent();
+  _stateComponent->init(this);
+}
+
+void Entity::addCollisionComponent()
+{
+  _collisionComponent = _world->newCollisionComponent();
+  _collisionComponent->init(this);
 }
 
 void Entity::removeBodyComponent()
@@ -82,6 +106,33 @@ void Entity::removeMovementComponent()
   _movementComponent->deinit();
   _world->deleteMovementComponent(_movementComponent);
   _movementComponent = NULL;
+  //}
+}
+
+void Entity::removeUpdateComponent()
+{
+  //if (_updateComponent) { // Checked by the caller  
+  _updateComponent->deinit();
+  _world->deleteUpdateComponent(_updateComponent);
+  _updateComponent = NULL;
+  //}
+}
+
+void Entity::removeStateComponent()
+{
+  //if (_stateComponent) { // Checked by the caller  
+  _stateComponent->deinit();
+  _world->deleteStateComponent(_stateComponent);
+  _stateComponent = NULL;
+  //}
+}
+
+void Entity::removeCollisionComponent()
+{
+  //if (_collisionComponent) { // Checked by the caller  
+  _collisionComponent->deinit();
+  _world->deleteCollisionComponent(_collisionComponent);
+  _collisionComponent = NULL;
   //}
 }
 

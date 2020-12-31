@@ -31,8 +31,10 @@ class BodyComponent : public Poolable {
     void configure(int x, int y, int width, int height);
     Vect2& getPosition();
     Vect2& getSize();
+    Vect2& getMaxHitbox();
+    Vect2& getMinHitbox();
 
-    //void update();
+    void update();
 
   protected:
     friend class Entity;
@@ -44,17 +46,28 @@ class BodyComponent : public Poolable {
     Entity* _entity;
     Vect2 _position;
     Vect2 _size;
+
+    Vect2 _minHitbox;
+    Vect2 _maxHitbox;
 };
 
 class BodyComponentPool : public Pool<BodyComponent, BODY_COMPONENTS_PER_WORLD> {
   public: 
     void update()
     {
+#if defined (POOL_DOUBLE_LINK)
+      auto component = getItems();
+      while (component) {
+        component->update();
+        component = static_cast<BodyComponent*>(component->getNext());
+      }
+#else
       for (int i = 0; i < BODY_COMPONENTS_PER_WORLD; i++) {
         if (_pool[i].isAllocated()) {
-          //_pool[i].update();
+          _pool[i].update();
         }
       }
+#endif
     }
 };
 

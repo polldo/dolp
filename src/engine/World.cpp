@@ -1,10 +1,6 @@
 #include "World.h"
 
-World::World() :
-  _entities(),
-  _bodyComponents(),
-  _renderComponents(),
-  _movementComponents()
+World::World()
 {
 }
 
@@ -53,6 +49,21 @@ MovementComponent* World::newMovementComponent()
   return &_movementComponents.newItem();
 }
 
+UpdateComponent* World::newUpdateComponent()
+{
+  return &_updateComponents.newItem();
+}
+
+IntStateComponent* World::newStateComponent()
+{
+  return &_stateComponents.newItem();
+}
+
+CollisionComponent* World::newCollisionComponent()
+{
+  return &_collisionComponents.newItem();
+}
+
 void World::deleteBodyComponent(BodyComponent* component)
 {
   _bodyComponents.deleteItem(*component);
@@ -68,9 +79,27 @@ void World::deleteMovementComponent(MovementComponent* component)
   _movementComponents.deleteItem(*component);
 }
 
+void World::deleteUpdateComponent(UpdateComponent* component)
+{
+  _updateComponents.deleteItem(*component);
+}
+
+void World::deleteStateComponent(IntStateComponent* component)
+{
+  _stateComponents.deleteItem(*component);
+}
+
+void World::deleteCollisionComponent(CollisionComponent* component)
+{
+  _collisionComponents.deleteItem(*component);
+}
+
 void World::update()
 {
   _movementComponents.update();
+  _bodyComponents.update();
+  _collisionComponents.update();
+  _updateComponents.update();
 }
 
 void World::render()
