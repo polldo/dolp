@@ -50,11 +50,19 @@ class BodyComponentPool : public Pool<BodyComponent, BODY_COMPONENTS_PER_WORLD> 
   public: 
     void update()
     {
+#if defined (POOL_DOUBLE_LINK)
+      auto component = getItems();
+      while (component) {
+        //component->update();
+        component = static_cast<BodyComponent*>(component->getNext());
+      }
+#else
       for (int i = 0; i < BODY_COMPONENTS_PER_WORLD; i++) {
         if (_pool[i].isAllocated()) {
           //_pool[i].update();
         }
       }
+#endif
     }
 };
 
