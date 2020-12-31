@@ -4,6 +4,8 @@
 #include "hardware/HwDisplay.h"
 #include "Arduino.h"
 
+#define DISPLAY_ASCENDING_Y
+
 #define DISPLAY_WIDTH 128
 #define DISPLAY_HEIGHT 64
 #define DISPLAY_LENGTH 1024
@@ -14,9 +16,9 @@ void hwDisplayDraw(uint8_t x, uint8_t y, DisplayColor color)
 {
 #if defined (DISPLAY_ASCENDING_Y)
 	uint8_t row = (7 - (uint8_t)y / 8);
-	if (color == 0)
+	if (color == WHITE_COLOR)
 		displayBuffer[(row*128) + (uint8_t)x] |= 1 << (7 - ((uint8_t)y % 8));
-	else if (color == 1)
+	else if (color == BLACK_COLOR)
 		displayBuffer[(row*128) + (uint8_t)x] &= ~ ( 1 << (7 - (uint8_t)y % 8) );
 	else if (color == 2)
 		displayBuffer[(row*128) + (uint8_t)x] ^=  ( 1 << (7 - (uint8_t)y % 8) );
