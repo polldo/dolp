@@ -24,6 +24,11 @@ void Display::draw(uint8_t x, uint8_t y, DisplayColor color)
 	hwDisplayDraw(x, y, color);
 }
 
+void Display::drawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t* image)
+{
+	hwDisplayDrawImage(x, y, w, h, image);
+}
+
 void Display::drawRectangle(uint8_t x, uint8_t y, uint8_t width, uint8_t height, DisplayColor color)
 {
 	// Just a proof of concept (highly inefficient)

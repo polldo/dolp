@@ -34,6 +34,8 @@ class PEntity {
     int getState(uint8_t index);
     void setState(uint8_t index, int value);
 
+    void setImage(const uint8_t* image);
+
   private:
     friend class World;
     Entity* _entity;

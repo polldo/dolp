@@ -19,6 +19,8 @@ class RenderComponent : public Poolable {
     void render();
     //void update();
 
+    void setImage(const uint8_t* image);
+
   protected:
     friend class Entity;
     void init(Entity* entity);
@@ -28,6 +30,7 @@ class RenderComponent : public Poolable {
   private:
     Entity* _entity;
     BodyComponent* _bodyComponent;
+    const uint8_t* _image;
 };
 
 class RenderComponentPool : public Pool<RenderComponent, RENDER_COMPONENTS_PER_WORLD> {

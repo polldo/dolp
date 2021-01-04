@@ -87,3 +87,10 @@ void PEntity::setState(uint8_t index, int value)
     _entity->_stateComponent->setState(index, value);
   }  
 }
+
+void PEntity::setImage(const uint8_t* image)
+{
+  if (_entity) {
+    _entity->_renderComponent->setImage(image);
+  }
+}
