@@ -36,6 +36,10 @@ class PEntity {
 
     void setImage(const uint8_t* image);
 
+    Vect2 getPosition();
+    int getX();
+    int getY();
+
   private:
     friend class World;
     Entity* _entity;

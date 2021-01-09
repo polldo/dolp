@@ -94,3 +94,27 @@ void PEntity::setImage(const uint8_t* image)
     _entity->_renderComponent->setImage(image);
   }
 }
+
+int PEntity::getX() 
+{
+  if (_entity) {
+    return _entity->_bodyComponent->getPosition().x;
+  }
+  return 0;
+}
+
+int PEntity::getY() 
+{
+  if (_entity) {
+    return _entity->_bodyComponent->getPosition().y;
+  }
+  return 0;
+}
+
+Vect2 PEntity::getPosition()
+{
+  if (_entity) {
+    return _entity->_bodyComponent->getPosition();
+  }
+  return Vect2(0, 0);
+}
