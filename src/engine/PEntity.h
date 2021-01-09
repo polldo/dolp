@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "components/UpdateComponent.h"
 #include "components/CollisionComponent.h"
+#include "drivers/Timer.h"
 
 // just a reference to Entity
 //typedef Entity& PEntity;
@@ -35,6 +36,10 @@ class PEntity {
     void setState(uint8_t index, int value);
 
     void setImage(const uint8_t* image);
+
+    void newTimeout(uint8_t index, uint64_t time);
+    TimeoutId getTimeout(uint8_t index);
+    bool checkTimeout(uint8_t index);
 
     Vect2 getPosition();
     int getX();

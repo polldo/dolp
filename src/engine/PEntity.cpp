@@ -95,6 +95,29 @@ void PEntity::setImage(const uint8_t* image)
   }
 }
 
+void PEntity::newTimeout(uint8_t index, uint64_t time)
+{
+  if (_entity) {
+    _entity->_timeComponent.init(index, time);
+  }
+}
+
+bool PEntity::checkTimeout(uint8_t index)
+{
+  if (_entity) {
+    return _entity->_timeComponent.checkTimeout(index);
+  }
+  return false;
+}
+
+TimeoutId PEntity::getTimeout(uint8_t index)
+{
+  if (_entity) {
+    return _entity->_timeComponent.getTimeout(index);
+  }
+  return 0;
+}
+
 int PEntity::getX() 
 {
   if (_entity) {

@@ -13,6 +13,7 @@
 #include "components/UpdateComponent.h"
 #include "components/StateComponent.h"
 #include "components/CollisionComponent.h"
+#include "components/TimeComponent.h"
 
 // Entity class should not be extended because their life cycle is managed by the engine.
 // To add specific features, components must be used -> give users components to model their entities.
@@ -47,6 +48,7 @@ class Entity : public Poolable {
     void addUpdateComponent(UpdateCallback onUpdate);
     void addStateComponent();
     void addCollisionComponent();
+    void addTimeComponent();
 
     void removeBodyComponent();
     void removeRenderComponent();
@@ -54,6 +56,7 @@ class Entity : public Poolable {
     void removeUpdateComponent();
     void removeStateComponent();
     void removeCollisionComponent();
+    void removeTimeComponent();
 
     BodyComponent* getBodyComponent();
     //RenderComponent* getRenderComponent();
@@ -94,6 +97,11 @@ class Entity : public Poolable {
     UpdateComponent* _updateComponent;
     IntStateComponent* _stateComponent;
     CollisionComponent* _collisionComponent;
+
+    // Components always allocated
+    TimeComponent _timeComponent;
+    // TODO: move BodyComponent from pointer to actual object definition -> it is present in each entity
+    //BodyComponent _bodyComponent;
 };
 
 // Alternative to component POOLS

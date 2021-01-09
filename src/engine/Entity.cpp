@@ -82,6 +82,11 @@ void Entity::addCollisionComponent()
   _collisionComponent->init(this);
 }
 
+void Entity::addTimeComponent()
+{
+  _timeComponent.init();
+}
+
 void Entity::removeBodyComponent()
 {
   //if (_bodyComponent) { // Checked by the caller
@@ -134,6 +139,11 @@ void Entity::removeCollisionComponent()
   _world->deleteCollisionComponent(_collisionComponent);
   _collisionComponent = NULL;
   //}
+}
+
+void Entity::removeTimeComponent()
+{
+  _timeComponent.deinit();
 }
 
 BodyComponent* Entity::getBodyComponent()
