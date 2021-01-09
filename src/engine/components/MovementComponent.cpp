@@ -2,9 +2,6 @@
 #include "engine/Entity.h"
 #include <math.h>
 
-// Not the best place to define FPS. Defined here just for testing purpose
-#define FPS (30)
-
 MovementComponent::MovementComponent() :
   _entity(NULL),
   _bodyComponent(NULL)

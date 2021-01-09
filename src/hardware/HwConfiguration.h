@@ -12,4 +12,9 @@
 #define DISPLAY_SPI
 #define DISPLAY_SH1106
 
+
+// FPS defines
+//#define FPS 60
+//#define FRAME_MSEC 16
+
 #endif

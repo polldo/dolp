@@ -30,9 +30,11 @@ uint64_t Timer::getSeconds()
 void Timer::waitEndFrame()
 {
 	hwRefreshWaitEndFrame();
+
+	// Update ticks and time counters
 	++_tick;
-	_milliseconds += 33;
-	if (++_secTick == 30) {
+	_milliseconds += FRAME_MSEC;
+	if (++_secTick == FPS) {
 		_secTick = 0;
 		++_seconds;
 	}
