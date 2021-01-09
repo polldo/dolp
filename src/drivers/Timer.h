@@ -2,19 +2,21 @@
 #define REFRESH_H_
 
 #include <Common.h>
-#include <engine/Pool.h>
 
 #ifndef NUM_TIMEOUTS
-#define NUM_TIMEOUTS 100
+#define NUM_TIMEOUTS 60
 #endif
 
 struct Timeout {
-  //int id;
-  bool assigned;
-  //bool expired;
-  //uint64_t time;
+  // Timeout id corresponds to its index in _timeouts array
+  // Id 0 is reserved
+  uint8_t startTicks;
   uint8_t ticks;
+  bool reset;
+  bool assigned;
 };
+
+typedef uint8_t TimeoutId;
 
 class Timer {
 public:
@@ -27,11 +29,11 @@ public:
   uint64_t getMilliseconds();
   uint64_t getSeconds();
 
-  int newTimeout();
-  void deleteTimeout(int id);
-  void updateTimeout();
-  void refreshTimeout(int id, uint64_t time);
-  bool checkTimeout(int id);
+  TimeoutId newTimeout();
+  TimeoutId newTimeout(uint64_t time);
+  void deleteTimeout(TimeoutId id);
+  void setTimeout(TimeoutId id, uint64_t time);
+  bool checkTimeout(TimeoutId id);
 
 private:
   unsigned long long _tick;
@@ -39,9 +41,9 @@ private:
   uint64_t _seconds;
   uint64_t _milliseconds;
 
+  void updateTimeout();
+
   Timeout _timeouts[NUM_TIMEOUTS];
-  //int timeouts[NUM_TIMEOUTS];
-  //bool timeouts
 };
 
 #endif /* REFRESH_H_ */
