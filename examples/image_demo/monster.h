@@ -10,8 +10,11 @@ extern World demo;
 
 enum MonsterState {
   MonsterAlive = 0,
-  MonsterFrameTimeout = 1,
-  MonsterImageCounter = 2
+  MonsterImageCounter = 1
+};
+
+enum MonsterTimeout {
+  MonsterFrameTimeout,
 };
 
 void spawnMonster();

@@ -5,7 +5,7 @@
 
 World demo;
 
-int spawnTimeout = 0;
+TimeoutId spawnTimeout;
 
 void setup()
 {
@@ -21,8 +21,7 @@ void setup()
 
   engine.setWorld(demo);
 
-  spawnTimeout = timer.newTimeout();
-  timer.refreshTimeout(spawnTimeout, 500);
+  spawnTimeout = timer.newTimeout(150);
 }
 
 void loop()
@@ -35,7 +34,6 @@ void loop()
 
   if (timer.checkTimeout(spawnTimeout)) {
     spawnMonster();
-    timer.refreshTimeout(spawnTimeout, 150);
   }
 
   GAME_LOOP_END();

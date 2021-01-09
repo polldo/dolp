@@ -20,20 +20,19 @@ void monsterLoop(PEntity monster)
 {
   if (monster.getState(MonsterAlive) == 0) {
     demo.deleteEntity(monster);
-    timer.deleteTimeout(monster.getState(MonsterFrameTimeout));
     monsterCounter--;
   }
 
   // alternative: pass reference to entity state instead of its value
   int imageCounter = monster.getState(MonsterImageCounter);
-  int timeout = monster.getState(MonsterFrameTimeout);
+  TimeoutId timeout = monster.getTimeout(MonsterFrameTimeout);
   if (timer.checkTimeout(timeout)) {
+  // already possible alternative:
+  // if (monster.checkTimeout(MonsterFrameTimeout)) {
 
     monster.setImage(monsterImages[imageCounter++]);
     if (imageCounter == 3) imageCounter = 0;
     monster.setState(MonsterImageCounter, imageCounter);
-
-    timer.refreshTimeout(timeout, 140);
   }
 }
 
@@ -51,10 +50,10 @@ void spawnMonster()
 
   // Monster live flag
   monster.setState(MonsterAlive, 1);
+
   // Monster timeout for image refreshing
-  int timeout = timer.newTimeout();
-  timer.refreshTimeout(timeout, 50);
-  monster.setState(MonsterFrameTimeout, timeout);
+  monster.newTimeout(MonsterFrameTimeout, 140);
+
   // Counter for monster image update
   monster.setState(MonsterImageCounter, 0);
 
