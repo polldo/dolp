@@ -8,8 +8,17 @@
 #include "Common.h"
 #include "engine/Pool.h"
 #include "BodyComponent.h"
+#include "drivers/Timer.h"
 
 class Entity;
+
+struct Animation {
+  const uint8_t** images;
+  const uint32_t* times;
+  uint8_t length;
+
+  Animation(const uint8_t** img, const uint32_t* tms, uint8_t len) : images(img), times(tms), length(len) {}
+};
 
 class RenderComponent : public Poolable {
   public:
@@ -20,6 +29,8 @@ class RenderComponent : public Poolable {
     //void update();
 
     void setImage(const uint8_t* image);
+    void setAnimation(const Animation& animation);
+    void removeAnimation();
 
   protected:
     friend class Entity;
@@ -30,7 +41,11 @@ class RenderComponent : public Poolable {
   private:
     Entity* _entity;
     BodyComponent* _bodyComponent;
+
     const uint8_t* _image;
+    const Animation* _animation;
+    TimeoutId _animationTimeout;
+    uint8_t _animationCounter;
 };
 
 class RenderComponentPool : public Pool<RenderComponent, RENDER_COMPONENTS_PER_WORLD> {

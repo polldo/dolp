@@ -95,6 +95,14 @@ void PEntity::setImage(const uint8_t* image)
   }
 }
 
+void PEntity::setAnimation(const Animation& animation)
+{
+  if (_entity) {
+    _entity->_renderComponent->setAnimation(animation);
+  }
+}
+
+
 void PEntity::newTimeout(uint8_t index, uint64_t time)
 {
   if (_entity) {

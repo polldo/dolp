@@ -36,6 +36,7 @@ class PEntity {
     void setState(uint8_t index, int value);
 
     void setImage(const uint8_t* image);
+    void setAnimation(const Animation& animation);
 
     void newTimeout(uint8_t index, uint64_t time);
     TimeoutId getTimeout(uint8_t index);
