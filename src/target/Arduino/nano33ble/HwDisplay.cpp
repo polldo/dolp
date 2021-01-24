@@ -34,6 +34,16 @@ void hwDisplayDraw(uint8_t x, uint8_t y, DisplayColor color)
 #endif
 }
 
+void hwDisplayDrawRectangle(uint8_t x, uint8_t y, uint8_t w, uint8_t h, DisplayColor color)
+{
+	// Just a proof of concept (highly inefficient)
+	for (int i = 0 ; i < w; i++) {
+		for (int j = 0; j < h; j++) {
+			hwDisplayDraw( (x - w / 2 + i), (y - h / 2 + j), color);
+		}
+	}
+}
+
 void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t* image)
 {
 	// TODO: check boundaries
@@ -47,8 +57,8 @@ void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_
 		for (uint8_t i = 0; i < w; i++) {
 			uint8_t vLine = image[index++];
 			for (uint8_t k = 0; k < 8; k++) {
-				DisplayColor pixel = vLine & (0x80 >> k) ? WHITE_COLOR : BLACK_COLOR;
-				hwDisplayDraw(imageX + i, imageY + k, pixel);			
+				DisplayColor pixel = vLine & (0x01 << k) ? WHITE_COLOR : BLACK_COLOR;
+				hwDisplayDraw(imageX + i, imageY - k, pixel);			
 			}
 		}
 		imageY -= 8;

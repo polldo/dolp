@@ -31,12 +31,7 @@ void Display::drawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_
 
 void Display::drawRectangle(uint8_t x, uint8_t y, uint8_t width, uint8_t height, DisplayColor color)
 {
-	// Just a proof of concept (highly inefficient)
-	for (int i = 0 ; i < width; i++) {
-		for (int j = 0; j < height; j++) {
-			draw( (x - width / 2 + i), (y - height / 2 + j), color);
-		}
-	}
+	hwDisplayDrawRectangle(x, y, width, height, color);
 }
 
 void Display::fill(DisplayColor color)
