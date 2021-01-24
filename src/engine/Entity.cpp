@@ -155,3 +155,8 @@ int Entity::getId()
 {
   return _id;
 }
+
+uint8_t Entity::getType()
+{
+  return _type;
+}

@@ -74,6 +74,7 @@ class Entity : public Poolable {
   public:
     // Use the ID to check entities equality
     int getId();
+    uint8_t getType();
 
   protected:
     friend class World;
@@ -84,6 +85,7 @@ class Entity : public Poolable {
     friend class PEntity;
     static int _classId;
     int _id;
+    uint8_t _type;
 
     // Component pools for each type of components. The size for each pool should be user-specified (default size to be decided)
     // The pools should be defined in World class.

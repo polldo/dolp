@@ -22,6 +22,8 @@ class PEntity {
     PEntity(Entity* entity);
 
     int getId();
+    uint8_t getType();
+    void setType(uint8_t entityType);
     void configure(int x, int y, int width, int height);
 
     void moveTo(int x, int y, int velocity);

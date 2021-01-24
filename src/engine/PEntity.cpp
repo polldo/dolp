@@ -35,6 +35,21 @@ int PEntity::getId()
   return -1;
 }
 
+uint8_t PEntity::getType()
+{
+  if (_entity) {
+    return _entity->_type;
+  }
+  return 0xFF;
+}
+
+void PEntity::setType(uint8_t entityType)
+{
+  if (_entity) {
+    _entity->_type = entityType;
+  }
+}
+
 void PEntity::moveTo(int x, int y, int velocity)
 {
   if (_entity && _entity->_movementComponent) _entity->_movementComponent->configure(x, y, velocity);
