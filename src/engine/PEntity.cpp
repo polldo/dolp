@@ -37,11 +37,19 @@ int PEntity::getId()
 
 void PEntity::moveTo(int x, int y, int speed)
 {
-  if (_entity && _entity->_movementComponent) _entity->_movementComponent->configure(Vect2(x, y), speed);
+  if (_entity && _entity->_movementComponent) _entity->_movementComponent->configure(x, y, speed);
   else if (_entity) {
     _entity->addMovementComponent();
-    _entity->_movementComponent->configure(Vect2(x, y), speed);
+    _entity->_movementComponent->configure(x, y, speed);
   }
+}
+
+Vect2 PEntity::getVelocity()
+{
+  if (_entity && _entity->_movementComponent) {
+    return _entity->_movementComponent->getVelocity();
+  }
+  return (Vect2(0, 0));
 }
 
 void PEntity::update(UpdateCallback onUpdate)

@@ -25,6 +25,7 @@ class PEntity {
     void configure(int x, int y, int width, int height);
 
     void moveTo(int x, int y, int speed);
+    Vect2 getVelocity();
 
     void update(UpdateCallback onUpdate);
 

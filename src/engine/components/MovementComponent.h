@@ -16,9 +16,12 @@ class MovementComponent : public Poolable {
     MovementComponent();
     virtual ~MovementComponent();
 
-    void configure(Vect2 destination, int speed);
-    void configure(int x, int y, int speed);
+    void configure(int x, int y, int velocity);
+    void configure(Vect2 destination, Vect2 velocity);
+    void configure(int x, int y, int vx, int vy);
     void update();
+
+    Vect2& getVelocity();
 
   protected:
     friend class Entity;
@@ -29,13 +32,9 @@ class MovementComponent : public Poolable {
   private:
     Entity* _entity;
     BodyComponent* _bodyComponent;
-    //int _x, _y;
     Vect2 _destination;
     Vect2 _direction;
-    //int _speed;
-    int _dS;
-
-    //Time deltaTime;
+    Vect2 _velocity;
 };
 
 class MovementComponentPool : public Pool<MovementComponent, MOVEMENT_COMPONENTS_PER_WORLD> {
