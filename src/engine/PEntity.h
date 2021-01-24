@@ -24,8 +24,8 @@ class PEntity {
     int getId();
     void configure(int x, int y, int width, int height);
 
-    void moveTo(int x, int y, int speed);
-    Vect2 getVelocity();
+    void moveTo(int x, int y, int velocity);
+    Vect2 getMovement();
 
     void update(UpdateCallback onUpdate);
 
