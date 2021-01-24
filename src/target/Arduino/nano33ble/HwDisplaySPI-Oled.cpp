@@ -1,15 +1,15 @@
 #include "hardware/HwConfiguration.h"
 #if defined (ARDUINO_NANO33BLE)
 
-#if defined (DISPLAY_I2C)
+#if defined (DISPLAY_SPI)
+
+#if defined (DISPLAY_SSD1306) || defined (DISPLAY_SH1106)
 
 #include "hardware/HwDisplay.h"
 #include "Arduino.h"
-#include "Wire.h"
+#include "SPI.h"
 
-#define DISPLAY_ADDRESS (0x3C)
-
-#if defined (SSD1306)
+#if defined (DISPLAY_SSD1306)
 #define DISPLAY_COLUMNS (128)
 #define DISPLAY_STARTCOL (0)
 #elif defined (DISPLAY_SH1106)
@@ -17,6 +17,13 @@
 #define DISPLAY_COLUMNS (130)
 #define DISPLAY_STARTCOL (2)
 #endif
+
+#define DC_PIN 9
+#define RESET_PIN 8
+#define SPI_DATA_MODE() (digitalWrite(DC_PIN, HIGH))
+#define SPI_COMMAND_MODE() (digitalWrite(DC_PIN, LOW))
+
+SPISettings spiConfig = SPISettings(8000000, MSBFIRST, SPI_MODE0);
 
 #define DISPLAY_WIDTH 128
 #define DISPLAY_HEIGHT 64
@@ -38,35 +45,32 @@ static uint8_t INIT_COMMANDS[] = {0xAE, 0x20, 0x02, 0xB0, 0xC8, 0x00,
 
 void hwDisplaySetup()
 {
-  Wire.begin();	
-	Wire.setClock(10000000);
-	delay(200);
+	SPI.begin();
+	delay(100);
+	SPI.beginTransaction(spiConfig);
 
-	/* Send display configuration through I2C */
-	Wire.beginTransmission(DISPLAY_ADDRESS);
-    Wire.write((uint8_t)0x00);
-    Wire.write(INIT_COMMANDS, INIT_COMMANDS_SIZE);
-	Wire.endTransmission();
+	// Reset display
+	digitalWrite(RESET_PIN, LOW);
+	digitalWrite(RESET_PIN, HIGH);
 
-	/* Clear the whole display */
+	// Send display configuration through SPI 
+	SPI_COMMAND_MODE();
+	SPI.transfer(INIT_COMMANDS, INIT_COMMANDS_SIZE);
+
+	// Clear the whole display 
 	uint8_t tempBuff[DISPLAY_COLUMNS];
 	for(int index = 0; index < DISPLAY_COLUMNS; index++)
 	{
 		tempBuff[index] = 0;
 	} 
-
 	/* Send the black screen to clear the display */
 	for(int page = 0; page < 8; page++) {
 		uint8_t setPageCmd[] = {0xB0 + page, 0x00, 0x10};
-		Wire.beginTransmission(DISPLAY_ADDRESS);
-			Wire.write((uint8_t)0x00);
-			Wire.write(setPageCmd, 3);
-		Wire.endTransmission();
+		SPI_COMMAND_MODE();
+		SPI.transfer(setPageCmd, 3);
 
-		Wire.beginTransmission(DISPLAY_ADDRESS);
-			Wire.write((uint8_t)0x40);
-			Wire.write(tempBuff, DISPLAY_COLUMNS);
-		Wire.endTransmission();
+		SPI_DATA_MODE();
+		SPI.transfer(tempBuff, DISPLAY_COLUMNS);
 	}
 }
 
@@ -74,18 +78,15 @@ void hwDisplaySend()
 {
   for(int page = 0; page < 8; page++) {
 		uint8_t setPageCmd[] = {0xB0 + page, DISPLAY_STARTCOL, 0x10};
-		Wire.beginTransmission(DISPLAY_ADDRESS);
-			Wire.write((uint8_t)0x00);
-			Wire.write(setPageCmd, 3);
-		Wire.endTransmission();
+		SPI_COMMAND_MODE();
+		SPI.transfer(setPageCmd, 3);
 
-		Wire.beginTransmission(DISPLAY_ADDRESS);
-			Wire.write((uint8_t)0x40);
-			Wire.write(displayBuffer + (page * 128), 128);
-		Wire.endTransmission();
+		SPI_DATA_MODE();
+		SPI.transfer(displayBuffer + (page * 128), 128);
 	}
 }
 
 #endif
 
+#endif
 #endif

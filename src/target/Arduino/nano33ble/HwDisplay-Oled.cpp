@@ -1,6 +1,8 @@
 #include "hardware/HwConfiguration.h"
 #if defined (ARDUINO_NANO33BLE)
 
+#if defined (DISPLAY_SSD1306) || defined (DISPLAY_SH1106)
+
 #include "hardware/HwDisplay.h"
 #include "Arduino.h"
 
@@ -86,4 +88,5 @@ uint8_t hwDisplayHeight()
   return DISPLAY_HEIGHT;
 }
 
+#endif
 #endif

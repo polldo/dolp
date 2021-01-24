@@ -3,10 +3,9 @@
 
 #include "Common.h"
 
-enum DisplayColor {
-  BLACK_COLOR = 0,
-  WHITE_COLOR = 1
-};
+typedef uint16_t DisplayColor;
+#define BLACK_COLOR 0x0000
+#define WHITE_COLOR 0xFFFF
 
 void hwDisplaySetup();
 
