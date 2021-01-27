@@ -2,7 +2,7 @@
 #include "engine/Entity.h"
 #include <math.h>
 
-#define DECIMAL_SAVE 128 // needed to avoid using float while preserving decimal digits
+#define DECIMAL_SAVE 1024 // needed to avoid using float while preserving decimal digits
 #define VELOCITY_RATE 8
 
 MovementComponent::MovementComponent() :

@@ -4,7 +4,7 @@
 #include <Common.h>
 
 #ifndef NUM_TIMEOUTS
-#define NUM_TIMEOUTS 60
+#define NUM_TIMEOUTS 200
 #endif
 
 struct Timeout {
