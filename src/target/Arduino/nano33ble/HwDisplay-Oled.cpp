@@ -17,7 +17,7 @@ uint8_t displayBuffer[DISPLAY_LENGTH];
 void hwDisplayDraw(uint8_t x, uint8_t y, DisplayColor color)
 {
 	// Check display boundaries
-	if (x >= DISPLAY_WIDTH || y > DISPLAY_HEIGHT) return;
+	if (x >= DISPLAY_WIDTH || y >= DISPLAY_HEIGHT) return;
 
 #if defined (DISPLAY_ASCENDING_Y)
 	uint8_t row = (7 - (uint8_t)y / 8);
@@ -50,10 +50,11 @@ void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_
 {
 	// TODO: check boundaries
 #if defined (DISPLAY_ASCENDING_Y)
-	const uint8_t startIndex = 2;
+	uint16_t index = 0;
+	w = image[index++];
+	h = image[index++];
 	uint8_t imageX = x - w / 2;
 	uint8_t imageY = y + h / 2;
-	uint16_t index = startIndex;
 
 	for (uint8_t j = 0; j < h / 8; j++) {
 		for (uint8_t i = 0; i < w; i++) {
@@ -71,7 +72,9 @@ void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_
 void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t* image)
 {
 	// Color images are not supported on monochrome displays
-	hwDisplayDrawRectangle(x, y, w, h, WHITE_COLOR)
+	w = *(image++);
+	h = *(image++);
+	hwDisplayDrawRectangle(x, y, w, h, WHITE_COLOR);
 }
 
 void hwDisplayFill(DisplayColor color)

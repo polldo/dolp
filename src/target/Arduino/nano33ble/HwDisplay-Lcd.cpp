@@ -16,8 +16,9 @@ uint16_t displayBuffer[DISPLAY_LENGTH] = {0};
 
 void hwDisplayDraw(uint8_t x, uint8_t y, DisplayColor color)
 {
+	if (color == BLACK_COLOR) return;
 	// Check display boundaries
-	if (x >= DISPLAY_WIDTH || y > DISPLAY_HEIGHT) return;
+	if (x >= DISPLAY_WIDTH || y >= DISPLAY_HEIGHT) return;
 
 #if defined (DISPLAY_ASCENDING_Y)
 
@@ -71,14 +72,14 @@ void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16
 void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t* image)
 {
 #if defined (DISPLAY_ASCENDING_Y)
-	const uint8_t startIndex = 2;
+	w = *(image++);
+	h = *(image++);
 	uint8_t imageX = x - w / 2;
 	uint8_t imageY = y + h / 2;
-	uint16_t index = startIndex;
 
 	for (uint8_t j = 0; j < h / 8; j++) {
 		for (uint8_t i = 0; i < w; i++) {
-			uint8_t vLine = image[index++];
+			uint8_t vLine = *(image++);
 			for (uint8_t k = 0; k < 8; k++) {
 				DisplayColor pixel = vLine & (0x01 << k) ? WHITE_COLOR : BLACK_COLOR;
 				hwDisplayDraw(imageX + i, imageY - k, pixel);			
