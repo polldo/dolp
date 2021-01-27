@@ -68,6 +68,12 @@ void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_
 #endif
 }
 
+void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t* image)
+{
+	// Color images are not supported on monochrome displays
+	hwDisplayDrawRectangle(x, y, w, h, WHITE_COLOR)
+}
+
 void hwDisplayFill(DisplayColor color)
 {
 	uint8_t pixels = 0x00;

@@ -10,9 +10,9 @@
 
 #define DISPLAY_WIDTH 128
 #define DISPLAY_HEIGHT 160
-#define DISPLAY_LENGTH (128 * 160 * 2)
+#define DISPLAY_LENGTH (DISPLAY_WIDTH * DISPLAY_HEIGHT)
 
-uint8_t displayBuffer[DISPLAY_LENGTH] = {0};
+uint16_t displayBuffer[DISPLAY_LENGTH] = {0};
 
 void hwDisplayDraw(uint8_t x, uint8_t y, DisplayColor color)
 {
@@ -21,16 +21,12 @@ void hwDisplayDraw(uint8_t x, uint8_t y, DisplayColor color)
 
 #if defined (DISPLAY_ASCENDING_Y)
 
-	uint16_t index = ((DISPLAY_HEIGHT - 1 - y) * 128 * 2 + x * 2);
-	//displayBuffer[index] = color & 0xFF;
-	//displayBuffer[index + 1] = (color >> 8) & 0xFF;
-	memcpy(&displayBuffer[index], &color, sizeof(uint16_t));
+	uint16_t index = ((DISPLAY_HEIGHT - 1 - y) * DISPLAY_WIDTH + x);
+	displayBuffer[index] = color;
 
 #else 
-	uint16_t index = (y * 128 * 2 + x * 2);
-	//displayBuffer[index] = color & 0xFF;
-	//displayBuffer[index + 1] = (color >> 8) & 0xFF;
-	memcpy(&displayBuffer[index], &color, sizeof(uint16_t));
+	uint16_t index = (y * DISPLAY_WIDTH + x);
+	displayBuffer[index] = color;
 #endif
 }
 
@@ -44,9 +40,36 @@ void hwDisplayDrawRectangle(uint8_t x, uint8_t y, uint8_t w, uint8_t h, DisplayC
 	}
 }
 
+void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t* image)
+{
+	w = *(image++);
+	h = *(image++);
+	for (int j = 0; j < h; j++) {
+		for (int i = 0 ; i < w; i++) {
+#if defined (DISPLAY_ASCENDING_Y)
+			hwDisplayDraw( (x - w / 2 + i), (y + h / 2 - j), *(image++));
+#else
+			hwDisplayDraw( (x - w / 2 + i), (y - h / 2 + j), *(image++));
+#endif
+		}
+	}
+
+#if 0 // This seems way faster, but profiler doesn't agree
+			// TODO: perform more significative tests with many images rendered
+#if defined (DISPLAY_ASCENDING_Y)
+	// TODO: check boundaries and trim the image accordingly
+	y = DISPLAY_HEIGHT - 1 - y;
+
+	for (int i = 0; i < h; i++) {
+		memcpy(&displayBuffer[(y + h / 2 - i) * 128 + x - w / 2], image, w*2);
+		image += w;
+	}
+#endif
+#endif
+}
+
 void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t* image)
 {
-	// TODO: check boundaries
 #if defined (DISPLAY_ASCENDING_Y)
 	const uint8_t startIndex = 2;
 	uint8_t imageX = x - w / 2;
@@ -68,12 +91,9 @@ void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_
 
 void hwDisplayFill(DisplayColor color)
 {
-	static const uint8_t incr = sizeof(color);
-	for(int index = 0; index < DISPLAY_LENGTH / incr; index++)
+	for(int index = 0; index < DISPLAY_LENGTH; index++)
 	{
-		//displayBuffer[index++] = color;
-		//displayBuffer[index] = pixels;
-		memcpy(&displayBuffer[index * incr], &color, incr);
+		displayBuffer[index] = color;
 	}
 }
 

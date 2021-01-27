@@ -118,6 +118,13 @@ void PEntity::setImage(const uint8_t* image)
   }
 }
 
+void PEntity::setImage(const uint16_t* image)
+{
+  if (_entity) {
+    _entity->_renderComponent->setImage(image);
+  }
+}
+
 void PEntity::setAnimation(const Animation& animation)
 {
   if (_entity) {

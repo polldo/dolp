@@ -12,12 +12,31 @@
 
 class Entity;
 
+//typedef uint16_t* ImageColor;
+//typedef uint8_t* ImageMonochrome;
+
+// Alternative for animation 
+//#ifdef ANIMATION_FRAME_ALTERNATIVE
+//struct AnimationFrame {
+  //const uint8_t* image;
+  //const uint32_t duration;
+//};
+//#endif
+// Example of the alternative:
+// const uint8_t numberFrames = 2;
+// const AnimationFrame monsterFrames[numberFrames] = { AnimationFrame(monsterImageOne, 100), AnimationFrame(monsterImageTwo, 200) };
+// const Animation monsterAnimation(monsterFrames, numberFrames);
+
 struct Animation {
-  const uint8_t** images;
+  //const AnimationFrame* frames;
+  const uint8_t** imagesMonochrome;
+  const uint16_t** imagesColor;
   const uint32_t* times;
   uint8_t length;
 
-  Animation(const uint8_t** img, const uint32_t* tms, uint8_t len) : images(img), times(tms), length(len) {}
+  Animation() : imagesMonochrome(NULL), imagesColor(NULL), times(NULL), length(0) {}
+  Animation(const uint8_t** img, const uint32_t* tms, uint8_t len) : imagesMonochrome(img), imagesColor(NULL), times(tms), length(len) {}
+  Animation(const uint16_t** img, const uint32_t* tms, uint8_t len) : imagesMonochrome(NULL), imagesColor(img), times(tms), length(len) {}
 };
 
 class RenderComponent : public Poolable {
@@ -29,6 +48,7 @@ class RenderComponent : public Poolable {
     //void update();
 
     void setImage(const uint8_t* image);
+    void setImage(const uint16_t* image);
     void setAnimation(const Animation& animation);
     void removeAnimation();
 
@@ -42,7 +62,8 @@ class RenderComponent : public Poolable {
     Entity* _entity;
     BodyComponent* _bodyComponent;
 
-    const uint8_t* _image;
+    const uint8_t* _imageMonochrome;
+    const uint16_t* _imageColor;
     const Animation* _animation;
     TimeoutId _animationTimeout;
     uint8_t _animationCounter;

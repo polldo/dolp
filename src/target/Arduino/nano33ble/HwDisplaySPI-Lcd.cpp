@@ -8,7 +8,7 @@
 
 #define DISPLAY_WIDTH 128
 #define DISPLAY_HEIGHT 160
-#define DISPLAY_LENGTH (128 * 160 * 2)
+#define DISPLAY_LENGTH (DISPLAY_WIDTH * DISPLAY_HEIGHT)
 
 #define CS        9
 #define DC        10
@@ -38,7 +38,7 @@ static uint16_t INIT_COMMANDS[] =
 };
 static uint8_t INIT_COMMANDS_LENGTH = 7;
 
-extern uint8_t displayBuffer[DISPLAY_LENGTH];
+extern uint16_t displayBuffer[DISPLAY_LENGTH];
 
 static void sendCommand(Command& cmd);
 
@@ -117,7 +117,7 @@ void hwDisplaySetup()
 
 void hwDisplaySend()
 {
-  spiTransfer(displayBuffer, DISPLAY_LENGTH);
+  spiTransfer((uint8_t*)displayBuffer, DISPLAY_LENGTH * 2);
 }
 
 #endif
