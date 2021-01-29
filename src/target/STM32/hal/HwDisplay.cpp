@@ -7,7 +7,7 @@
 I2C_HandleTypeDef hi2c1;
 #endif
 
-#if defined (SSD1306)
+#if defined (DISPLAY_SSD1306)
 #define DISPLAY_COLUMNS (128)
 #define DISPLAY_STARTCOL (0)
 #elif defined (DISPLAY_SH1106)

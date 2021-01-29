@@ -6,7 +6,7 @@
 
 #define DISPLAY_ADDRESS (0x3C)
 
-#if defined (SSD1306)
+#if defined (DISPLAY_SSD1306)
 #define DISPLAY_COLUMNS (128)
 #define DISPLAY_STARTCOL (0)
 #elif defined (DISPLAY_SH1106)

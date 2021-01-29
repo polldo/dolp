@@ -13,6 +13,7 @@
 #include "components/UpdateComponent.h"
 #include "components/StateComponent.h"
 #include "components/CollisionComponent.h"
+#include "components/TimeComponent.h"
 
 // Entity class should not be extended because their life cycle is managed by the engine.
 // To add specific features, components must be used -> give users components to model their entities.
@@ -47,6 +48,7 @@ class Entity : public Poolable {
     void addUpdateComponent(UpdateCallback onUpdate);
     void addStateComponent();
     void addCollisionComponent();
+    void addTimeComponent();
 
     void removeBodyComponent();
     void removeRenderComponent();
@@ -54,6 +56,7 @@ class Entity : public Poolable {
     void removeUpdateComponent();
     void removeStateComponent();
     void removeCollisionComponent();
+    void removeTimeComponent();
 
     BodyComponent* getBodyComponent();
     //RenderComponent* getRenderComponent();
@@ -71,6 +74,7 @@ class Entity : public Poolable {
   public:
     // Use the ID to check entities equality
     int getId();
+    uint8_t getType();
 
   protected:
     friend class World;
@@ -81,6 +85,7 @@ class Entity : public Poolable {
     friend class PEntity;
     static int _classId;
     int _id;
+    uint8_t _type;
 
     // Component pools for each type of components. The size for each pool should be user-specified (default size to be decided)
     // The pools should be defined in World class.
@@ -94,6 +99,11 @@ class Entity : public Poolable {
     UpdateComponent* _updateComponent;
     IntStateComponent* _stateComponent;
     CollisionComponent* _collisionComponent;
+
+    // Components always allocated
+    TimeComponent _timeComponent;
+    // TODO: move BodyComponent from pointer to actual object definition -> it is present in each entity
+    //BodyComponent _bodyComponent;
 };
 
 // Alternative to component POOLS

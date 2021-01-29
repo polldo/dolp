@@ -4,13 +4,15 @@
 #include "hardware/HwRefresh.h"
 #include "Arduino.h"
 
+#define PROFILING
+
 void hwRefreshSetup()
 {
 }
 
 void hwRefreshWaitEndFrame()
 {
-  static const unsigned long timeout = 33; 
+  static const unsigned long timeout = FRAME_MSEC; 
   static auto time = millis();
 
   // arduino delay exploits mbed thread sleep state

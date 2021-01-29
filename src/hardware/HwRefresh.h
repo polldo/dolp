@@ -3,6 +3,11 @@
 
 #include "Common.h"
 
+#ifndef FPS
+#define FPS 30
+#define FRAME_MSEC 33
+#endif
+
 void hwRefreshSetup();
 void hwRefreshWaitEndFrame();
 

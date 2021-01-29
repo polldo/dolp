@@ -2,7 +2,7 @@
 #define MOVEMENT_COMPONENT_H
 
 #ifndef MOVEMENT_COMPONENTS_PER_WORLD
-#define MOVEMENT_COMPONENTS_PER_WORLD (40)
+#define MOVEMENT_COMPONENTS_PER_WORLD (200)
 #endif
 
 #include "Common.h"
@@ -16,9 +16,11 @@ class MovementComponent : public Poolable {
     MovementComponent();
     virtual ~MovementComponent();
 
-    void configure(Vect2 destination, int speed);
-    void configure(int x, int y, int speed);
+    void configure(int x, int y, int velocity);
+    void configure(Vect2 destination, int velocity);
     void update();
+
+    Vect2& getMovement();
 
   protected:
     friend class Entity;
@@ -29,13 +31,9 @@ class MovementComponent : public Poolable {
   private:
     Entity* _entity;
     BodyComponent* _bodyComponent;
-    //int _x, _y;
     Vect2 _destination;
-    Vect2 _direction;
-    //int _speed;
-    int _dS;
-
-    //Time deltaTime;
+    Vect2 _movement;
+    int _movedX, _movedY;
 };
 
 class MovementComponentPool : public Pool<MovementComponent, MOVEMENT_COMPONENTS_PER_WORLD> {

@@ -8,8 +8,15 @@
 #define ARDUINO_NANO33BLE
 
 // Display defines
+#define DISPLAY_ST7735
+//#define DISPLAY_SSD1306
+//#define DISPLAY_SH1106
 //#define DISPLAY_I2C
 #define DISPLAY_SPI
-#define DISPLAY_SH1106
+
+
+// FPS defines
+//#define FPS 60
+//#define FRAME_MSEC 16
 
 #endif
