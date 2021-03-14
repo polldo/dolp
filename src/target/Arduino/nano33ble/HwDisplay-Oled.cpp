@@ -14,10 +14,10 @@
 
 uint8_t displayBuffer[DISPLAY_LENGTH];
 
-void hwDisplayDraw(uint8_t x, uint8_t y, DisplayColor color)
+void hwDisplayDraw(int x, int y, DisplayColor color)
 {
 	// Check display boundaries
-	if (x >= DISPLAY_WIDTH || y >= DISPLAY_HEIGHT) return;
+	if (x >= DISPLAY_WIDTH || x < 0 || y >= DISPLAY_HEIGHT || y < 0) return;
 
 #if defined (DISPLAY_ASCENDING_Y)
 	uint8_t row = (7 - (uint8_t)y / 8);
@@ -36,7 +36,7 @@ void hwDisplayDraw(uint8_t x, uint8_t y, DisplayColor color)
 #endif
 }
 
-void hwDisplayDrawRectangle(uint8_t x, uint8_t y, uint8_t w, uint8_t h, DisplayColor color)
+void hwDisplayDrawRectangle(int x, int y, uint8_t w, uint8_t h, DisplayColor color)
 {
 	// Just a proof of concept (highly inefficient)
 	for (int i = 0 ; i < w; i++) {
@@ -46,7 +46,7 @@ void hwDisplayDrawRectangle(uint8_t x, uint8_t y, uint8_t w, uint8_t h, DisplayC
 	}
 }
 
-void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t* image)
+void hwDisplayDrawImage(int x, int y, uint8_t w, uint8_t h, const uint8_t* image)
 {
 	// TODO: check boundaries
 #if defined (DISPLAY_ASCENDING_Y)
@@ -69,7 +69,7 @@ void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_
 #endif
 }
 
-void hwDisplayDrawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t* image)
+void hwDisplayDrawImage(int x, int y, uint8_t w, uint8_t h, const uint16_t* image)
 {
 	// Color images are not supported on monochrome displays
 	w = *(image++);
