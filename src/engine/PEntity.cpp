@@ -134,6 +134,14 @@ void PEntity::setImage(const uint8_t *image)
   }
 }
 
+void PEntity::setImage(const uint8_t *image, const uint8_t *mask)
+{
+  if (_entity)
+  {
+    _entity->_renderComponent->setImage(image, mask);
+  }
+}
+
 void PEntity::setImage(const uint16_t *image)
 {
   if (_entity)

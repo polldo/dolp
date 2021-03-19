@@ -6,6 +6,7 @@
 RenderComponent::RenderComponent() : _entity(NULL),
                                      _bodyComponent(NULL),
                                      _imageMonochrome(NULL),
+                                     _imageMonochromeMask(NULL),
                                      _imageColor(NULL),
                                      _animation(NULL)
 {
@@ -26,6 +27,7 @@ void RenderComponent::init(Entity *entity, BodyComponent *bodyComponent)
   _entity = entity;
   _bodyComponent = bodyComponent;
   _imageMonochrome = NULL;
+  _imageMonochromeMask = NULL;
   _imageColor = NULL;
   _animation = NULL;
 }
@@ -35,6 +37,7 @@ void RenderComponent::deinit()
   _entity = NULL;
   _bodyComponent = NULL;
   _imageMonochrome = NULL;
+  _imageMonochromeMask = NULL;
   _imageColor = NULL;
   removeAnimation();
 }
@@ -50,15 +53,28 @@ void RenderComponent::render()
     if (timer.checkTimeout(_animationTimeout))
     {
       timer.setTimeout(_animationTimeout, _animation->times[_animationCounter], false);
-      if (_animation->imagesMonochrome)
+      if (_animation->imagesMonochrome && _animation->imagesMonochromeMasks)
+      {
         _imageMonochrome = _animation->imagesMonochrome[_animationCounter];
+        _imageMonochromeMask = _animation->imagesMonochromeMasks[_animationCounter];
+      }
+      else if (_animation->imagesMonochrome)
+      {
+        _imageMonochrome = _animation->imagesMonochrome[_animationCounter];
+      }
       else if (_animation->imagesColor)
+      {
         _imageColor = _animation->imagesColor[_animationCounter];
+      }
       _animationCounter = (_animationCounter + 1) % _animation->length;
     }
   }
 
-  if (_imageMonochrome)
+  if (_imageMonochrome && _imageMonochromeMask)
+  {
+    display.drawImage(position.x, position.y, size.x, size.y, _imageMonochrome, _imageMonochromeMask);
+  }
+  else if (_imageMonochrome)
   {
     display.drawImage(position.x, position.y, size.x, size.y, _imageMonochrome);
   }
@@ -76,6 +92,15 @@ void RenderComponent::setImage(const uint8_t *image)
 {
   removeAnimation();
   _imageMonochrome = image;
+  _imageMonochromeMask = NULL;
+  _imageColor = NULL;
+}
+
+void RenderComponent::setImage(const uint8_t *image, const uint8_t *mask)
+{
+  removeAnimation();
+  _imageMonochrome = image;
+  _imageMonochromeMask = mask;
   _imageColor = NULL;
 }
 
@@ -84,6 +109,7 @@ void RenderComponent::setImage(const uint16_t *image)
   removeAnimation();
   _imageColor = image;
   _imageMonochrome = NULL;
+  _imageMonochromeMask = NULL;
 }
 
 void RenderComponent::setAnimation(const Animation &animation)
@@ -92,15 +118,24 @@ void RenderComponent::setAnimation(const Animation &animation)
   _animationCounter = 1;
   _animationTimeout = timer.newTimeout();
   timer.setTimeout(_animationTimeout, animation.times[0], false);
-  if (animation.imagesColor)
+
+  if (animation.imagesMonochrome && animation.imagesMonochromeMasks)
   {
-    _imageColor = animation.imagesColor[0];
-    _imageMonochrome = NULL;
+    _imageMonochrome = animation.imagesMonochrome[0];
+    _imageMonochromeMask = animation.imagesMonochromeMasks[0];
+    _imageColor = NULL;
   }
   else if (animation.imagesMonochrome)
   {
     _imageMonochrome = animation.imagesMonochrome[0];
+    _imageMonochromeMask = NULL;
     _imageColor = NULL;
+  }
+  else if (animation.imagesColor)
+  {
+    _imageColor = animation.imagesColor[0];
+    _imageMonochrome = NULL;
+    _imageMonochromeMask = NULL;
   }
 }
 

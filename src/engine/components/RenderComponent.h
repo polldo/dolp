@@ -31,13 +31,15 @@ struct Animation
 {
   // const AnimationFrame* frames;
   const uint8_t **imagesMonochrome;
+  const uint8_t **imagesMonochromeMasks;
   const uint16_t **imagesColor;
   const uint32_t *times;
   uint8_t length;
 
-  Animation() : imagesMonochrome(NULL), imagesColor(NULL), times(NULL), length(0) {}
-  Animation(const uint8_t **img, const uint32_t *tms, uint8_t len) : imagesMonochrome(img), imagesColor(NULL), times(tms), length(len) {}
-  Animation(const uint16_t **img, const uint32_t *tms, uint8_t len) : imagesMonochrome(NULL), imagesColor(img), times(tms), length(len) {}
+  Animation() : imagesMonochrome(NULL), imagesMonochromeMasks(NULL), imagesColor(NULL), times(NULL), length(0) {}
+  Animation(const uint8_t **img, const uint32_t *tms, uint8_t len) : imagesMonochrome(img), imagesMonochromeMasks(NULL), imagesColor(NULL), times(tms), length(len) {}
+  Animation(const uint8_t **img, const uint8_t **msk, const uint32_t *tms, uint8_t len) : imagesMonochrome(img), imagesMonochromeMasks(msk), imagesColor(NULL), times(tms), length(len) {}
+  Animation(const uint16_t **img, const uint32_t *tms, uint8_t len) : imagesMonochrome(NULL), imagesMonochromeMasks(NULL), imagesColor(img), times(tms), length(len) {}
 };
 
 class RenderComponent : public Poolable
@@ -50,6 +52,7 @@ public:
   // void update();
 
   void setImage(const uint8_t *image);
+  void setImage(const uint8_t *image, const uint8_t *mask);
   void setImage(const uint16_t *image);
   void setAnimation(const Animation &animation);
   void removeAnimation();
@@ -65,6 +68,7 @@ private:
   BodyComponent *_bodyComponent;
 
   const uint8_t *_imageMonochrome;
+  const uint8_t *_imageMonochromeMask;
   const uint16_t *_imageColor;
   const Animation *_animation;
   TimeoutId _animationTimeout;

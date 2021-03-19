@@ -40,6 +40,7 @@ public:
   void setState(uint8_t index, int value);
 
   void setImage(const uint8_t *image);
+  void setImage(const uint8_t *image, const uint8_t *mask);
   void setImage(const uint16_t *image);
   void setAnimation(const Animation &animation);
 
