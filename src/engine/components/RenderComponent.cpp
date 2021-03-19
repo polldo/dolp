@@ -7,6 +7,7 @@ RenderComponent::RenderComponent() :
   _entity(NULL),
   _bodyComponent(NULL),
   _imageMonochrome(NULL),
+  _imageMonochromeMask(NULL),
   _imageColor(NULL),
   _animation(NULL)
 {
@@ -33,6 +34,7 @@ void RenderComponent::deinit()
   _entity = NULL;
   _bodyComponent = NULL;
   _imageMonochrome = NULL;
+  _imageMonochromeMask = NULL;
   _imageColor = NULL;
   removeAnimation();
 }
@@ -46,13 +48,24 @@ void RenderComponent::render()
   if (_animation) {
     if (timer.checkTimeout(_animationTimeout)) {
       timer.setTimeout(_animationTimeout, _animation->times[_animationCounter]);
-      if (_animation->imagesMonochrome) _imageMonochrome = _animation->imagesMonochrome[_animationCounter];
-      else if (_animation->imagesColor) _imageColor = _animation->imagesColor[_animationCounter];
+      if (_animation->imagesMonochrome && _animation->imagesMonochromeMasks) {
+        _imageMonochrome = _animation->imagesMonochrome[_animationCounter];
+        _imageMonochromeMask = _animation->imagesMonochromeMasks[_animationCounter];
+      }
+      else if (_animation->imagesMonochrome) {
+        _imageMonochrome = _animation->imagesMonochrome[_animationCounter];
+      }
+      else if (_animation->imagesColor) {
+        _imageColor = _animation->imagesColor[_animationCounter];
+      }
       _animationCounter = (_animationCounter + 1) % _animation->length;
     }
   }
 
-  if (_imageMonochrome) {
+  if (_imageMonochrome  && _imageMonochromeMask) {
+    display.drawImage(position.x, position.y, size.x, size.y, _imageMonochrome, _imageMonochromeMask);
+
+  } else if (_imageMonochrome) {
     display.drawImage(position.x, position.y, size.x, size.y, _imageMonochrome);
 
   } else if (_imageColor) {
@@ -64,6 +77,13 @@ void RenderComponent::render()
 }
 
 void RenderComponent::setImage(const uint8_t* image)
+{
+  removeAnimation();
+  _imageMonochrome = image;
+  _imageColor = NULL;
+}
+
+void RenderComponent::setImage(const uint8_t* image, const uint8_t* mask)
 {
   removeAnimation();
   _imageMonochrome = image;

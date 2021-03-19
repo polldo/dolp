@@ -29,6 +29,11 @@ void Display::drawImage(int x, int y, uint8_t w, uint8_t h, const uint8_t* image
 	hwDisplayDrawImage(x, y, w, h, image);
 }
 
+void Display::drawImage(int x, int y, uint8_t w, uint8_t h, const uint8_t* image, const uint8_t* mask)
+{
+	hwDisplayDrawImage(x, y, w, h, image, mask);
+}
+
 void Display::drawImage(int x, int y, uint8_t w, uint8_t h, const uint16_t* image)
 {
 	hwDisplayDrawImage(x, y, w, h, image);

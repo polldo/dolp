@@ -14,6 +14,7 @@ void hwDisplaySend();
 void hwDisplayDraw(int x, int y, DisplayColor color);
 void hwDisplayDrawRectangle(int x, int y, uint8_t w, uint8_t h, DisplayColor color);
 void hwDisplayDrawImage(int x, int y, uint8_t w, uint8_t h, const uint8_t* image);
+void hwDisplayDrawImage(int x, int y, uint8_t w, uint8_t h, const uint8_t* image, const uint8_t* mask);
 void hwDisplayDrawImage(int x, int y, uint8_t w, uint8_t h, const uint16_t* image);
 void hwDisplayFill(DisplayColor color);
 
