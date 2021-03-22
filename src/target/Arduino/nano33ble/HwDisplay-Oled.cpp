@@ -69,6 +69,11 @@ void hwDisplayDrawImage(int x, int y, uint8_t w, uint8_t h, const uint8_t* image
 #endif
 }
 
+void hwDisplayDrawImage(int x, int y, uint8_t w, uint8_t h, const uint8_t* image, const uint8_t* mask)
+{
+	// TODO
+}
+
 void hwDisplayDrawImage(int x, int y, uint8_t w, uint8_t h, const uint16_t* image)
 {
 	// Color images are not supported on monochrome displays

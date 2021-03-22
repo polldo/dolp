@@ -90,6 +90,11 @@ void hwDisplayDrawImage(int x, int y, uint8_t w, uint8_t h, const uint8_t* image
 #endif
 }
 
+void hwDisplayDrawImage(int x, int y, uint8_t w, uint8_t h, const uint8_t* image, const uint8_t* mask)
+{
+	// TODO
+}
+
 void hwDisplayFill(DisplayColor color)
 {
 	for(int index = 0; index < DISPLAY_LENGTH; index++)
