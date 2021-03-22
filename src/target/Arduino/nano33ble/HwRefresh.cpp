@@ -20,7 +20,8 @@ void hwRefreshWaitEndFrame()
 #ifdef PROFILING
   Serial.println(waitTime);
 #endif
-  if (waitTime > 0)
+  //if (waitTime > 0)
+  if (timeout > (millis() - time))
     delay(waitTime);
 
   time = millis();
