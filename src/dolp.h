@@ -17,6 +17,13 @@ public:
     void setup();
     void loopBegin();
     void loopEnd();
+
+    PEntity newEntity();
+    void deleteEntity(PEntity entity);
+    // TODO: void clear();
+
+private:
+    World _world;
 };
 
 extern Dolp dolp;
