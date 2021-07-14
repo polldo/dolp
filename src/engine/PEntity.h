@@ -28,6 +28,7 @@ class PEntity {
 
     void moveTo(int x, int y, int velocity);
     Vect2 getMovement();
+    bool isMoving();
 
     void update(UpdateCallback onUpdate);
 

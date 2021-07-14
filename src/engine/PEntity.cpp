@@ -67,6 +67,12 @@ Vect2 PEntity::getMovement()
   return (Vect2(0, 0));
 }
 
+bool PEntity::isMoving()
+{
+  Vect2 mov = getMovement();
+  return (mov.x != 0 || mov.y != 0);
+}
+
 void PEntity::update(UpdateCallback onUpdate)
 {
   if (_entity && _entity->_updateComponent) _entity->_updateComponent->config(onUpdate);
