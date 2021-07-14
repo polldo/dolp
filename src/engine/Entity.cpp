@@ -31,6 +31,10 @@ void Entity::init(World* world)
   // (here body component is injected into render component at its initialization)
   addBodyComponent(); 
   addRenderComponent();
+  _movementComponent = NULL;
+  _updateComponent = NULL;
+  _stateComponent = NULL;
+  _collisionComponent = NULL;
 }
 
 void Entity::deinit()

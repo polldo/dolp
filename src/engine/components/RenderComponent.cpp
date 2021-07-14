@@ -26,6 +26,9 @@ void RenderComponent::init(Entity* entity, BodyComponent* bodyComponent)
 {
   _entity = entity;
   _bodyComponent = bodyComponent;
+  _imageMonochrome = NULL;
+  _imageColor = NULL;
+  _animation = NULL;
 }
 
 void RenderComponent::deinit()

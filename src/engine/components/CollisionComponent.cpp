@@ -15,6 +15,7 @@ CollisionComponent::~CollisionComponent()
 void CollisionComponent::init(Entity* entity)
 {
   _entity = entity;
+  _onCollision = NULL;
 }
 
 void CollisionComponent::init(Entity* entity, CollisionCallback onCollision)
