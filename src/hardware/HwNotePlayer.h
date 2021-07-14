@@ -7,21 +7,21 @@
 #define LOOP_ENABLED 1
 
 enum NoteFrequency {
-	DO = 0,
-	RE = 1,
-	MI = 2,
-	FA = 3,
-	SOL = 4,
-	LA = 5,
-	SI = 6,
-	C = DO,
-	D = RE,  
-	E = MI,
-	F = FA,
-	G = SOL,
-	A = LA,
-	B = SI,
-	PAUSE = 7
+	DO_NOTE = 0,
+	RE_NOTE = 1,
+	MI_NOTE = 2,
+	FA_NOTE = 3,
+	SOL_NOTE = 4,
+	LA_NOTE = 5,
+	SI_NOTE = 6,
+	C_NOTE = DO_NOTE,
+	D_NOTE = RE_NOTE,  
+	E_NOTE = MI_NOTE,
+	F_NOTE = FA_NOTE,
+	G_NOTE = SOL_NOTE,
+	A_NOTE = LA_NOTE,
+	B_NOTE = SI_NOTE,
+	PAUSE_NOTE = 7
 };
 
 struct Note
