@@ -8,12 +8,12 @@ typedef uint8_t ButtonStateType;
 enum JoystickButton {
   ButtonA = 0,
   ButtonB = 1,
-  ButtonC = 2,
-  ButtonD = 3,
-  ButtonE = 4,
-  ButtonF = 5,
-  ButtonG = 6,
-  ButtonH = 7
+  ButtonStart = 2,
+  ButtonSelect = 3,
+  ButtonUp = 4,
+  ButtonDown = 5,
+  ButtonLeft = 6,
+  ButtonRight = 7
 };
 
 void hwJoystickSetup();
