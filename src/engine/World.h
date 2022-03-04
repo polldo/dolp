@@ -10,41 +10,42 @@
 #include "components/StateComponent.h"
 #include "components/CollisionComponent.h"
 
-class World {
-  public:
-    World();
-    virtual ~World();
+class World
+{
+public:
+  World();
+  virtual ~World();
 
-    void clear();
+  void clear();
 
-    PEntity newEntity();
-    void deleteEntity(PEntity entity);
+  PEntity newEntity();
+  void deleteEntity(PEntity entity);
 
-    BodyComponent* newBodyComponent();
-    RenderComponent* newRenderComponent();
-    MovementComponent* newMovementComponent();
-    UpdateComponent* newUpdateComponent();
-    IntStateComponent* newStateComponent();
-    CollisionComponent* newCollisionComponent();
+  BodyComponent *newBodyComponent();
+  RenderComponent *newRenderComponent();
+  MovementComponent *newMovementComponent();
+  UpdateComponent *newUpdateComponent();
+  IntStateComponent *newStateComponent();
+  CollisionComponent *newCollisionComponent();
 
-    void deleteBodyComponent(BodyComponent* component);
-    void deleteRenderComponent(RenderComponent* component);
-    void deleteMovementComponent(MovementComponent* component);
-    void deleteUpdateComponent(UpdateComponent* component);
-    void deleteStateComponent(IntStateComponent* component);
-    void deleteCollisionComponent(CollisionComponent* component);
+  void deleteBodyComponent(BodyComponent *component);
+  void deleteRenderComponent(RenderComponent *component);
+  void deleteMovementComponent(MovementComponent *component);
+  void deleteUpdateComponent(UpdateComponent *component);
+  void deleteStateComponent(IntStateComponent *component);
+  void deleteCollisionComponent(CollisionComponent *component);
 
-    void update();
-    void render();
+  void update();
+  void render();
 
-  private:
-    EntityPool _entities;
-    BodyComponentPool _bodyComponents;
-    RenderComponentPool _renderComponents;
-    MovementComponentPool _movementComponents;
-    UpdateComponentPool _updateComponents;
-    IntStateComponentPool _stateComponents;
-    CollisionComponentPool _collisionComponents;
+private:
+  EntityPool _entities;
+  BodyComponentPool _bodyComponents;
+  RenderComponentPool _renderComponents;
+  MovementComponentPool _movementComponents;
+  UpdateComponentPool _updateComponents;
+  IntStateComponentPool _stateComponents;
+  CollisionComponentPool _collisionComponents;
 };
 
 #endif // WORLD_H

@@ -1,5 +1,5 @@
 #include "hardware/HwConfiguration.h"
-#if defined (ARDUINO_NANO33BLE)
+#if defined(ARDUINO_NANO33BLE)
 
 #include "hardware/HwRefresh.h"
 #include "Arduino.h"
@@ -12,7 +12,7 @@ void hwRefreshSetup()
 
 void hwRefreshWaitEndFrame()
 {
-  static const unsigned long timeout = FRAME_MSEC; 
+  static const unsigned long timeout = FRAME_MSEC;
   static auto time = millis();
 
   // arduino delay exploits mbed thread sleep state

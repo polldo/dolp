@@ -9,7 +9,8 @@
 #define GAME_LOOP_BEGIN (dolp.loopBegin)
 #define GAME_LOOP_END (dolp.loopEnd)
 
-class Dolp {
+class Dolp
+{
 public:
     Dolp() {}
     virtual ~Dolp() {}

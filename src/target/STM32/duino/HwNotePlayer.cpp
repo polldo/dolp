@@ -1,22 +1,22 @@
 #include "hardware/HwConfiguration.h"
-#if defined (_STM32_DUINO_)
+#if defined(_STM32_DUINO_)
 
 #include "Arduino.h"
 #include <hardware/HwNotePlayer.h>
 #include <HardwareTimer.h>
 
-uint16_t noteFrequencies[] = { 
-	523, //DO 
-	587, //RE 
-	659, //MI 
-	698, //FA 
-	784, //SOL 
-	880, //LA 
-	988, //SI 
-    0    //PAUSE
+uint16_t noteFrequencies[] = {
+    523, // DO
+    587, // RE
+    659, // MI
+    698, // FA
+    784, // SOL
+    880, // LA
+    988, // SI
+    0    // PAUSE
 };
 
-Note* _notes;
+Note *_notes;
 uint16_t _size;
 volatile uint16_t _index;
 uint16_t _startIndex;
@@ -24,19 +24,19 @@ bool _loopEn;
 uint8_t _volume;
 volatile uint32_t _duration;
 
-#define NOTE_PIN (11) 
-// Timer 3, channel 2 are suitable to drive this pin 
+#define NOTE_PIN (11)
+// Timer 3, channel 2 are suitable to drive this pin
 #define NOTE_TIMER (TIM3)
 #define NOTE_CHANNEL (2)
 //#define PAUSE_TIMER (TIM4)
 #define DURATION_TIMER (TIM4)
 // Functions to retrieve the correct timer and channel for driving the given pin
-//TIM_TypeDef *p_timer = (TIM_TypeDef *)pinmap_peripheral(digitalPinToPinName(NOTE_PIN), PinMap_PWM);
-//uint32_t _timerChannel = STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(NOTE_PIN), PinMap_PWM));
-//HardwareTimer _noteTimer(p_timer);
-HardwareTimer _noteTimer (NOTE_TIMER);
-//HardwareTimer _pauseTimer (PAUSE_TIMER);
-HardwareTimer _durationTimer (DURATION_TIMER);
+// TIM_TypeDef *p_timer = (TIM_TypeDef *)pinmap_peripheral(digitalPinToPinName(NOTE_PIN), PinMap_PWM);
+// uint32_t _timerChannel = STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(NOTE_PIN), PinMap_PWM));
+// HardwareTimer _noteTimer(p_timer);
+HardwareTimer _noteTimer(NOTE_TIMER);
+// HardwareTimer _pauseTimer (PAUSE_TIMER);
+HardwareTimer _durationTimer(DURATION_TIMER);
 
 void timerNoteCallback(void);
 static void hwNotePlayerNextNote();
@@ -47,7 +47,7 @@ void hwNotePlayerSetup()
     // clk@80MHz -> 100 us per tick  -> overflow = duration*10 ms
     _noteTimer.setPreloadEnable(true);
     _durationTimer.setPreloadEnable(true);
-    _durationTimer.setMode(1, TIMER_OUTPUT_COMPARE);  
+    _durationTimer.setMode(1, TIMER_OUTPUT_COMPARE);
     _durationTimer.setPrescaleFactor(8000);
     _durationTimer.attachInterrupt(timerNoteCallback);
 }
@@ -57,12 +57,13 @@ static void hwNotePlayerNextNote()
     auto nextFrequency = noteFrequencies[_notes[_index].frequency];
     auto nextDuration = _notes[_index].duration;
     _index++;
-    if (nextFrequency != 0) {
+    if (nextFrequency != 0)
+    {
         _noteTimer.setPWM(NOTE_CHANNEL, NOTE_PIN, nextFrequency, _volume);
         //_noteTimer.refresh();
-    } 
-    //DURATION_TIMER->ARR = nextDuration * 10; /* period = duration ms */
-    _durationTimer.setOverflow(nextDuration * 10, TICK_FORMAT); 
+    }
+    // DURATION_TIMER->ARR = nextDuration * 10; /* period = duration ms */
+    _durationTimer.setOverflow(nextDuration * 10, TICK_FORMAT);
     _durationTimer.refresh();
     _durationTimer.resume();
 }
@@ -70,12 +71,16 @@ static void hwNotePlayerNextNote()
 void timerNoteCallback(void)
 {
     hwNotePlayerStop();
-    if (_index >= _size) {
+    if (_index >= _size)
+    {
         _index = _startIndex;
-        if (_loopEn) {
+        if (_loopEn)
+        {
             hwNotePlayerNextNote();
         }
-    } else {
+    }
+    else
+    {
         hwNotePlayerNextNote();
     }
 }
@@ -98,7 +103,7 @@ void hwNotePlayerVolume(uint8_t volume)
     _volume = volume;
 }
 
-void hwNotePlayerSong(Note* notes, uint16_t size, uint16_t startIndex, bool loopEn)
+void hwNotePlayerSong(Note *notes, uint16_t size, uint16_t startIndex, bool loopEn)
 {
     _notes = notes;
     _size = size;

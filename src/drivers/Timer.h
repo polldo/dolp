@@ -7,7 +7,8 @@
 #define NUM_TIMEOUTS 200
 #endif
 
-struct Timeout {
+struct Timeout
+{
   // Timeout id corresponds to its index in _timeouts array
   // Id 0 is reserved
   uint8_t startTicks;
@@ -18,7 +19,8 @@ struct Timeout {
 
 typedef uint8_t TimeoutId;
 
-class Timer {
+class Timer
+{
 public:
   Timer();
   virtual ~Timer();

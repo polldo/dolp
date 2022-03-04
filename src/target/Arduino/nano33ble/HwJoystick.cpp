@@ -1,5 +1,5 @@
 #include "hardware/HwConfiguration.h"
-#if defined (ARDUINO_NANO33BLE)
+#if defined(ARDUINO_NANO33BLE)
 
 #include "hardware/HwJoystick.h"
 #include "Arduino.h"
@@ -33,43 +33,43 @@ static void pollButtons()
 static inline void readButton(JoystickButton button, uint8_t buttonPin, uint8_t &buttonCount)
 {
 	ButtonStateType tempButtonState = digitalRead(buttonPin);
-	//buttonCount = (buttonCount << 1) | tempButtonState;
+	// buttonCount = (buttonCount << 1) | tempButtonState;
 
-#if defined (SLOW_DEBOUNCE)
-	if ( (buttonCount | (uint8_t)(~DEBOUNCE_MASK)) == 0xFF)
+#if defined(SLOW_DEBOUNCE)
+	if ((buttonCount | (uint8_t)(~DEBOUNCE_MASK)) == 0xFF)
 		buttonState |= (1U << button);
-	else if ( (buttonCount & (uint8_t)(DEBOUNCE_MASK)) == 0x00)
-		buttonState &= ~ (1U << button);
-#elif defined (FAST_DEBOUNCE) 
+	else if ((buttonCount & (uint8_t)(DEBOUNCE_MASK)) == 0x00)
+		buttonState &= ~(1U << button);
+#elif defined(FAST_DEBOUNCE)
 	if (buttonCount == 0xFF)
 		buttonState |= (1U << button);
 	else if (buttonCount == 0x00)
-		buttonState &= ~ (1U << button);
-#elif defined (NO_DEBOUNCE)
+		buttonState &= ~(1U << button);
+#elif defined(NO_DEBOUNCE)
 	if (tempButtonState)
 		buttonState |= (1U << button);
 	else
-		buttonState &= ~ (1U << button);
+		buttonState &= ~(1U << button);
 #endif
 }
 
 void hwJoystickSetup()
 {
-  buttonState = 0x00;
+	buttonState = 0x00;
 	pinMode(BUTTON_A_PIN, INPUT);
-#if defined (SLOW_DEBOUNCE)
+#if defined(SLOW_DEBOUNCE)
 	debounceTimer.attach(pollButtons, 8ms);
-#elif defined (FAST_DEBOUNCE)
-  debounceTimer.attach(pollButtons, 4ms);
+#elif defined(FAST_DEBOUNCE)
+	debounceTimer.attach(pollButtons, 4ms);
 #endif
 }
 
 ButtonStateType hwJoystickState()
 {
-#if defined (NO_DEBOUNCE)
+#if defined(NO_DEBOUNCE)
 	pollButtons();
 #endif
-  return buttonState;
+	return buttonState;
 }
 
 #endif

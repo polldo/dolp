@@ -5,7 +5,8 @@
 
 typedef uint8_t ButtonStateType;
 
-enum JoystickButton {
+enum JoystickButton
+{
   ButtonA = 0,
   ButtonB = 1,
   ButtonC = 2,

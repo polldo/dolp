@@ -31,10 +31,10 @@ void Dolp::deleteEntity(PEntity entity)
 }
 
 // TODO
-//void Dolp::clear()
+// void Dolp::clear()
 //{
-  //// Clear the world
-  //// Clear all the drivers' state: timeouts, notes...
+//// Clear the world
+//// Clear all the drivers' state: timeouts, notes...
 //}
 
 Dolp dolp;

@@ -4,7 +4,8 @@
 #include <Common.h>
 #include "hardware/HwNotePlayer.h"
 
-class NotePlayer {
+class NotePlayer
+{
 public:
 	NotePlayer();
 	virtual ~NotePlayer();
