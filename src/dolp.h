@@ -14,7 +14,7 @@ public:
     Dolp() {}
     virtual ~Dolp() {}
 
-    void setup();
+    void begin();
     void loopBegin();
     void loopEnd();
 

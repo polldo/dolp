@@ -1,6 +1,6 @@
 #include "dolp.h"
 
-void Dolp::setup()
+void Dolp::begin()
 {
   driverLayer.setup();
   engine.setup();
