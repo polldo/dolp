@@ -1,6 +1,6 @@
 #include "World.h"
 
-World::World()
+World::World() : _deletedIdx(0)
 {
 }
 
@@ -29,9 +29,32 @@ PEntity World::newEntity()
 
 void World::deleteEntity(PEntity pEntity)
 {
-  Entity &entity = *(pEntity._entity);
-  entity.deinit();
-  _entities.deleteItem(entity);
+  Entity *entity = pEntity._entity;
+  if (entity == NULL)
+  {
+    return;
+  }
+
+  int id = entity->getId();
+  for (int i = 0; i < _deletedIdx; i++)
+  {
+    if (_deleted[i]->getId() == id)
+    {
+      return;
+    }
+  }
+  _deleted[_deletedIdx++] = entity;
+}
+
+void World::clearEntities()
+{
+  for (int i = 0; i < _deletedIdx; i++)
+  {
+    Entity &entity = *(_deleted[i]);
+    entity.deinit();
+    _entities.deleteItem(entity);
+  }
+  _deletedIdx = 0;
 }
 
 BodyComponent *World::newBodyComponent()
@@ -105,4 +128,5 @@ void World::update()
 void World::render()
 {
   _renderComponents.render();
+  clearEntities();
 }

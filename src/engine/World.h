@@ -46,6 +46,11 @@ private:
   UpdateComponentPool _updateComponents;
   IntStateComponentPool _stateComponents;
   CollisionComponentPool _collisionComponents;
+
+private:
+  void clearEntities();
+  Entity *_deleted[ENTITIES_PER_WORLD];
+  int _deletedIdx;
 };
 
 #endif // WORLD_H
