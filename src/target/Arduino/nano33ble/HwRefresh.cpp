@@ -4,24 +4,24 @@
 #include "hardware/HwRefresh.h"
 #include "Arduino.h"
 
-#define PROFILING
-
 void hwRefreshSetup()
 {
 }
 
 void hwRefreshWaitEndFrame()
 {
-  static const unsigned long timeout = FRAME_MSEC;
+  static const int timeout = FRAME_MSEC;
   static auto time = millis();
 
-  // arduino delay exploits mbed thread sleep state
-  auto waitTime = timeout - (millis() - time);
+  auto waitTime = timeout - int(millis() - time);
 #ifdef PROFILING
   Serial.println(waitTime);
 #endif
   if (waitTime > 0)
+  {
+    // arduino delay already exploits mbed thread sleep state
     delay(waitTime);
+  }
 
   time = millis();
 }
