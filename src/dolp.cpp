@@ -1,4 +1,5 @@
 #include "dolp.h"
+#include "drivers/DriverLayer.h"
 
 void Dolp::begin()
 {
@@ -60,6 +61,16 @@ bool Dolp::checkTimeout(TimeoutId id)
 uint64_t Dolp::millis()
 {
   return timer.getMilliseconds();
+}
+
+bool Dolp::held(JoystickButton button)
+{
+  return joystick.held(button);
+}
+
+bool Dolp::pressed(JoystickButton button)
+{
+  return joystick.pressed(button);
 }
 
 Dolp dolp;

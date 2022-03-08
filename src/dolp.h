@@ -2,7 +2,6 @@
 #define _DOLP_H_
 
 #include "Common.h"
-#include "drivers/DriverLayer.h"
 #include "engine/Engine.h"
 
 #define GAME_ENGINE_BEGIN (dolp.begin)
@@ -23,12 +22,16 @@ public:
     void deleteEntity(PEntity entity);
     // TODO: void clear();
 
-    // Expose timer functions
+    // Timer driver functions
     TimeoutId newTimeout();
     void deleteTimeout(TimeoutId id);
     void setTimeout(TimeoutId id, uint64_t millis, bool repeat = false);
     bool checkTimeout(TimeoutId id);
     uint64_t millis();
+
+    // Joystick driver functions
+    bool held(JoystickButton button);
+    bool pressed(JoystickButton button);
 
 private:
     World _world;
