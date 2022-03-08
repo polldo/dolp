@@ -5,7 +5,7 @@
 #include "drivers/DriverLayer.h"
 #include "engine/Engine.h"
 
-#define GAME_ENGINE_SETUP (dolp.setup)
+#define GAME_ENGINE_BEGIN (dolp.begin)
 #define GAME_LOOP_BEGIN (dolp.loopBegin)
 #define GAME_LOOP_END (dolp.loopEnd)
 
