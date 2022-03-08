@@ -7,10 +7,7 @@ Timer::Timer() : _tick(0),
 {
 	for (int i = 0; i < NUM_TIMEOUTS; i++)
 	{
-		_timeouts[i].startTicks = 0;
-		_timeouts[i].ticks = 0;
-		_timeouts[i].assigned = false;
-		_timeouts[i].reset = false;
+		deleteTimeout(i);
 	}
 }
 
@@ -51,30 +48,12 @@ void Timer::waitEndFrame()
 
 TimeoutId Timer::newTimeout()
 {
-	// Timeout 0 is reserved
+	// Reserve 0 for errors during timeout construction.
 	for (int i = 1; i < NUM_TIMEOUTS; i++)
 	{
 		if (!_timeouts[i].assigned)
 		{
 			_timeouts[i].assigned = true;
-			_timeouts[i].reset = false;
-			return i;
-		}
-	}
-	return 0;
-}
-
-TimeoutId Timer::newTimeout(uint64_t time)
-{
-	// Timeout 0 is reserved
-	for (int i = 1; i < NUM_TIMEOUTS; i++)
-	{
-		if (!_timeouts[i].assigned)
-		{
-			_timeouts[i].startTicks = time / FRAME_MSEC + 1;
-			_timeouts[i].ticks = _timeouts[i].startTicks;
-			_timeouts[i].assigned = true;
-			_timeouts[i].reset = false;
 			return i;
 		}
 	}
@@ -83,51 +62,65 @@ TimeoutId Timer::newTimeout(uint64_t time)
 
 void Timer::deleteTimeout(TimeoutId id)
 {
-	if (_timeouts[id].assigned)
+	if (id >= NUM_TIMEOUTS)
 	{
-		_timeouts[id].ticks = 0;
-		_timeouts[id].startTicks = 0;
-		_timeouts[id].assigned = false;
-		_timeouts[id].reset = false;
+		return;
 	}
+	auto &tm = _timeouts[id];
+	tm.ticks = 0;
+	tm.startTicks = 0;
+	tm.assigned = false;
 }
 
-void Timer::updateTimeout()
+void Timer::setTimeout(TimeoutId id, uint64_t time, bool repeat)
 {
-	for (int i = 1; i < NUM_TIMEOUTS; i++)
+	if (id >= NUM_TIMEOUTS)
 	{
-		if (_timeouts[i].assigned)
-		{
-
-			if (_timeouts[i].ticks > 1)
-			{
-				_timeouts[i].ticks -= 1;
-			}
-			else if ((_timeouts[i].ticks == 1) && _timeouts[i].reset)
-			{
-				_timeouts[i].ticks = _timeouts[i].startTicks;
-				_timeouts[i].reset = false;
-			}
-		}
+		return;
 	}
-}
-
-void Timer::setTimeout(TimeoutId id, uint64_t time)
-{
-	if (_timeouts[id].assigned)
+	auto &tm = _timeouts[id];
+	if (!tm.assigned)
 	{
-		_timeouts[id].startTicks = time / FRAME_MSEC + 1;
-		_timeouts[id].ticks = _timeouts[id].startTicks;
-		_timeouts[id].reset = false;
+		return;
 	}
+	tm.startTicks = time / FRAME_MSEC + 1;
+	tm.ticks = tm.startTicks;
+	tm.repeat = repeat;
 }
 
 bool Timer::checkTimeout(TimeoutId id)
 {
-	bool ret = (_timeouts[id].ticks == 1);
-	if (ret)
+	if (id >= NUM_TIMEOUTS)
 	{
-		_timeouts[id].reset = true;
+		return false;
 	}
-	return ret;
+	return _timeouts[id].ticks == 1;
+}
+
+void Timer::updateTimeout()
+{
+	for (int i = 0; i < NUM_TIMEOUTS; i++)
+	{
+		switch (_timeouts[i].ticks)
+		{
+		// Timeouts with ticks at 0 are stopped.
+		case 0:
+			continue;
+
+		// Timeouts with ticks at 1 have just terminated.
+		case 1:
+			if (_timeouts[i].repeat)
+			{
+				_timeouts[i].ticks = _timeouts[i].startTicks;
+				continue;
+			}
+			// Stop timeout if repeat is false.
+			_timeouts[i].ticks = 0;
+			break;
+
+		default:
+			_timeouts[i].ticks -= 1;
+			continue;
+		}
+	}
 }

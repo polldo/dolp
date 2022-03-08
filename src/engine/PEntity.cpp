@@ -155,21 +155,13 @@ void PEntity::setAnimation(const Animation &animation)
   }
 }
 
-void PEntity::newTimeout(uint8_t index, uint64_t time)
+TimeoutId PEntity::newTimeout(uint8_t index)
 {
   if (_entity)
   {
-    _entity->_timeComponent.init(index, time);
+    return _entity->_timeComponent.init(index);
   }
-}
-
-bool PEntity::checkTimeout(uint8_t index)
-{
-  if (_entity)
-  {
-    return _entity->_timeComponent.checkTimeout(index);
-  }
-  return false;
+  return 0;
 }
 
 TimeoutId PEntity::getTimeout(uint8_t index)
@@ -179,6 +171,14 @@ TimeoutId PEntity::getTimeout(uint8_t index)
     return _entity->_timeComponent.getTimeout(index);
   }
   return 0;
+}
+
+void PEntity::deleteTimeout(uint8_t index)
+{
+  if (_entity)
+  {
+    _entity->_timeComponent.deinit(index);
+  }
 }
 
 int PEntity::getX()

@@ -49,7 +49,7 @@ void RenderComponent::render()
   {
     if (timer.checkTimeout(_animationTimeout))
     {
-      timer.setTimeout(_animationTimeout, _animation->times[_animationCounter]);
+      timer.setTimeout(_animationTimeout, _animation->times[_animationCounter], false);
       if (_animation->imagesMonochrome)
         _imageMonochrome = _animation->imagesMonochrome[_animationCounter];
       else if (_animation->imagesColor)
@@ -90,7 +90,8 @@ void RenderComponent::setAnimation(const Animation &animation)
 {
   _animation = &animation;
   _animationCounter = 1;
-  _animationTimeout = timer.newTimeout(animation.times[0]);
+  _animationTimeout = timer.newTimeout();
+  timer.setTimeout(_animationTimeout, animation.times[0], false);
   if (animation.imagesColor)
   {
     _imageColor = animation.imagesColor[0];

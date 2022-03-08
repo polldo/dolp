@@ -44,9 +44,9 @@ public:
   void setImage(const uint16_t *image);
   void setAnimation(const Animation &animation);
 
-  void newTimeout(uint8_t index, uint64_t time);
+  TimeoutId newTimeout(uint8_t index);
   TimeoutId getTimeout(uint8_t index);
-  bool checkTimeout(uint8_t index);
+  void deleteTimeout(uint8_t index);
 
   Vect2 getPosition();
   int getX();

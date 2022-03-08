@@ -30,6 +30,7 @@ void Entity::init(World *world)
   // (here body component is injected into render component at its initialization)
   addBodyComponent();
   addRenderComponent();
+  addTimeComponent();
   _movementComponent = NULL;
   _updateComponent = NULL;
   _stateComponent = NULL;
@@ -52,6 +53,8 @@ void Entity::deinit()
     removeStateComponent();
   if (_collisionComponent)
     removeCollisionComponent();
+  // Time component is always present.
+  removeTimeComponent();
 }
 
 void Entity::addBodyComponent()

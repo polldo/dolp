@@ -17,23 +17,12 @@ public:
   TimeComponent() {}
   ~TimeComponent() {}
 
-  // TODO: Check whether passed indexes are < TIMEOUTS_FOR_ENTITY
-  // (i.e. from 0 to TIMEOUTS_FOR_ENTITY)
-
   void init()
   {
     for (int i = 0; i < TIMEOUTS_FOR_ENTITY; i++)
     {
       _timeouts[i] = 0;
     }
-  }
-
-  void init(uint8_t index, uint64_t time)
-  {
-    if (!_timeouts[index])
-      _timeouts[index] = timer.newTimeout(time);
-    else
-      timer.setTimeout(_timeouts[index], time);
   }
 
   void deinit()
@@ -45,23 +34,39 @@ public:
     }
   }
 
-  void deinit(uint8_t index)
+  TimeoutId init(uint8_t index)
   {
-    if (_timeouts[index] > 0)
-      timer.deleteTimeout(_timeouts[index]);
+    if (index >= TIMEOUTS_FOR_ENTITY)
+    {
+      return 0;
+    }
+    // Don't reallocate already existing timeouts.
+    if (!_timeouts[index])
+    {
+      _timeouts[index] = timer.newTimeout();
+    }
+    return _timeouts[index];
   }
 
-  bool checkTimeout(uint8_t index)
+  void deinit(uint8_t index)
   {
+    if (index >= TIMEOUTS_FOR_ENTITY)
+    {
+      return;
+    }
     if (_timeouts[index] > 0)
     {
-      return timer.checkTimeout(_timeouts[index]);
+      timer.deleteTimeout(_timeouts[index]);
+      _timeouts[index] = 0;
     }
-    return false;
   }
 
   TimeoutId getTimeout(uint8_t index)
   {
+    if (index >= TIMEOUTS_FOR_ENTITY)
+    {
+      return 0;
+    }
     return _timeouts[index];
   }
 

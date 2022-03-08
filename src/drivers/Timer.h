@@ -9,14 +9,13 @@
 
 struct Timeout
 {
-  // Timeout id corresponds to its index in _timeouts array
-  // Id 0 is reserved
   uint8_t startTicks;
   uint8_t ticks;
-  bool reset;
   bool assigned;
+  bool repeat;
 };
 
+// TimeoutId corresponds to its index in _timeouts array
 typedef uint8_t TimeoutId;
 
 class Timer
@@ -32,9 +31,8 @@ public:
   uint64_t getSeconds();
 
   TimeoutId newTimeout();
-  TimeoutId newTimeout(uint64_t time);
   void deleteTimeout(TimeoutId id);
-  void setTimeout(TimeoutId id, uint64_t time);
+  void setTimeout(TimeoutId id, uint64_t time, bool repeat);
   bool checkTimeout(TimeoutId id);
 
 private:
