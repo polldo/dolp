@@ -23,6 +23,13 @@ public:
     void deleteEntity(PEntity entity);
     // TODO: void clear();
 
+    // Expose timer functions
+    TimeoutId newTimeout();
+    void deleteTimeout(TimeoutId id);
+    void setTimeout(TimeoutId id, uint64_t millis, bool repeat = false);
+    bool checkTimeout(TimeoutId id);
+    uint64_t millis();
+
 private:
     World _world;
 };

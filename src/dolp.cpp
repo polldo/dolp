@@ -37,4 +37,29 @@ void Dolp::deleteEntity(PEntity entity)
 //// Clear all the drivers' state: timeouts, notes...
 //}
 
+TimeoutId Dolp::newTimeout()
+{
+  return timer.newTimeout();
+}
+
+void Dolp::deleteTimeout(TimeoutId id)
+{
+  timer.deleteTimeout(id);
+}
+
+void Dolp::setTimeout(TimeoutId id, uint64_t millis, bool repeat)
+{
+  timer.setTimeout(id, millis, repeat);
+}
+
+bool Dolp::checkTimeout(TimeoutId id)
+{
+  return timer.checkTimeout(id);
+}
+
+uint64_t Dolp::millis()
+{
+  return timer.getMilliseconds();
+}
+
 Dolp dolp;
