@@ -62,19 +62,14 @@ void PEntity::moveTo(int x, int y, int velocity)
   }
 }
 
-Vect2 PEntity::getMovement()
+bool PEntity::isMoving()
 {
   if (_entity && _entity->_movementComponent)
   {
-    return _entity->_movementComponent->getMovement();
+    auto mov = _entity->_movementComponent->getMovement();
+    return (mov.x != 0 || mov.y != 0);
   }
-  return (Vect2(0, 0));
-}
-
-bool PEntity::isMoving()
-{
-  Vect2 mov = getMovement();
-  return (mov.x != 0 || mov.y != 0);
+  return false;
 }
 
 void PEntity::update(UpdateCallback onUpdate)

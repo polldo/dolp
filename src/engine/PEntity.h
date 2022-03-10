@@ -28,7 +28,6 @@ public:
   void configure(int x, int y, int width, int height);
 
   void moveTo(int x, int y, int velocity);
-  Vect2 getMovement();
   bool isMoving();
 
   void update(UpdateCallback onUpdate);
