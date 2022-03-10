@@ -70,6 +70,7 @@ void Timer::deleteTimeout(TimeoutId id)
 	tm.ticks = 0;
 	tm.startTicks = 0;
 	tm.assigned = false;
+	tm.ticked = false;
 }
 
 void Timer::setTimeout(TimeoutId id, uint64_t time, bool repeat)
@@ -86,6 +87,7 @@ void Timer::setTimeout(TimeoutId id, uint64_t time, bool repeat)
 	tm.startTicks = time / FRAME_MSEC + 1;
 	tm.ticks = tm.startTicks;
 	tm.repeat = repeat;
+	tm.ticked = false;
 }
 
 bool Timer::checkTimeout(TimeoutId id)
@@ -94,7 +96,12 @@ bool Timer::checkTimeout(TimeoutId id)
 	{
 		return false;
 	}
-	return _timeouts[id].ticks == 1;
+	if (_timeouts[id].ticked)
+	{
+		_timeouts[id].ticked = false;
+		return true;
+	}
+	return false;
 }
 
 void Timer::updateTimeout()
@@ -109,6 +116,7 @@ void Timer::updateTimeout()
 
 		// Timeouts with ticks at 1 have just terminated.
 		case 1:
+			_timeouts[i].ticked = true;
 			if (_timeouts[i].repeat)
 			{
 				_timeouts[i].ticks = _timeouts[i].startTicks;

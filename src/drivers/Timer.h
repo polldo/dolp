@@ -13,6 +13,7 @@ struct Timeout
   uint8_t ticks;
   bool assigned;
   bool repeat;
+  bool ticked;
 };
 
 // TimeoutId corresponds to its index in _timeouts array
