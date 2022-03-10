@@ -20,8 +20,8 @@ public:
   void drawRectangle(uint8_t x, uint8_t y, uint8_t width, uint8_t height, DisplayColor color);
   void fill(DisplayColor color);
 
-  uint8_t width();
-  uint8_t height();
+  int width();
+  int height();
 };
 
 #endif /* DISPLAY_H_ */

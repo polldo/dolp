@@ -73,4 +73,14 @@ bool Dolp::pressed(JoystickButton button)
   return joystick.pressed(button);
 }
 
+int Dolp::width()
+{
+  return display.width();
+}
+
+int Dolp::height()
+{
+  return display.height();
+}
+
 Dolp dolp;

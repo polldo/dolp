@@ -44,12 +44,12 @@ void Display::fill(DisplayColor color)
 	hwDisplayFill(color);
 }
 
-uint8_t Display::width()
+int Display::width()
 {
 	return hwDisplayWidth();
 }
 
-uint8_t Display::height()
+int Display::height()
 {
 	return hwDisplayHeight();
 }

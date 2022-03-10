@@ -33,6 +33,10 @@ public:
     bool held(JoystickButton button);
     bool pressed(JoystickButton button);
 
+    // Display driver functions
+    int width();
+    int height();
+
 private:
     World _world;
 };
