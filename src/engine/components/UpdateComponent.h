@@ -5,6 +5,14 @@
 #define UPDATE_COMPONENTS_PER_WORLD (200)
 #endif
 
+#if defined(MICROPYTHON)
+extern "C"
+{
+#include "py/runtime.h"
+#include "py/obj.h"
+}
+#endif
+
 #include "Common.h"
 #include "engine/Pool.h"
 
@@ -30,6 +38,14 @@ private:
   friend class UpdateComponentPool;
   Entity *_entity;
   UpdateCallback _update;
+
+#if defined(MICROPYTHON)
+public:
+  void config(mp_obj_t callback);
+
+private:
+  mp_obj_t _mpUpdate;
+#endif
 };
 
 class UpdateComponentPool : public Pool<UpdateComponent, UPDATE_COMPONENTS_PER_WORLD>

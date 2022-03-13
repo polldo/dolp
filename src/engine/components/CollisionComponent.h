@@ -8,6 +8,14 @@
 #include "Common.h"
 #include "engine/Pool.h"
 
+#if defined(MICROPYTHON)
+extern "C"
+{
+#include "py/runtime.h"
+#include "py/obj.h"
+}
+#endif
+
 class PEntity;
 class Entity;
 
@@ -38,6 +46,14 @@ private:
   friend class Entity;
   Entity *_entity;
   CollisionCallback _onCollision;
+
+#if defined(MICROPYTHON)
+public:
+  void configure(mp_obj_t callback);
+
+private:
+  mp_obj_t _mpCollision;
+#endif
 };
 
 class CollisionComponentPool : public Pool<CollisionComponent, COLLISION_COMPONENTS_PER_WORLD>

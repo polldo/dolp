@@ -36,6 +36,11 @@ public:
   void collision(CollisionCallback onCollision);
   bool collided(PEntity other);
 
+#if defined(MICROPYTHON)
+  void update(mp_obj_t onUpdate);
+  void collision(mp_obj_t onCollision);
+#endif
+
   int getState(uint8_t index);
   void setState(uint8_t index, int value);
 
