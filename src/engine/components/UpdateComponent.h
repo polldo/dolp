@@ -13,27 +13,29 @@ class PEntity;
 
 typedef void (*UpdateCallback)(PEntity entity);
 
-class UpdateComponent : public Poolable {
-  public:
-    UpdateComponent();
-    virtual ~UpdateComponent();
+class UpdateComponent : public Poolable
+{
+public:
+  UpdateComponent();
+  virtual ~UpdateComponent();
 
-    void config(UpdateCallback callback);
+  void config(UpdateCallback callback);
 
-  protected:
-    friend class Entity;
-    void init(Entity* entity, UpdateCallback callback);
-    void deinit();
+protected:
+  friend class Entity;
+  void init(Entity *entity, UpdateCallback callback);
+  void deinit();
 
-  private:
-    friend class UpdateComponentPool;
-    Entity* _entity;
-    UpdateCallback _update;
+private:
+  friend class UpdateComponentPool;
+  Entity *_entity;
+  UpdateCallback _update;
 };
 
-class UpdateComponentPool : public Pool<UpdateComponent, UPDATE_COMPONENTS_PER_WORLD> {
-  public: 
-    void update();
+class UpdateComponentPool : public Pool<UpdateComponent, UPDATE_COMPONENTS_PER_WORLD>
+{
+public:
+  void update();
 };
 
-#endif 
+#endif

@@ -24,12 +24,17 @@ void Display::draw(uint8_t x, uint8_t y, DisplayColor color)
 	hwDisplayDraw(x, y, color);
 }
 
-void Display::drawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t* image)
+void Display::drawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *image)
 {
 	hwDisplayDrawImage(x, y, w, h, image);
 }
 
-void Display::drawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t* image)
+void Display::drawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *image, const uint8_t *mask)
+{
+	hwDisplayDrawImage(x, y, w, h, image, mask);
+}
+
+void Display::drawImage(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint16_t *image)
 {
 	hwDisplayDrawImage(x, y, w, h, image);
 }
@@ -44,12 +49,12 @@ void Display::fill(DisplayColor color)
 	hwDisplayFill(color);
 }
 
-uint8_t Display::width()
+int Display::width()
 {
 	return hwDisplayWidth();
 }
 
-uint8_t Display::height()
+int Display::height()
 {
 	return hwDisplayHeight();
 }

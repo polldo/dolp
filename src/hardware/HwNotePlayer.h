@@ -6,7 +6,8 @@
 #define LOOP_DISABLED 0
 #define LOOP_ENABLED 1
 
-enum NoteFrequency {
+enum NoteFrequency
+{
 	DO_NOTE = 0,
 	RE_NOTE = 1,
 	MI_NOTE = 2,
@@ -15,7 +16,7 @@ enum NoteFrequency {
 	LA_NOTE = 5,
 	SI_NOTE = 6,
 	C_NOTE = DO_NOTE,
-	D_NOTE = RE_NOTE,  
+	D_NOTE = RE_NOTE,
 	E_NOTE = MI_NOTE,
 	F_NOTE = FA_NOTE,
 	G_NOTE = SOL_NOTE,
@@ -34,9 +35,8 @@ struct Song
 {
 	Note *notes;
 	uint16_t size;
-	Song(Note *notes, uint16_t size) :
-		notes(notes),
-		size(size)
+	Song(Note *notes, uint16_t size) : notes(notes),
+									   size(size)
 	{
 	}
 };
@@ -47,6 +47,6 @@ void hwNotePlayerStart();
 void hwNotePlayerStop();
 
 void hwNotePlayerVolume(uint8_t volume);
-void hwNotePlayerSong(Note* notes, uint16_t size, uint16_t startIndex, bool loopEn);
+void hwNotePlayerSong(Note *notes, uint16_t size, uint16_t startIndex, bool loopEn);
 
 #endif /* HW_NOTE_PLAYER_H_ */

@@ -1,13 +1,12 @@
 #include <drivers/Joystick.h>
 #include <hardware/HwJoystick.h>
 
-Joystick::Joystick() :
-	_buttonStateOld(0x00),
-	_buttonPressed(0x00)
+Joystick::Joystick() : _buttonStateOld(0x00),
+					   _buttonPressed(0x00)
 {
 }
 
-Joystick::~Joystick() 
+Joystick::~Joystick()
 {
 }
 
@@ -23,13 +22,13 @@ void Joystick::update()
 	ButtonStateType buttonStateCurrent = hwJoystickState();
 	/* Check whether some button has been pressed */
 	_buttonPressed = (_buttonStateOld ^ buttonStateCurrent) & (buttonStateCurrent ^ 0x00);
-	/* Update old button values */ 
+	/* Update old button values */
 	_buttonStateOld = buttonStateCurrent;
 }
 
 bool Joystick::held(JoystickButton button)
 {
-	return (hwJoystickState() & (1 << button));
+	return (_buttonStateOld & (1 << button));
 }
 
 bool Joystick::pressed(JoystickButton button)

@@ -11,7 +11,8 @@ extern Joystick joystick;
 extern NotePlayer notePlayer;
 extern Timer timer;
 
-class DriverLayer {
+class DriverLayer
+{
 public:
   DriverLayer();
   virtual ~DriverLayer();

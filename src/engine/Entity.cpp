@@ -4,14 +4,13 @@
 
 int Entity::_classId = 0;
 
-Entity::Entity() :
-  _world(NULL),
-  _bodyComponent(NULL),
-  _renderComponent(NULL),
-  _movementComponent(NULL),
-  _updateComponent(NULL),
-  _stateComponent(NULL),
-  _collisionComponent(NULL)
+Entity::Entity() : _world(NULL),
+                   _bodyComponent(NULL),
+                   _renderComponent(NULL),
+                   _movementComponent(NULL),
+                   _updateComponent(NULL),
+                   _stateComponent(NULL),
+                   _collisionComponent(NULL)
 {
 }
 
@@ -19,7 +18,7 @@ Entity::~Entity()
 {
 }
 
-void Entity::init(World* world)
+void Entity::init(World *world)
 {
   // Set Entity ID
   ++_classId;
@@ -29,8 +28,9 @@ void Entity::init(World* world)
   // Init components
   // At the moment this order is mandatory, because of how components are injected
   // (here body component is injected into render component at its initialization)
-  addBodyComponent(); 
+  addBodyComponent();
   addRenderComponent();
+  addTimeComponent();
   _movementComponent = NULL;
   _updateComponent = NULL;
   _stateComponent = NULL;
@@ -41,12 +41,20 @@ void Entity::deinit()
 {
   // _world = NULL //useless. entities belong to only one world
   // Delete components
-  if (_renderComponent) removeRenderComponent();
-  if (_bodyComponent) removeBodyComponent();
-  if (_movementComponent) removeMovementComponent();
-  if (_updateComponent) removeUpdateComponent();
-  if (_stateComponent) removeStateComponent();
-  if (_collisionComponent) removeCollisionComponent();
+  if (_renderComponent)
+    removeRenderComponent();
+  if (_bodyComponent)
+    removeBodyComponent();
+  if (_movementComponent)
+    removeMovementComponent();
+  if (_updateComponent)
+    removeUpdateComponent();
+  if (_stateComponent)
+    removeStateComponent();
+  if (_collisionComponent)
+    removeCollisionComponent();
+  // Time component is always present.
+  removeTimeComponent();
 }
 
 void Entity::addBodyComponent()
@@ -93,7 +101,7 @@ void Entity::addTimeComponent()
 
 void Entity::removeBodyComponent()
 {
-  //if (_bodyComponent) { // Checked by the caller
+  // if (_bodyComponent) { // Checked by the caller
   _bodyComponent->deinit();
   _world->deleteBodyComponent(_bodyComponent);
   _bodyComponent = NULL;
@@ -102,7 +110,7 @@ void Entity::removeBodyComponent()
 
 void Entity::removeRenderComponent()
 {
-  //if (_renderComponent) { // Checked by the caller
+  // if (_renderComponent) { // Checked by the caller
   _renderComponent->deinit();
   _world->deleteRenderComponent(_renderComponent);
   _renderComponent = NULL;
@@ -111,7 +119,7 @@ void Entity::removeRenderComponent()
 
 void Entity::removeMovementComponent()
 {
-  //if (_renderComponent) { // Checked by the caller  
+  // if (_renderComponent) { // Checked by the caller
   _movementComponent->deinit();
   _world->deleteMovementComponent(_movementComponent);
   _movementComponent = NULL;
@@ -120,7 +128,7 @@ void Entity::removeMovementComponent()
 
 void Entity::removeUpdateComponent()
 {
-  //if (_updateComponent) { // Checked by the caller  
+  // if (_updateComponent) { // Checked by the caller
   _updateComponent->deinit();
   _world->deleteUpdateComponent(_updateComponent);
   _updateComponent = NULL;
@@ -129,7 +137,7 @@ void Entity::removeUpdateComponent()
 
 void Entity::removeStateComponent()
 {
-  //if (_stateComponent) { // Checked by the caller  
+  // if (_stateComponent) { // Checked by the caller
   _stateComponent->deinit();
   _world->deleteStateComponent(_stateComponent);
   _stateComponent = NULL;
@@ -138,7 +146,7 @@ void Entity::removeStateComponent()
 
 void Entity::removeCollisionComponent()
 {
-  //if (_collisionComponent) { // Checked by the caller  
+  // if (_collisionComponent) { // Checked by the caller
   _collisionComponent->deinit();
   _world->deleteCollisionComponent(_collisionComponent);
   _collisionComponent = NULL;
@@ -150,7 +158,7 @@ void Entity::removeTimeComponent()
   _timeComponent.deinit();
 }
 
-BodyComponent* Entity::getBodyComponent()
+BodyComponent *Entity::getBodyComponent()
 {
   return _bodyComponent;
 }

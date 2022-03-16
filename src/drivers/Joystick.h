@@ -4,7 +4,8 @@
 #include <Common.h>
 #include "hardware/HwJoystick.h"
 
-class Joystick {
+class Joystick
+{
 public:
   Joystick();
   virtual ~Joystick();

@@ -6,19 +6,20 @@
 #include "Entity.h"
 #include "World.h"
 
-class Engine {
-  public:
-    Engine();
-    ~Engine();
+class Engine
+{
+public:
+  Engine();
+  ~Engine();
 
-    void setup();
-    void loopBegin();
-    void loopEnd();
+  void setup();
+  void loopBegin();
+  void loopEnd();
 
-    void setWorld(World& world);
+  void setWorld(World &world);
 
-  private:
-  World* _world;
+private:
+  World *_world;
 };
 
 extern Engine engine;
