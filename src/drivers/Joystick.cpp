@@ -28,7 +28,7 @@ void Joystick::update()
 
 bool Joystick::held(JoystickButton button)
 {
-	return (hwJoystickState() & (1 << button));
+	return (_buttonStateOld & (1 << button));
 }
 
 bool Joystick::pressed(JoystickButton button)
