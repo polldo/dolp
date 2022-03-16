@@ -48,7 +48,6 @@ public:
   TimeoutId getTimeout(uint8_t index);
   void deleteTimeout(uint8_t index);
 
-  Vect2 getPosition();
   int getX();
   int getY();
 

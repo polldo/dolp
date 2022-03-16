@@ -201,12 +201,3 @@ int PEntity::getY()
   }
   return 0;
 }
-
-Vect2 PEntity::getPosition()
-{
-  if (_entity)
-  {
-    return _entity->_bodyComponent->getPosition();
-  }
-  return Vect2(0, 0);
-}
