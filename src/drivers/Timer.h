@@ -4,7 +4,7 @@
 #include <Common.h>
 
 #ifndef NUM_TIMEOUTS
-#define NUM_TIMEOUTS 200
+#define NUM_TIMEOUTS (200)
 #endif
 
 struct Timeout
@@ -14,6 +14,7 @@ struct Timeout
   bool assigned;
   bool repeat;
   bool ticked;
+  bool checked;
 };
 
 // TimeoutId corresponds to its index in _timeouts array
