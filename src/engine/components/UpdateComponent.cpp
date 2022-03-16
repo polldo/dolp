@@ -2,6 +2,14 @@
 #include "engine/Entity.h"
 #include "engine/PEntity.h"
 
+#if defined(MICROPYTHON)
+extern "C"
+{
+#include "dolpmodule.h"
+}
+#include "pentity.h"
+#endif
+
 UpdateComponent::UpdateComponent() : _entity(NULL),
                                      _update(NULL)
 {
@@ -28,6 +36,13 @@ void UpdateComponent::deinit()
   _update = NULL;
 }
 
+#if defined(MICROPYTHON)
+void UpdateComponent::config(mp_obj_t callback)
+{
+  _mpUpdate = callback;
+}
+#endif
+
 void UpdateComponentPool::update()
 {
 #if defined(POOL_DOUBLE_LINK)
@@ -43,7 +58,15 @@ void UpdateComponentPool::update()
   {
     if (_pool[i].isAllocated())
     {
+#if defined(MICROPYTHON)
+      // auto ent = PEntity(_pool[i]._entity);
+      dolp_pentity_obj_t *p = m_new_obj(dolp_pentity_obj_t);
+      p->base.type = &dolp_pentity_type;
+      p->pentity = PEntity(_pool[i]._entity);
+      mp_call_function_1(_pool[i]._mpUpdate, MP_OBJ_FROM_PTR(p));
+#else
       _pool[i]._update(PEntity(_pool[i]._entity));
+#endif
     }
   }
 #endif

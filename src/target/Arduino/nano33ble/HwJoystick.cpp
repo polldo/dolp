@@ -14,13 +14,13 @@
 static void pollButtons();
 static inline void readButton(JoystickButton button, uint8_t buttonPin, uint8_t &buttonCount);
 
-#define BUTTON_A_PIN 0
+#define BUTTON_A_PIN 2
 uint8_t buttonACount = 0;
-#define BUTTON_B_PIN 1
+#define BUTTON_B_PIN 3
 uint8_t buttonBCount = 0;
-#define BUTTON_C_PIN 2
+#define BUTTON_C_PIN 4
 uint8_t buttonCCount = 0;
-#define BUTTON_D_PIN 3
+#define BUTTON_D_PIN 5
 uint8_t buttonDCount = 0;
 
 ButtonStateType buttonState;

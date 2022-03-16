@@ -80,6 +80,30 @@ void PEntity::update(UpdateCallback onUpdate)
     _entity->addUpdateComponent(onUpdate);
 }
 
+#if defined(MICROPYTHON)
+void PEntity::update(mp_obj_t onUpdate)
+{
+  if (_entity && _entity->_updateComponent)
+    _entity->_updateComponent->config(onUpdate);
+  else if (_entity)
+  {
+    _entity->addUpdateComponent(NULL);
+    _entity->_updateComponent->config(onUpdate);
+  }
+}
+
+void PEntity::collision(mp_obj_t onCollision)
+{
+  if (_entity)
+  {
+    if (_entity->_collisionComponent == NULL)
+      _entity->addCollisionComponent();
+    _entity->_collisionComponent->configure(onCollision);
+  }
+}
+
+#endif
+
 void PEntity::collision()
 {
   if (_entity && _entity->_collisionComponent == NULL)
