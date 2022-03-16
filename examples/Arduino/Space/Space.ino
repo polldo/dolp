@@ -8,12 +8,11 @@ void setup()
 {
   dolp.begin();
 
-  // Init random function with a random seed
   randomSeed(analogRead(0));
 
-  spawnShip();
   spawnTimeout = dolp.newTimeout();
   dolp.setTimeout(spawnTimeout, 1000, true);
+  spawnShip();
 }
 
 void loop()
