@@ -17,4 +17,4 @@ Change the configuration according to your needs in the board's folder `ARDUINO_
 You may need to disable some feature to save memory
 
 Build
-`$ make BOARD=ARDUINO_NANO_RP2040_CONNECT USER_C_MODULES=/home/poldo/Documents/Dev/dolp/dolpy`
+`$ make -j 8 BOARD=ARDUINO_NANO_RP2040_CONNECT USER_C_MODULES=/path-to-dolp/dolp/micropython/micropython.cmake`
