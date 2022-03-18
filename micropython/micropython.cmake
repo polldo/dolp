@@ -31,6 +31,7 @@ target_sources(usermod_dolp INTERFACE
 
     ${CMAKE_CURRENT_LIST_DIR}/../src/target/micropython/rp2040/HwDisplay-Oled.cpp
     ${CMAKE_CURRENT_LIST_DIR}/../src/target/micropython/rp2040/HwDisplaySPI-Oled.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/../src/target/micropython/rp2040/HwDisplayI2C-Oled.cpp
     ${CMAKE_CURRENT_LIST_DIR}/../src/target/micropython/rp2040/HwJoystick.cpp
     ${CMAKE_CURRENT_LIST_DIR}/../src/target/micropython/rp2040/HwNotePlayer.cpp
     ${CMAKE_CURRENT_LIST_DIR}/../src/target/micropython/rp2040/HwRefresh.cpp
