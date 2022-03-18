@@ -1,5 +1,5 @@
 #include "hardware/HwConfiguration.h"
-#if defined(ARDUINO_NANO33BLE)
+#if defined(ARDUINO_NANO_RP2040_CONNECT)
 
 #if defined(DISPLAY_SSD1306) || defined(DISPLAY_SH1106)
 
