@@ -13,4 +13,10 @@ typedef struct _dolp_pentity_obj_t
 	PEntity pentity;
 } dolp_pentity_obj_t;
 
+typedef struct _dolp_animation_obj_t
+{
+	mp_obj_base_t base;
+	Animation animation;
+} dolp_animation_obj_t;
+
 #endif

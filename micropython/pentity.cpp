@@ -122,6 +122,18 @@ mp_obj_t dolp_pentity_obj_set_image(size_t n_args, const mp_obj_t *args)
 	return mp_const_none;
 }
 
+mp_obj_t dolp_pentity_obj_set_animation(mp_obj_t self_in, mp_obj_t animation_in)
+{
+	if (!mp_obj_is_type(animation_in, &dolp_animation_type))
+	{
+		mp_raise_TypeError("you should pass an animation here");
+	}
+	dolp_pentity_obj_t *self = (dolp_pentity_obj_t *)MP_OBJ_TO_PTR(self_in);
+	dolp_animation_obj_t *animation = (dolp_animation_obj_t *)MP_OBJ_TO_PTR(animation_in);
+	self->pentity.setAnimation(animation->animation);
+	return mp_const_none;
+}
+
 mp_obj_t dolp_pentity_obj_new_timeout(mp_obj_t self_in, mp_obj_t index)
 {
 	dolp_pentity_obj_t *self = (dolp_pentity_obj_t *)MP_OBJ_TO_PTR(self_in);

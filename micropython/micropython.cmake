@@ -10,6 +10,7 @@ target_sources(usermod_dolp INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/dolp.cpp
     ${CMAKE_CURRENT_LIST_DIR}/dolpmodule.c
     ${CMAKE_CURRENT_LIST_DIR}/pentity.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/animation.cpp
 
     ${CMAKE_CURRENT_LIST_DIR}/../src/dolp.cpp
 
