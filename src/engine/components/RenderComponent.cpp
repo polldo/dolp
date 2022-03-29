@@ -52,21 +52,7 @@ void RenderComponent::render()
   {
     if (timer.checkTimeout(_animationTimeout))
     {
-      timer.setTimeout(_animationTimeout, _animation->times[_animationCounter], false);
-      if (_animation->imagesMonochrome && _animation->imagesMonochromeMasks)
-      {
-        _imageMonochrome = _animation->imagesMonochrome[_animationCounter];
-        _imageMonochromeMask = _animation->imagesMonochromeMasks[_animationCounter];
-      }
-      else if (_animation->imagesMonochrome)
-      {
-        _imageMonochrome = _animation->imagesMonochrome[_animationCounter];
-      }
-      else if (_animation->imagesColor)
-      {
-        _imageColor = _animation->imagesColor[_animationCounter];
-      }
-      _animationCounter = (_animationCounter + 1) % _animation->length;
+      updateAnimation();
     }
   }
 
@@ -86,6 +72,35 @@ void RenderComponent::render()
   {
     display.drawRectangle(position.x, position.y, size.x, size.y, WHITE_COLOR);
   }
+}
+
+void RenderComponent::updateAnimation()
+{
+#if defined(MICROPYTHON)
+  timer.setTimeout(_animationTimeout, _animation->time(_animationCounter), false);
+  _imageMonochrome = _animation->image(_animationCounter);
+  if (_animation->masks)
+  {
+    _imageMonochromeMask = _animation->mask(_animationCounter);
+  }
+  _animationCounter = _animation->upCount(_animationCounter);
+#else
+  timer.setTimeout(_animationTimeout, _animation->times[_animationCounter], false);
+  if (_animation->imagesMonochrome && _animation->imagesMonochromeMasks)
+  {
+    _imageMonochrome = _animation->imagesMonochrome[_animationCounter];
+    _imageMonochromeMask = _animation->imagesMonochromeMasks[_animationCounter];
+  }
+  else if (_animation->imagesMonochrome)
+  {
+    _imageMonochrome = _animation->imagesMonochrome[_animationCounter];
+  }
+  else if (_animation->imagesColor)
+  {
+    _imageColor = _animation->imagesColor[_animationCounter];
+  }
+  _animationCounter = (_animationCounter + 1) % _animation->length;
+#endif
 }
 
 void RenderComponent::setImage(const uint8_t *image)
@@ -114,6 +129,14 @@ void RenderComponent::setImage(const uint16_t *image)
 
 void RenderComponent::setAnimation(const Animation &animation)
 {
+#if defined(MICROPYTHON)
+  _animation = &animation;
+  _animationTimeout = timer.newTimeout();
+  _imageMonochrome = NULL;
+  _imageMonochromeMask = NULL;
+  _imageColor = NULL;
+  updateAnimation();
+#else
   _animation = &animation;
   _animationCounter = 1;
   _animationTimeout = timer.newTimeout();
@@ -137,6 +160,7 @@ void RenderComponent::setAnimation(const Animation &animation)
     _imageMonochrome = NULL;
     _imageMonochromeMask = NULL;
   }
+#endif
 }
 
 void RenderComponent::removeAnimation()

@@ -10,6 +10,14 @@
 #include "BodyComponent.h"
 #include "drivers/Timer.h"
 
+#if defined(MICROPYTHON)
+extern "C"
+{
+#include "py/runtime.h"
+#include "py/obj.h"
+}
+#endif
+
 class Entity;
 
 // typedef uint16_t* ImageColor;
@@ -30,6 +38,39 @@ class Entity;
 struct Animation
 {
   // const AnimationFrame* frames;
+
+#if defined(MICROPYTHON)
+  const mp_obj_list_t *images;
+  const mp_obj_list_t *masks;
+  const mp_obj_list_t *times;
+
+  Animation() : images(NULL), masks(NULL), times(NULL) {}
+  Animation(const mp_obj_list_t *img, const mp_obj_list_t *tms, const mp_obj_list_t *msk) : images(img), masks(msk), times(tms) {}
+
+  int upCount(const int count) const
+  {
+    return (count + 1) % images->len;
+  }
+
+  const uint8_t *image(const int count) const
+  {
+    mp_obj_t img = images->items[count];
+    mp_buffer_info_t imgbuf;
+    mp_get_buffer_raise(img, &imgbuf, 1);
+    return (const uint8_t *)imgbuf.buf;
+  }
+  const int time(const int count) const
+  {
+    return mp_obj_get_int(times->items[count]);
+  }
+  const uint8_t *mask(const int count) const
+  {
+    mp_obj_t msk = masks->items[count];
+    mp_buffer_info_t mskbuf;
+    mp_get_buffer_raise(msk, &mskbuf, 1);
+    return (const uint8_t *)mskbuf.buf;
+  }
+#else
   const uint8_t **imagesMonochrome;
   const uint8_t **imagesMonochromeMasks;
   const uint16_t **imagesColor;
@@ -40,6 +81,7 @@ struct Animation
   Animation(const uint8_t **img, const uint32_t *tms, uint8_t len) : imagesMonochrome(img), imagesMonochromeMasks(NULL), imagesColor(NULL), times(tms), length(len) {}
   Animation(const uint8_t **img, const uint8_t **msk, const uint32_t *tms, uint8_t len) : imagesMonochrome(img), imagesMonochromeMasks(msk), imagesColor(NULL), times(tms), length(len) {}
   Animation(const uint16_t **img, const uint32_t *tms, uint8_t len) : imagesMonochrome(NULL), imagesMonochromeMasks(NULL), imagesColor(img), times(tms), length(len) {}
+#endif
 };
 
 class RenderComponent : public Poolable
@@ -50,6 +92,7 @@ public:
 
   void render();
   // void update();
+  void updateAnimation();
 
   void setImage(const uint8_t *image);
   void setImage(const uint8_t *image, const uint8_t *mask);

@@ -28,6 +28,7 @@ extern mp_obj_t dolp_pentity_obj_collided(mp_obj_t self_in, mp_obj_t other_in);
 extern mp_obj_t dolp_pentity_obj_set_state(mp_obj_t self_in, mp_obj_t index, mp_obj_t value);
 extern mp_obj_t dolp_pentity_obj_get_state(mp_obj_t self_in, mp_obj_t index);
 extern mp_obj_t dolp_pentity_obj_set_image(size_t n_args, const mp_obj_t *args);
+extern mp_obj_t dolp_pentity_obj_set_animation(mp_obj_t self_in, mp_obj_t animation_in);
 extern mp_obj_t dolp_pentity_obj_new_timeout(mp_obj_t self_in, mp_obj_t index);
 extern mp_obj_t dolp_pentity_obj_delete_timeout(mp_obj_t self_in, mp_obj_t index);
 extern mp_obj_t dolp_pentity_obj_get_timeout(mp_obj_t self_in, mp_obj_t index);
@@ -36,3 +37,6 @@ extern mp_obj_t dolp_pentity_obj_get_y(mp_obj_t self_in);
 extern mp_obj_t dolp_pentity_obj_delete(mp_obj_t self_in);
 extern mp_obj_t pentity_make_new(const mp_obj_type_t *type, size_t n_args, size_t n_kw, const mp_obj_t *args);
 extern void pentity_print(const mp_print_t *print, mp_obj_t self_in, mp_print_kind_t kind);
+
+extern const mp_obj_type_t dolp_animation_type;
+extern mp_obj_t animation_make_new(const mp_obj_type_t *type, size_t n_args, size_t n_kw, const mp_obj_t *args);
