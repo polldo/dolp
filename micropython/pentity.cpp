@@ -162,10 +162,26 @@ mp_obj_t dolp_pentity_obj_get_x(mp_obj_t self_in)
 	return mp_obj_new_int(self->pentity.getX());
 }
 
+mp_obj_t dolp_pentity_obj_set_x(mp_obj_t self_in, mp_obj_t value)
+{
+	dolp_pentity_obj_t *self = (dolp_pentity_obj_t *)MP_OBJ_TO_PTR(self_in);
+	int val = mp_obj_get_int(value);
+	self->pentity.setX(val);
+	return mp_const_none;
+}
+
 mp_obj_t dolp_pentity_obj_get_y(mp_obj_t self_in)
 {
 	dolp_pentity_obj_t *self = (dolp_pentity_obj_t *)MP_OBJ_TO_PTR(self_in);
 	return mp_obj_new_int(self->pentity.getY());
+}
+
+mp_obj_t dolp_pentity_obj_set_y(mp_obj_t self_in, mp_obj_t value)
+{
+	dolp_pentity_obj_t *self = (dolp_pentity_obj_t *)MP_OBJ_TO_PTR(self_in);
+	int val = mp_obj_get_int(value);
+	self->pentity.setY(val);
+	return mp_const_none;
 }
 
 mp_obj_t dolp_pentity_obj_delete(mp_obj_t self_in)

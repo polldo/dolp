@@ -217,6 +217,14 @@ int PEntity::getX()
   return 0;
 }
 
+void PEntity::setX(int x)
+{
+  if (_entity)
+  {
+    _entity->_bodyComponent->setX(x);
+  }
+}
+
 int PEntity::getY()
 {
   if (_entity)
@@ -224,4 +232,12 @@ int PEntity::getY()
     return _entity->_bodyComponent->getPosition().y;
   }
   return 0;
+}
+
+void PEntity::setY(int y)
+{
+  if (_entity)
+  {
+    _entity->_bodyComponent->setY(y);
+  }
 }

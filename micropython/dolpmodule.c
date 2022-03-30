@@ -15,7 +15,9 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_2(dolp_pentity_new_timeout_obj, dolp_pentity_obj_
 STATIC MP_DEFINE_CONST_FUN_OBJ_2(dolp_pentity_delete_timeout_obj, dolp_pentity_obj_delete_timeout);
 STATIC MP_DEFINE_CONST_FUN_OBJ_2(dolp_pentity_get_timeout_obj, dolp_pentity_obj_get_timeout);
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(dolp_pentity_get_x_obj, dolp_pentity_obj_get_x);
+STATIC MP_DEFINE_CONST_FUN_OBJ_2(dolp_pentity_set_x_obj, dolp_pentity_obj_set_x);
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(dolp_pentity_get_y_obj, dolp_pentity_obj_get_y);
+STATIC MP_DEFINE_CONST_FUN_OBJ_2(dolp_pentity_set_y_obj, dolp_pentity_obj_set_y);
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(dolp_pentity_delete_obj, dolp_pentity_obj_delete);
 STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(dolp_pentity_set_image_obj, 2, 3, dolp_pentity_obj_set_image);
 STATIC MP_DEFINE_CONST_FUN_OBJ_2(dolp_pentity_set_animation_obj, dolp_pentity_obj_set_animation);
@@ -37,7 +39,9 @@ STATIC const mp_rom_map_elem_t dolp_pentity_locals_dict_table[] = {
     {MP_ROM_QSTR(MP_QSTR_delete_timeout), MP_ROM_PTR(&dolp_pentity_delete_timeout_obj)},
     {MP_ROM_QSTR(MP_QSTR_get_timeout), MP_ROM_PTR(&dolp_pentity_get_timeout_obj)},
     {MP_ROM_QSTR(MP_QSTR_get_x), MP_ROM_PTR(&dolp_pentity_get_x_obj)},
+    {MP_ROM_QSTR(MP_QSTR_set_x), MP_ROM_PTR(&dolp_pentity_set_x_obj)},
     {MP_ROM_QSTR(MP_QSTR_get_y), MP_ROM_PTR(&dolp_pentity_get_y_obj)},
+    {MP_ROM_QSTR(MP_QSTR_set_y), MP_ROM_PTR(&dolp_pentity_set_y_obj)},
     {MP_ROM_QSTR(MP_QSTR_delete), MP_ROM_PTR(&dolp_pentity_delete_obj)},
 };
 

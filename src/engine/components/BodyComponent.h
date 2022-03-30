@@ -31,6 +31,8 @@ public:
   virtual ~BodyComponent();
 
   void configure(int x, int y, int width, int height);
+  void setX(int x);
+  void setY(int y);
   Vect2 &getPosition();
   Vect2 &getSize();
   Vect2 &getMaxHitbox();
