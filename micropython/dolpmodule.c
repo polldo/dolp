@@ -101,7 +101,6 @@ STATIC const mp_rom_map_elem_t dolp_module_globals_table[] = {
     {MP_ROM_QSTR(MP_QSTR_BUTTON_C), MP_ROM_INT(2)},
     {MP_ROM_QSTR(MP_QSTR_BUTTON_D), MP_ROM_INT(3)},
 
-    {MP_OBJ_NEW_QSTR(MP_QSTR_PEntity), (mp_obj_t)&dolp_pentity_type},
     {MP_OBJ_NEW_QSTR(MP_QSTR_Animation), (mp_obj_t)&dolp_animation_type},
 };
 STATIC MP_DEFINE_CONST_DICT(dolp_module_globals, dolp_module_globals_table);
