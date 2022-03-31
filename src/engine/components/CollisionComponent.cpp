@@ -12,6 +12,10 @@ extern "C"
 
 CollisionComponent::CollisionComponent() : _entity(NULL),
                                            _onCollision(NULL)
+#if defined(MICROPYTHON)
+                                           ,
+                                           _mpCollision(NULL)
+#endif
 {
 }
 
@@ -23,18 +27,27 @@ void CollisionComponent::init(Entity *entity)
 {
   _entity = entity;
   _onCollision = NULL;
+#if defined(MICROPYTHON)
+  _mpCollision = NULL;
+#endif
 }
 
 void CollisionComponent::init(Entity *entity, CollisionCallback onCollision)
 {
   _entity = entity;
   _onCollision = onCollision;
+#if defined(MICROPYTHON)
+  _mpCollision = NULL;
+#endif
 }
 
 void CollisionComponent::deinit()
 {
   _entity = NULL;
   _onCollision = NULL;
+#if defined(MICROPYTHON)
+  _mpCollision = NULL;
+#endif
 }
 
 void CollisionComponent::configure(CollisionCallback onCollision)
