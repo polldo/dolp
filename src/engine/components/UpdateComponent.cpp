@@ -12,6 +12,10 @@ extern "C"
 
 UpdateComponent::UpdateComponent() : _entity(NULL),
                                      _update(NULL)
+#if defined(MICROPYTHON)
+                                     ,
+                                     _mpUpdate(NULL)
+#endif
 {
 }
 
@@ -23,6 +27,9 @@ void UpdateComponent::init(Entity *entity, UpdateCallback callback)
 {
   _entity = entity;
   _update = callback;
+#if defined(MICROPYTHON)
+  _mpUpdate = NULL;
+#endif
 }
 
 void UpdateComponent::config(UpdateCallback callback)
@@ -34,6 +41,9 @@ void UpdateComponent::deinit()
 {
   _entity = NULL;
   _update = NULL;
+#if defined(MICROPYTHON)
+  _mpUpdate = NULL;
+#endif
 }
 
 #if defined(MICROPYTHON)

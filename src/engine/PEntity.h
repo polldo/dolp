@@ -54,7 +54,9 @@ public:
   void deleteTimeout(uint8_t index);
 
   int getX();
+  void setX(int x);
   int getY();
+  void setY(int y);
 
 private:
   friend class World;

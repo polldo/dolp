@@ -61,6 +61,16 @@ void BodyComponent::update()
 #endif
 }
 
+void BodyComponent::setX(int x)
+{
+  _position.x = x;
+}
+
+void BodyComponent::setY(int y)
+{
+  _position.y = y;
+}
+
 Vect2 &BodyComponent::getPosition()
 {
   return _position;
