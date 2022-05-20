@@ -25,12 +25,13 @@ func (m *Monochrome) ToCpp() string {
 }
 
 func (m *Monochrome) ToPy() string {
-	s := "image = bytearray(b'"
-	s += fmt.Sprintf("\\x%02x\\x%02x", m.width, m.height)
+	s := "image = bytearray(["
+	s += fmt.Sprintf("0x%02x, 0x%02x, ", m.width, m.height)
 	for _, b := range m.val {
-		s += fmt.Sprintf("\\x%02x", b)
+		s += fmt.Sprintf("0x%02x, ", b)
 	}
-	s += "')"
+	s = strings.TrimRight(s, ", ")
+	s += "])"
 	return s
 }
 
