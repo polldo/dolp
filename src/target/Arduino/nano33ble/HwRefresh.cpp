@@ -1,5 +1,5 @@
 #include "hardware/HwConfiguration.h"
-#if defined(ARDUINO_NANO33BLE)
+#if defined(ARDUINO_ARDUINO_NANO33BLE)
 
 #include "hardware/HwRefresh.h"
 #include "Arduino.h"
