@@ -1,12 +1,14 @@
 # dolp on micropython
 
-Here's an external module for micropython that exposes dolp APIs.
+Here's the external module for micropython that exposes dolp APIs.
+
 In `release` folder there are some ready to upload micropython binaries with this module compiled on top.
 
 ## Get started
 
 Upload to your board the binary corresponding to the hardware you're going to use.
 Access the REPL via USB Serial (more on [raspberry](https://www.raspberrypi.com/documentation/microcontrollers/micropython.html) and [micropython](https://docs.micropython.org/en/latest/reference/repl.html))
+
 On linux:
 ```console
 $ minicom -D /dev/ttyACM0
