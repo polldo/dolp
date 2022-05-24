@@ -1,7 +1,11 @@
 # dolp 
-dolp is a library that allows you to craft simple games for microcontrollers. It can be used as Arduino library, as micropython module and it could also be integrated in other C++ projects.
+dolp is a library that allows you to craft simple games for microcontrollers. 
 
-table with game gifs of examples here. with a link to examples
+It can be used as Arduino library, as micropython module and it could also be integrated in other C++ projects.
+
+## Examples
+| <img src="https://user-images.githubusercontent.com/17302582/170138160-fee0bf2e-e6a3-40fb-89da-05ef6e52196c.gif" width="300" alt="examples/micropython/space"/> <a href="examples/micropython/space"> Space </a>         | <img src="https://user-images.githubusercontent.com/17302582/170138706-c430b367-bcc5-46f0-98c4-b0e2e8c4ecfc.gif" width="300" alt="examples/micropython/logo/"/> <a href="examples/micropython/logo"> Logo </a> | <img src="https://user-images.githubusercontent.com/17302582/170138698-3f53c44b-375e-4a11-9e3b-94b264b6d4f5.gif" width="300" alt="examples/micropython/collision_demo/"/> <a href="examples/micropython/collision_demo/"> Collisions </a>  |
+|-------------------|-------------------|-------------------|
 
 ### Supported hardware
 
@@ -557,6 +561,7 @@ void monsterCollision(PEntity monster, PEntity obj)
 #### Images and animations
 Entities without a specific image are rendered as rectangles with the size of their body (set through `configure` method).
 Images and animations can be assigned to entities through the following methods.
+	
 To convert an image in bytes that dolp can understand, consult [monochrome](tools/monochrome).
 A collection of some ready to use images can be found at .
 
@@ -630,8 +635,11 @@ void explosion(int x, int y)
 
 #### Entities Timeouts
 Timeouts have been already covered. However, what if you want to use specific timeouts for different entities? 
+	
 As an example, let's design a very simple explosion. Let's imagine that when a monster collides with a bullet, we destroy the monster and render and explosion by spawning a new entity with a particular image/animation. Now, we want the explosion to only last 300 milliseconds.
-Here entities' timeouts come in handy. We can initialize a timeout and retrieve it similarly to accessing the state of entities. Once you have a timeout, it can be used to control the duration of the explosion like generic timeouts.
+Here entities' timeouts come in handy. 
+	We can initialize a timeout and retrieve it similarly to accessing the state of entities. 
+Once you have a timeout, it can be used to control the duration of the explosion like generic timeouts.
 Once an entity gets destroyed, its timeouts are destroyed too.
 
 <details><summary>Python</summary>
