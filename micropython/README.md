@@ -42,7 +42,9 @@ while True:
 
 ## How to build:
 
-If you are trying to port this module to another rp2040 board or you want to customize [dolp configuration](https://github.com/polldo/dolp/blob/master/micropython/micropython.cmake#L3-L5), then you need to build the binary yourself. These are the steps.
+If you are trying to port this module to another rp2040 board or you want to customize [dolp configuration](micropython.cmake#L3-L5) or [hardware configuration](../src/hardware/HwConfiguration.h), then you need to build the binary yourself. 
+
+These are the steps.
 
 - Clone micropython repo with its submodules (you'd better cherry-pick the needed submodules):
 
