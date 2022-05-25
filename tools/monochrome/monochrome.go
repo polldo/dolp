@@ -14,13 +14,13 @@ type Monochrome struct {
 }
 
 func (m *Monochrome) ToCpp() string {
-	s := "const uint8_t image[] = { "
+	s := "const uint8_t image[] = {"
 	s += fmt.Sprintf("0x%02x, 0x%02x, ", m.width, m.height)
 	for _, b := range m.val {
 		s += fmt.Sprintf("0x%02x, ", b)
 	}
 	s = strings.TrimRight(s, ", ")
-	s += " };"
+	s += "};"
 	return s
 }
 

@@ -3,7 +3,7 @@ import random
 import dolp
 
 # Particle vars
-particleImg = bytearray(b'\x08\x08\xf7\xbe\xff\xf7\x5f\xfe\xf7\xbd')
+particleImg = bytearray([0x08, 0x08, 0xf7, 0xbe, 0xff, 0xf7, 0x5f, 0xfe, 0xf7, 0xbd])
 PARTICLE_LIVE = 0
 
 def updateParticle(particle):
@@ -53,18 +53,12 @@ def spawnMonster():
   monsterCounter += 1
 
 
-def setup():
-  print("Start")
-  dolp.begin()
+dolp.begin()
 
-def loop():
-  spawnTimeout = dolp.new_timeout()
-  dolp.set_timeout(spawnTimeout, 500, True)
-  while True:
-    dolp.loop_begin()
-    if (dolp.check_timeout(spawnTimeout)):
-      spawnMonster()
-    dolp.loop_end()
-
-setup()
-loop()
+spawnTimeout = dolp.new_timeout()
+dolp.set_timeout(spawnTimeout, 500, True)
+while True:
+  dolp.loop_begin()
+  if (dolp.check_timeout(spawnTimeout)):
+    spawnMonster()
+  dolp.loop_end()

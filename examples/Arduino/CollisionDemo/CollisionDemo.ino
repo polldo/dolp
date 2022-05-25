@@ -1,20 +1,25 @@
 #include <dolp.h>
 
-static int monsterCounter = 0;
+// ****************************************************************
+// Game flow.
+// ****************************************************************
 TimeoutId spawnTimeout;
 
 void setup()
 {
-  Serial.begin(115200);
-  // while (!Serial)
-  //   ;
-  Serial.println("Start");
-
   dolp.begin();
-  // Init random function with a random seed
-  randomSeed(analogRead(0));
+
   spawnTimeout = dolp.newTimeout();
   dolp.setTimeout(spawnTimeout, 500, true);
+
+  // Init random function with a random seed
+  randomSeed(analogRead(0));
+
+  // Uncomment to use serial for debug purposes.
+  // Serial.begin(115200);
+  // while (!Serial)
+  //   ;
+  // Serial.println("Start");
 }
 
 void loop()
@@ -29,6 +34,10 @@ void loop()
   dolp.loopEnd();
 }
 
+// ****************************************************************
+// Monster definitions.
+// ****************************************************************
+static int monsterCounter = 0;
 void spawnMonster()
 {
   if (monsterCounter >= 30)
@@ -60,12 +69,15 @@ void monsterCollision(PEntity monster, PEntity other)
   monsterCounter--;
 }
 
+// ****************************************************************
+// Particle definitions.
+// ****************************************************************
 enum ParticleTimeout
 {
   LiveTimeout
 };
 
-const uint8_t particles[] = {8, 8, 0xf7, 0xbe, 0xff, 0xf7, 0x5f, 0xfe, 0xf7, 0xbd};
+const uint8_t particles[] = {0x08, 0x08, 0xf7, 0xbe, 0xff, 0xf7, 0x5f, 0xfe, 0xf7, 0xbd};
 
 void updateParticle(PEntity particle)
 {

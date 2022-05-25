@@ -23,6 +23,7 @@ void Entity::init(World *world)
   // Set Entity ID
   ++_classId;
   _id = _classId;
+  _type = 0;
   // Set world
   _world = world;
   // Init components

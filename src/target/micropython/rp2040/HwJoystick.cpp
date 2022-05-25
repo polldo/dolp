@@ -18,13 +18,13 @@ static void pollButtons();
 static inline void readButton(JoystickButton button, mp_obj_base_t *buttonPin);
 
 static mp_pin_p_t *pinproto;
-#define BUTTON_A_PIN 25
+#define BUTTON_A_PIN 16
 static mp_obj_base_t *aPin;
-#define BUTTON_B_PIN 15
+#define BUTTON_B_PIN 17
 static mp_obj_base_t *bPin;
-#define BUTTON_C_PIN 16
+#define BUTTON_C_PIN 18
 static mp_obj_base_t *cPin;
-#define BUTTON_D_PIN 17
+#define BUTTON_D_PIN 19
 static mp_obj_base_t *dPin;
 
 ButtonStateType buttonState;
