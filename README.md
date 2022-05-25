@@ -12,9 +12,16 @@ It can be used as Arduino library, as micropython module and it could also be in
 | Environment | Board                  | Display                 |
 | ----------- | ---------------------- | ----------------------- |
 | micropython | arduino rp2040 connect | SSD1306, SH1106         |
-| micropython | generic rp2040         | SSD1306, SH1106         |
+| micropython | pico                   | SSD1306, SH1106         |
 | arduino     | arduino rp2040 connect | SSD1306, SH1106         |
 | arduino     | arduino nano 33 ble    | SSD1306, SH1106, ST7735 |
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/polldo/dolp/improve-docs/src/target/arduino-nano-oled-i2c.png" width="300"/> <img src="https://raw.githubusercontent.com/polldo/dolp/improve-docs/src/target/pico-oled-spi.png" width="300"/> 
+</p>
+
+Other schematics available in [target folder](src/target/).
+
 
 ### Hardware configuration
 **Arduino environment**: to set your configuration you need to modify the [hardware configuration](src/hardware/HwConfiguration.h) by commenting/uncommenting defines according to your needs.
